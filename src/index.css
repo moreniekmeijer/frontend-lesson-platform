@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Itim&family=K2D:wght@300;400;700&display=swap');
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Itim', cursive;
+    color: var(--text-color);
+}
+
+p, body {
+    font-family: 'K2D', sans-serif;
+    color: var(--text-color);
+}
+
+:root {
+    line-height: 1.5;
+    font-weight: 400;
+    background-color: var(--background-color);
+
+    /* Default (light mode) */
+    --background-color: #FFFCEA;
+    --text-color: #071113;
+    --primary-color: #bad1ac;
+    --secondary-color: #1a3116;
+    --accent-color: #69ba52;
+}
+
+[data-theme="dark"] {
+    --background-color: #071113;
+    --text-color: #FFFCEA;
+    --primary-color: #bad1ac;
+    --secondary-color: #1a3116;
+    --accent-color: #69ba52;
+}
+
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+img, picture, video, canvas, svg {
+  max-width: 100%;
+}
+
+ul {
+    list-style: none;
+}

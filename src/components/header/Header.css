@@ -1,0 +1,53 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left-container, .right-container {
+    display: flex;
+    align-items: center;
+    height: 5rem;
+    background-color: var(--primary-color);
+    padding: 2rem;
+}
+
+.left-container {
+    border-radius: 0 0 2rem 0;
+}
+
+.left-container h1 {
+    color: var(--secondary-color);
+}
+
+.right-container {
+    border-radius: 0 0 0 2rem;
+}
+
+.right-container ul {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.menu-icon {
+    font-size: 20px;
+    color: #1d311d;
+    cursor: pointer;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.profile-circle {
+    width: 3rem;
+    height: 3rem;
+    background-color: var(--accent-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
