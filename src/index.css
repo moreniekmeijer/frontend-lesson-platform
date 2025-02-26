@@ -3,6 +3,8 @@
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Itim', cursive;
     color: var(--text-color);
+    /*margin-top: 0.6rem;*/
+    /*margin-bottom: 0.6rem;*/
 }
 
 p, body {
@@ -21,6 +23,7 @@ p, body {
     --primary-color: #bad1ac;
     --secondary-color: #1a3116;
     --accent-color: #69ba52;
+    --hover-color: #cbddc1;
 }
 
 [data-theme="dark"] {
@@ -32,13 +35,13 @@ p, body {
 }
 
 * {
-box-sizing: border-box;
-margin: 0;
-padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 img, picture, video, canvas, svg {
-  max-width: 100%;
+    max-width: 100%;
 }
 
 ul {
