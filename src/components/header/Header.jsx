@@ -10,7 +10,7 @@ function Header() {
             </div>
             <div className="right-container">
                 <ul>
-                    <li className="menu-icon"><FaBars /></li>
+                    <li className="menu-icon"><FaBars/></li>
                     <li className="profile">
                         <div className="profile-circle">NM</div>
                         <span className="account-name">Niek Meijer</span>

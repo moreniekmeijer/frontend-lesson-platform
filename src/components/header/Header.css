@@ -31,8 +31,8 @@
 }
 
 .menu-icon {
-    font-size: 20px;
-    color: #1d311d;
+    font-size: 2rem;
+    color: var(--text-color);
     cursor: pointer;
 }
 
