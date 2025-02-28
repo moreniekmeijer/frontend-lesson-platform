@@ -47,3 +47,7 @@ img, picture, video, canvas, svg {
 ul {
     list-style: none;
 }
+
+fieldset {
+    border: none;
+}

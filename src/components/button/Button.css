@@ -1,7 +1,7 @@
 button {
     font-family: inherit;
     display: flex;
-    width: auto;
+    width: max-content;
     height: 2rem;
     padding: 0.6rem;
     align-items: center;
@@ -10,7 +10,6 @@ button {
     border-radius: 1rem;
     background: var(--primary-color);
     box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
-
 }
 
 button:hover {
