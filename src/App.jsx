@@ -1,14 +1,13 @@
-import {useState} from 'react'
 import './App.css'
-import CountryTile from "./components/countryTile/CountryTile.jsx";
 import Header from "./components/header/Header.jsx";
-import Button from "./components/button/Button.jsx";
-import StyleTile from "./components/styleTile/StyleTile.jsx";
 import Aside from "./components/aside/Aside.jsx";
-import DragDrop from "./components/dragDrop/DragDrop.jsx";
-import { useForm } from 'react-hook-form';
-import MaterialForm from "./components/materialForm/materialForm.jsx";
-import MoreVideosTile from "./components/moreVideosTile/MoreVideosTile.jsx";
+import {Route, Routes} from "react-router-dom";
+import HomePage from "./pages/homePage/HomePage.jsx";
+import StylePage from "./pages/stylePage/StylePage.jsx";
+import MaterialPage from "./pages/materialPage/MaterialPage.jsx";
+import UploadPage from "./pages/uploadPage/UploadPage.jsx";
+import LoginPage from "./pages/loginPage/LoginPage.jsx";
+import NotFoundPage from "./pages/notFoundPage/NotFoundPage.jsx";
 
 function App() {
 
@@ -16,7 +15,15 @@ function App() {
         <>
             <Header></Header>
             <main>
-                <MoreVideosTile description="Recent afgespeeld"></MoreVideosTile>
+                <Routes>
+                    <Route path="/" element={<HomePage/>}/>
+                    <Route path="/login" element={<LoginPage/>}/>
+                    {/*<Route path="/register" element={<RegisterPage/>}/>*/}
+                    <Route path="/stijlen" element={<StylePage/>}/>
+                    <Route path="/materiaal" element={<MaterialPage/>}/>
+                    <Route path="/uploaden" element={<UploadPage/>}/>
+                    <Route path="*" element={<NotFoundPage/>}/>
+                </Routes>
             </main>
             <Aside></Aside>
         </>
