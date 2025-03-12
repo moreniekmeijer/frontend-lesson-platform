@@ -1,17 +1,17 @@
+import './Aside.css'
+import {NavLink} from "react-router-dom";
+
 function Aside() {
     return (
         <aside>
-            <svg xmlns="http://www.w3.org/2000/svg" width="258" height="654" viewBox="0 0 258 654" fill="none">
-                <path
-                    d="M0 0H93.1767C153.282 0 183.335 0 201.09 18.7804C218.845 37.5608 217.14 67.9228 213.729 128.647C197.102 424.669 208.905 569.367 258 734H0V0Z"
-                    fill="#1A3116"/>
-            </svg>
-            <ul>
-                <li>test</li>
-                <li>test</li>
-                <li>test</li>
-                <li>test</li>
-            </ul>
+            <nav className="navigation">
+                <ul>
+                    <li><NavLink to="/" className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}>Home</NavLink></li>
+                    <li><NavLink to="/stijlen" className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}>Stijlen</NavLink></li>
+                    <li><NavLink to="/materiaal" className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}>Materiaal</NavLink></li>
+                    <li><NavLink to="/uploaden" className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}>Uploaden</NavLink></li>
+                </ul>
+            </nav>
         </aside>
     )
 }

@@ -1,17 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Itim&family=K2D:wght@300;400;700&display=swap');
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Itim', cursive;
-    color: var(--text-color);
-    /*margin-top: 0.6rem;*/
-    /*margin-bottom: 0.6rem;*/
-}
-
-p, body {
-    font-family: 'K2D', sans-serif;
-    color: var(--text-color);
-}
-
 :root {
     line-height: 1.5;
     font-weight: 400;
@@ -23,7 +11,7 @@ p, body {
     --primary-color: #bad1ac;
     --secondary-color: #1a3116;
     --accent-color: #69ba52;
-    --hover-color: #cbddc1;
+    --hover-color: #cfe1c7;
 }
 
 [data-theme="dark"] {
@@ -40,12 +28,51 @@ p, body {
     padding: 0;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Itim', cursive;
+    color: var(--text-color);
+    /*margin-top: 0.6rem;*/
+    /*margin-bottom: 0.6rem;*/
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-block: 0.67em;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-block: 0.83em;
+}
+
+h3 {
+    font-size: 1.5rem;
+    margin-block: 1em;
+}
+
+
+p, body {
+    font-family: 'K2D', sans-serif;
+    line-height: 1.5;
+    color: var(--text-color);
+}
+
 img, picture, video, canvas, svg {
     max-width: 100%;
 }
 
 ul {
     list-style: none;
+}
+
+a, Link, NavLink {
+    text-decoration: none;
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+a:hover, Link:hover, NavLink:hover {
+    color: var(--hover-color);
 }
 
 fieldset {

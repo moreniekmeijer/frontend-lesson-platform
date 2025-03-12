@@ -1,12 +1,13 @@
 import React from "react";
 import "./Header.css";
-import { FaBars } from "react-icons/fa"; // Voor het menu-icoon
+import { FaBars } from "react-icons/fa";
+import {Link} from "react-router-dom"; // Voor het menu-icoon
 
 function Header() {
     return (
         <header className="header">
             <div className="left-container">
-                <h1>Lesson Platform</h1>
+                <h2><Link to="/" className="header-title">Lesson Platform</Link></h2>
             </div>
             <div className="right-container">
                 <ul>

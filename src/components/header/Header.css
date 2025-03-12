@@ -16,7 +16,8 @@
     border-radius: 0 0 2rem 0;
 }
 
-.left-container h1 {
+.header-title,
+.header-title:hover {
     color: var(--secondary-color);
 }
 
