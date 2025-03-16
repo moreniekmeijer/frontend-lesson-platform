@@ -9,13 +9,6 @@ Header {
 }
 
 main {
-  margin: 150px 220px 100px 280px;
+  margin: 120px 220px 100px 280px;
   padding: 1rem;
 }
-
-/*svg {*/
-/*  position: fixed;*/
-/*  bottom: 0;*/
-/*  left: 0;*/
-/*  height: auto;*/
-/*}*/

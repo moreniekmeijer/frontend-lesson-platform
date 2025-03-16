@@ -2,8 +2,10 @@ import {useForm} from "react-hook-form";
 import DragDrop from "../dragDrop/DragDrop.jsx";
 import "./materialForm.css"
 import {useState} from "react";
+import Button from "../button/Button.jsx";
+import axios from "axios";
 
-function MaterialForm(props) {
+function MaterialForm() {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const [file, setFile] = useState(null);
 
@@ -22,6 +24,7 @@ function MaterialForm(props) {
         // Voeg het bestand toe als het bestaat
         if (file) {
             formData.append("file", file);
+            formData.append("filePath", file.name);
         }
 
         // Debugging: Log wat er wordt verstuurd
@@ -29,7 +32,18 @@ function MaterialForm(props) {
             console.log(pair[0], pair[1]);
         }
 
-        console.log(formData);
+        async function sendData() {
+            try {
+                const response = axios.post("http://localhost:8080/materials", formData);
+                console.log("Succes:", response.data);
+                alert("Upload succesvol!");
+            } catch (error) {
+                console.error("Error:", error.response?.data || error.message);
+                alert("Er is iets misgegaan tijdens het uploaden.");
+            }
+        }
+
+        void sendData();
     }
 
     return (
@@ -70,13 +84,13 @@ function MaterialForm(props) {
                 </label>
                 {errors.link && <p>{errors.link.message}</p>}
 
-                <label htmlFor="type">
-                    Type materiaal (optioneel):
+                <label htmlFor="category">
+                    Categorie (optioneel):
                     <input
                         type="text"
-                        id="type"
+                        id="category"
                         placeholder="Bijv: break of solo"
-                        {...register("type")}
+                        {...register("category")}
                     />
                 </label>
 
@@ -94,7 +108,7 @@ function MaterialForm(props) {
                     Voeg toe aan stijl:
                     <select id="style" {...register("style")}>
                         <option value="{uit backend}">`Stijl 1</option>
-                        <option value="2">Stijl 2</option>
+                        <option value="Maracatu">Stijl 2</option>
                         <option value="3">Stijl 3</option>
                     </select>
                 </label>
@@ -104,9 +118,9 @@ function MaterialForm(props) {
                     Houd video verborgen
                 </label>
 
-                <button type="submit">
+                <Button type="submit">
                     Opslaan
-                </button>
+                </Button>
             </fieldset>
         </form>
     )

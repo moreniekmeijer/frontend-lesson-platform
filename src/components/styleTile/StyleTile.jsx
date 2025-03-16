@@ -5,7 +5,7 @@ import axios from "axios";
 function StyleTile({ name, description }) {
     async function getStyleInfo() {
         try {
-            const result = await axios.get("http://localhost:8080/styles/1");
+            const result = await axios.get("http://localhost:8080/styles");
             console.log(result);
         } catch (e) {
             console.error(e);
