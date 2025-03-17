@@ -1,28 +1,28 @@
 import "./MoreItemsTile.css"
 
-function MoreItemsTile(props) {
+function MoreItemsTile({ title, items }) {
     return (
-        <div className="moreItemsTile">
-            <h3>{props.description}</h3>
-            <span>
-                <video width="244" height="192" controls>
-                <source src="https://www.youtube.com/watch?v=DqZX8m2T-e0&t=193s" type="video/mp4"/>
-                    Your browser does not support the video tag.
-                </video>
-                <video width="244" height="192" controls>
-                <source src="https://www.youtube.com/watch?v=DqZX8m2T-e0&t=193s" type="video/mp4"/>
-                    Your browser does not support the video tag.
-                </video>
-                <video width="244" height="192" controls>
-                <source src="https://www.youtube.com/watch?v=DqZX8m2T-e0&t=193s" type="video/mp4"/>
-                    Your browser does not support the video tag.
-                </video>
-                <video width="244" height="192" controls>
-                <source src="https://www.youtube.com/watch?v=DqZX8m2T-e0&t=193s" type="video/mp4"/>
-                    Your browser does not support the video tag.
-                </video>
-            </span>
-        </div>
+        <section className="moreItemsTile">
+            <h3>{title}</h3>
+            <ul className="itemList">
+                {items.map((item, index) => (
+                    <li key={index}>
+                        {item.type === "video" && (
+                            <video width="244" height="192" controls>
+                                <source src={item.url} type="video/mp4"/>
+                                Your browser does not support the video tag.
+                            </video>
+                        )}
+                        {item.type === "image" && (
+                            <img src={item.url} alt={`Item ${index}`} width="244" height="192"/>
+                        )}
+                        {item.type === "text" && (
+                            <p>{item.content}</p>
+                        )}
+                    </li>
+                ))}
+            </ul>
+        </section>
     )
 }
 

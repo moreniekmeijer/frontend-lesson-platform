@@ -11,4 +11,5 @@ Header {
 main {
   margin: 120px 220px 100px 280px;
   padding: 1rem;
+  max-width: 76vw;
 }

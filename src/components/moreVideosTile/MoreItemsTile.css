@@ -1,27 +1,32 @@
-.moreItemsTile span {
+.itemList {
     display: flex;
-    gap: 10px;
+    gap: 0.5rem;
     overflow-x: auto;
     white-space: nowrap;
-    padding: 10px 0;
-    max-width: 100%; /* Zorgt ervoor dat het niet breder wordt dan de container */
-
-    /*!* Verborgen scrollbar in Firefox *!*/
-    /*scrollbar-width: thin; !* "auto", "thin", of "none" *!*/
-    /*scrollbar-color: #888 #f1f1f1; !* Scrollbalk kleur + achtergrondkleur *!*/
+    padding: 0.5rem 0;
+    max-width: 100%;
 }
 
+.itemList li {
+    flex-shrink: 0;
+    max-width: 244px;
+}
+
+/*!* Verborgen scrollbar in Firefox *!*/
+/*scrollbar-width: thin; !* "auto", "thin", of "none" *!*/
+/*scrollbar-color: #888 #f1f1f1; !* Scrollbalk kleur + achtergrondkleur *!*/
+
 /* Scrollbar voor WebKit (Chrome, Edge, Safari) */
-.moreItemsTile span::-webkit-scrollbar {
+.itemList::-webkit-scrollbar {
     height: 0.8rem; /* Hoogte van de horizontale scrollbar */
 }
 
-.moreItemsTile span::-webkit-scrollbar-track {
+.itemList::-webkit-scrollbar-track {
     background: var(--primary-color); /* Achtergrondkleur van de track */
     border-radius: 1rem;
 }
 
-.moreItemsTile span::-webkit-scrollbar-thumb {
+.itemList::-webkit-scrollbar-thumb {
     background: var(--secondary-color); /* Kleur van de scrollbar zelf */
     border-radius: 1rem; /* Maakt het een perfecte cirkel */
     margin: 0.4rem; /* Voegt ruimte toe om de bol 'vrij' te laten zweven */
