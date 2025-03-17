@@ -1,8 +1,8 @@
-import "./MoreVideosTile.css"
+import "./MoreItemsTile.css"
 
-function MoreVideosTile(props) {
+function MoreItemsTile(props) {
     return (
-        <div className="moreVideosTile">
+        <div className="moreItemsTile">
             <h3>{props.description}</h3>
             <span>
                 <video width="244" height="192" controls>
@@ -26,4 +26,4 @@ function MoreVideosTile(props) {
     )
 }
 
-export default MoreVideosTile;
+export default MoreItemsTile;

@@ -1,4 +1,4 @@
-.moreVideosTile span {
+.moreItemsTile span {
     display: flex;
     gap: 10px;
     overflow-x: auto;
@@ -12,21 +12,21 @@
 }
 
 /* Scrollbar voor WebKit (Chrome, Edge, Safari) */
-.moreVideosTile span::-webkit-scrollbar {
+.moreItemsTile span::-webkit-scrollbar {
     height: 0.8rem; /* Hoogte van de horizontale scrollbar */
 }
 
-.moreVideosTile span::-webkit-scrollbar-track {
+.moreItemsTile span::-webkit-scrollbar-track {
     background: var(--primary-color); /* Achtergrondkleur van de track */
     border-radius: 1rem;
 }
 
-.moreVideosTile span::-webkit-scrollbar-thumb {
+.moreItemsTile span::-webkit-scrollbar-thumb {
     background: var(--secondary-color); /* Kleur van de scrollbar zelf */
     border-radius: 1rem; /* Maakt het een perfecte cirkel */
     margin: 0.4rem; /* Voegt ruimte toe om de bol 'vrij' te laten zweven */
 }
 
-/*.moreVideosTile span::-webkit-scrollbar-thumb:hover {*/
+/*.moreItemsTile span::-webkit-scrollbar-thumb:hover {*/
 
 /*}*/
