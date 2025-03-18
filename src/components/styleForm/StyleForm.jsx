@@ -75,8 +75,7 @@ function StyleForm() {
                             value: 2000,
                             message: 'Input mag maximaal 2000 karakters bevatten',
                         },
-                    })}>
-                </textarea>
+                    })}/>
                 {errors.description && <p>{errors.description.message}</p>}
 
                 <Button type="submit">
