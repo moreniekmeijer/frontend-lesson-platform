@@ -57,6 +57,7 @@ function MaterialForm() {
                     <input
                         type="text"
                         id="title"
+                        className={errors.title ? "input-error" : ""}
                         {...register("title", {
                             required: {
                                 value: true,
@@ -65,13 +66,14 @@ function MaterialForm() {
                         })}
                     />
                 </label>
-                {errors.title && <p>{errors.title.message}</p>}
+                {errors.title && <p className="error-message">{errors.title.message}</p>}
 
                 <label htmlFor="link">
                     Link (optioneel):
                     <input
                         type="text"
                         id="link"
+                        className={errors.link ? "input-error" : ""}
                         {...register("link", {
                             pattern: {
                                 value: /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/.*)?$/,
@@ -81,7 +83,7 @@ function MaterialForm() {
                         placeholder="https://example.com"
                     />
                 </label>
-                {errors.link && <p>{errors.link.message}</p>}
+                {errors.link && <p className="error-message">{errors.link.message}</p>}
 
                 <label htmlFor="category">
                     Categorie (optioneel):
@@ -95,13 +97,14 @@ function MaterialForm() {
 
                 <label htmlFor="instrument">
                     Instrument (optioneel):
+                    <input
+                        type="instrument"
+                        id="instrument"
+                        placeholder="Bijv: djembé"
+                        {...register("instrument")}
+                    />
                 </label>
-                <input
-                    type="instrument"
-                    id="instrument"
-                    placeholder="Bijv: djembé"
-                    {...register("instrument")}
-                />
+
 
                 <label htmlFor="style">
                     Voeg toe aan stijl:

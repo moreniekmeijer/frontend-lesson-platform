@@ -12,6 +12,9 @@
     --secondary-color: #1a3116;
     --accent-color: #69ba52;
     --hover-color: #cfe1c7;
+    --red-color: #FF9A9A;
+    --red-hover-color: #ffcbcb;
+    --red-active-color: #D74444;
 }
 
 [data-theme="dark"] {

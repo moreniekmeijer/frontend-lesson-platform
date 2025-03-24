@@ -33,6 +33,7 @@ function StyleForm() {
                     <input
                         type="text"
                         id="name"
+                        className={errors.name ? "input-error" : ""}
                         {...register("name", {
                             required: {
                                 value: true,
@@ -41,7 +42,7 @@ function StyleForm() {
                         })}
                     />
                 </label>
-                {errors.name && <p>{errors.name.message}</p>}
+                {errors.name && <p className="error-message">{errors.name.message}</p>}
 
                 <label htmlFor="origin">
                     Land van oorsprong:
@@ -49,6 +50,7 @@ function StyleForm() {
                         type="text"
                         id="origin"
                         placeholder="In het Engels"
+                        className={errors.origin ? "input-error" : ""}
                         {...register("origin", {
                             required: {
                                 value: true,
@@ -57,7 +59,7 @@ function StyleForm() {
                         })}
                     />
                 </label>
-                {errors.origin && <p>{errors.origin.message}</p>}
+                {errors.origin && <p className="error-message">{errors.origin.message}</p>}
 
                 <label htmlFor="description">
                     Omschrijving:
@@ -66,6 +68,7 @@ function StyleForm() {
                     id="description"
                     rows="5"
                     cols="30"
+                    className={errors.description ? "input-error" : ""}
                     {...register("description", {
                         required: {
                             value: true,
@@ -76,7 +79,7 @@ function StyleForm() {
                             message: 'Input mag maximaal 2000 karakters bevatten',
                         },
                     })}/>
-                {errors.description && <p>{errors.description.message}</p>}
+                {errors.description && <p className="error-message">{errors.description.message}</p>}
 
                 <Button type="submit">
                     Opslaan

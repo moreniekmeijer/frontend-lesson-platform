@@ -40,3 +40,26 @@ fieldset {
     display: flex;
     gap: 1rem;
 }
+
+input, textarea, select {
+    width: 100%;
+    border-radius: 1rem;
+    padding: 0.3rem;
+    border: 1px solid var(--primary-color);
+}
+
+select {
+    background-color: var(--primary-color);
+    padding-right: 0.5rem;
+}
+
+
+/*Error handling*/
+
+.input-error {
+    border: 1px solid red;
+}
+
+.error-message {
+    color: red;
+}

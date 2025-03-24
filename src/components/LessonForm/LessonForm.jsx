@@ -61,7 +61,7 @@ function LessonForm({setActiveTab}) {
 
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)}>
-            {successId && <p>De stijl is succesvol opgeslagen!</p>}
+            {successId && <p>De Les is klaargezet!</p>}
             {error && <p>Er is iets misgegaan. Probeer het opnieuw.</p>}
 
             {/*Deze optie om stijlen te kiezen is nog niet ideaal*/}
@@ -99,13 +99,14 @@ function LessonForm({setActiveTab}) {
                     id="notes"
                     rows="5"
                     cols="30"
+                    className={errors.notes ? "input-error" : ""}
                     {...register("notes", {
                         maxLength: {
                             value: 2000,
                             message: 'Input mag maximaal 2000 karakters bevatten',
                         },
                     })}/>
-                {errors.notes && <p>{errors.notes.message}</p>}
+                {errors.notes && <p className="error-message">{errors.notes.message}</p>}
 
                 <Button type="submit">
                     Opslaan
