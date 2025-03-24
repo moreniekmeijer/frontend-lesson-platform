@@ -1,0 +1,7 @@
+.search-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2rem;
+    max-width: 20rem;
+}

@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import MoreItemsTile from "../../components/moreVideosTile/MoreItemsTile.jsx";
 import "./HomePage.css"
+import SearchTile from "../../components/searchTile/SearchTile.jsx";
 
 function HomePage() {
     const [lesson, setLesson] = useState([]);
@@ -17,7 +18,7 @@ function HomePage() {
 
     async function getLessonData() {
         try {
-            const response = await axios.get("http://localhost:8000/lessons/next");
+            const response = await axios.get("http://localhost:8080/lessons/next");
             setLesson(response.data);
             setLessonStyles(response.data.styles);
         } catch (e) {
@@ -48,10 +49,7 @@ function HomePage() {
             </section>
             <MoreItemsTile title="Nieuw toegevoegd" items={videoExamples}/>
             <MoreItemsTile title="Videos volgende les" items={videoExamples}/>
-            <section className="search">
-                zoekveld (Misschien ook subregions categorie via countries API?)
-            </section>
-
+            <SearchTile/>
         </>
     )
 }
