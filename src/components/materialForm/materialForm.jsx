@@ -1,6 +1,5 @@
 import {useForm} from "react-hook-form";
 import DragDrop from "../dragDrop/DragDrop.jsx";
-import "./materialForm.css"
 import {useState} from "react";
 import Button from "../button/Button.jsx";
 import axios from "axios";

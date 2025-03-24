@@ -2,13 +2,13 @@ import Button from "../button/Button.jsx";
 import {useForm} from "react-hook-form";
 import axios from "axios";
 import {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
 
-function LessonForm() {
+function LessonForm({setActiveTab}) {
     const [successId, setSuccessId] = useState(null);
     const [error, setError] = useState(false);
     const [styles, setStyles] = useState([]);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const [selectedStyles, setSelectedStyles] = useState([]);
+    const {register, handleSubmit, formState: {errors}} = useForm();
 
     async function getStyles() {
         setError(false);
@@ -27,9 +27,20 @@ function LessonForm() {
         void getStyles();
     }, [])
 
+    function handleStyleChange(styleName) {
+        setSelectedStyles((prevSelected) => {
+            if (prevSelected.includes(styleName)) {
+                return prevSelected.filter((name) => name !== styleName);
+            } else {
+                return [...prevSelected, styleName];
+            }
+        });
+    }
+
     function handleFormSubmit(data) {
         const addedData = {
             ...data,
+            styleNames: selectedStyles,
             scheduledDateTime: new Date().toISOString(),
         };
 
@@ -38,6 +49,7 @@ function LessonForm() {
             try {
                 const response = await axios.post(`http://localhost:8080/lessons`, addedData);
                 setSuccessId(response.data.id);
+                setSelectedStyles([]);
             } catch (e) {
                 console.error(e);
                 setError(true);
@@ -49,27 +61,37 @@ function LessonForm() {
 
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)}>
+            {successId && <p>De stijl is succesvol opgeslagen!</p>}
+            {error && <p>Er is iets misgegaan. Probeer het opnieuw.</p>}
+
+            {/*Deze optie om stijlen te kiezen is nog niet ideaal*/}
+            <fieldset className="styleNames">
+                <legend>Kies stijlen:</legend>
+                {styles.length === 0 ? (
+                    <p>Geen stijlen beschikbaar!
+                        <button
+                            type="button"
+                            onClick={() => setActiveTab('style')}>
+                            Wil je stijlen toevoegen?
+                        </button>
+                    </p>
+                ) : (
+                    <div className="checkbox-container">
+                        {styles.map((style) => (
+                            <label key={style.id} className="checkbox">
+                                <input
+                                    type="checkbox"
+                                    value={style.name}
+                                    checked={selectedStyles.includes(style.name)}
+                                    onChange={() => handleStyleChange(style.name)}
+                                />
+                                {style.name}
+                            </label>
+                        ))}
+                    </div>
+                )}
+            </fieldset>
             <fieldset>
-                {successId && <p>De stijl is succesvol opgeslagen!</p>}
-                {error && <p>Er is iets misgegaan. Probeer het opnieuw.</p>}
-
-                {/*Deze optie om stijlen te kiezen is nog niet ideaal*/}
-                <label htmlFor="styleNames">
-                    Kies stijlen:
-                    {styles.length === 0 ?
-                        <p>Geen stijlen beschikbaar! <Link to="/">Wil je stijlen toevoegen?</Link></p>
-                        :
-                        <select id="styleNames"
-                            multiple
-                            {...register("styleNames")}>
-                            {styles.map((style) => (
-                                <option key={style.id} value={style.name}>
-                                    {style.name}
-                                </option>
-                            ))}
-                    </select>}
-                </label>
-
                 <label htmlFor="notes">
                     Notities:
                 </label>

@@ -1,0 +1,42 @@
+.upload-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.active-tab {
+    background-color: var(--accent-color);
+}
+
+form {
+    display: flex;
+    gap: 1rem;
+    width: 600px;
+    border: solid var(--primary-color);
+    border-radius: 2rem;
+    padding: 1rem;
+}
+
+fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.checkbox-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.checkbox {
+    display: flex;
+    gap: 1rem;
+}
