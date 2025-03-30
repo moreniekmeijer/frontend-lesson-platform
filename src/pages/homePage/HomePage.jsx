@@ -18,7 +18,7 @@ function HomePage() {
 
     async function getLessonData() {
         try {
-            const response = await axios.get("http://localhost:8080/lessons/next");
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/lessons/next`);
             setLesson(response.data);
             setLessonStyles(response.data.styles);
         } catch (e) {

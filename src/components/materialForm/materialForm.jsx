@@ -33,7 +33,7 @@ function MaterialForm() {
 
         async function sendData() {
             try {
-                const response = axios.post("http://localhost:8080/materials", formData);
+                const response = axios.post(`${import.meta.env.VITE_API_URL}/materials`, formData);
                 console.log("Succes:", response.data);
                 alert("Upload succesvol!");
             } catch (error) {

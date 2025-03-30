@@ -12,7 +12,7 @@ function StyleForm() {
         async function postData() {
             setError(false);
             try {
-                const response = await axios.post(`http://localhost:8080/styles`, data);
+                const response = await axios.post(`${import.meta.env.VITE_API_URL}/styles`, data);
                 setSuccessId(response.data.id);
             } catch (e) {
                 console.error(e);

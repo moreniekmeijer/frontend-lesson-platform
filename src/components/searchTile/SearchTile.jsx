@@ -32,7 +32,7 @@ function SearchTile() {
     useEffect(() => {
         async function fetchOptions() {
             try {
-                const response = await axios.get("http://localhost:8080/materials");
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/materials`);
                 const materials = response.data;
                 const uniqueValues = (key) => [...new Set(materials.map((item) => item[key]).filter(Boolean))];
 

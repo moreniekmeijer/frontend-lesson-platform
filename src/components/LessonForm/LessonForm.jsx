@@ -13,7 +13,7 @@ function LessonForm({setActiveTab}) {
     async function getStyles() {
         setError(false);
         try {
-            const response = await axios.get(`http://localhost:8080/styles`);
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/styles`);
             setStyles(response.data);
         } catch (e) {
             console.error(e);
@@ -47,7 +47,7 @@ function LessonForm({setActiveTab}) {
         async function postData() {
             setError(false);
             try {
-                const response = await axios.post(`http://localhost:8080/lessons`, addedData);
+                const response = await axios.post(`${import.meta.env.VITE_API_URL}/lessons`, addedData);
                 setSuccessId(response.data.id);
                 setSelectedStyles([]);
             } catch (e) {
