@@ -14,7 +14,22 @@ aside {
     font-size: 1.5rem;
 }
 
-.active-menu-link {
+.submenu {
+    padding-left: 1rem;
+    font-size: 1.2rem;
+}
+
+.active-submenu-link, .active-submenu-link:hover {
+    color: var(--red-color);
+    padding-left: 1rem;
+}
+
+.default-submenu-link {
+
+}
+
+.active-menu-link, .active-menu-link:hover {
+    color: var(--red-color);
     padding-left: 1rem;
 }
 
