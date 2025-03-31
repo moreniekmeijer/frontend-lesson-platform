@@ -8,26 +8,28 @@ import MaterialPage from "./pages/materialPage/MaterialPage.jsx";
 import UploadPage from "./pages/uploadPage/UploadPage.jsx";
 import LoginPage from "./pages/loginPage/LoginPage.jsx";
 import NotFoundPage from "./pages/notFoundPage/NotFoundPage.jsx";
+import {AuthContext} from "./context/AuthContext.jsx";
+import {useContext} from "react";
+import PrivateRoute from "./components/PrivateRoute.jsx";
 
 function App() {
-
     return (
         <>
-            <Header></Header>
+            <Header />
             <main>
                 <Routes>
-                    <Route path="/" element={<HomePage/>}/>
-                    <Route path="/login" element={<LoginPage/>}/>
-                    {/*<Route path="/register" element={<RegisterPage/>}/>*/}
-                    <Route path="/stijlen" element={<StylePage/>}/>
-                    <Route path="/materiaal" element={<MaterialPage/>}/>
-                    <Route path="/uploaden" element={<UploadPage/>}/>
-                    <Route path="*" element={<NotFoundPage/>}/>
+                    <Route path="/" element={<PrivateRoute element={<HomePage />} />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    {/* <Route path="/register" element={<RegisterPage />} /> */}
+                    <Route path="/stijlen" element={<PrivateRoute element={<StylePage />} />} />
+                    <Route path="/materiaal" element={<PrivateRoute element={<MaterialPage />} />} />
+                    <Route path="/uploaden" element={<PrivateRoute element={<UploadPage />} />} />
+                    <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </main>
-            <Aside></Aside>
+            <Aside />
         </>
-    )
+    );
 }
 
 export default App
