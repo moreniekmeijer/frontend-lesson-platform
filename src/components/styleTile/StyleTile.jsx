@@ -1,31 +1,23 @@
 import "./StyleTile.css";
 import Button from "../button/Button.jsx";
-import axios from "axios";
 
-function StyleTile({ name, description }) {
-    async function getStyleInfo() {
-        try {
-            const result = await axios.get(`${import.meta.env.VITE_API_URL}/styles`);
-            console.log(result);
-        } catch (e) {
-            console.error(e);
-        }
-    }
+function StyleTile({ data }) {
+    if (!data) return null;
 
     return (
         <article className="style-tile">
             <span>
-                <button onClick={getStyleInfo}>test-eigen-api</button>
-                <h2>{name}</h2>
+                <h2>{data.name}</h2>
                 <Button>Arrangement</Button>
             </span>
-            <p>{description}</p>
+            <p>{data.description}</p>
             <ul>
-                <li>get link from styles</li>
-                <li>get link from styles</li>
+                {data.links?.map((link, index) => (
+                    <li key={index}><a href={link.url}>{link.title}</a></li>
+                )) || <li>Geen links beschikbaar</li>}
             </ul>
         </article>
-    )
+    );
 }
 
 export default StyleTile;
