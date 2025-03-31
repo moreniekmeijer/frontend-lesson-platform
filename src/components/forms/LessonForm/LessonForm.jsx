@@ -1,7 +1,8 @@
-import Button from "../button/Button.jsx";
+import Button from "../../button/Button.jsx";
 import {useForm} from "react-hook-form";
 import axios from "axios";
 import {useEffect, useState} from "react";
+import "../Forms.css"
 
 function LessonForm({setActiveTab}) {
     const [successId, setSuccessId] = useState(null);
@@ -76,7 +77,7 @@ function LessonForm({setActiveTab}) {
                         </button>
                     </p>
                 ) : (
-                    <div className="checkbox-container">
+                    <div className="checkboxContainer">
                         {styles.map((style) => (
                             <label key={style.id} className="checkbox">
                                 <input
@@ -99,14 +100,14 @@ function LessonForm({setActiveTab}) {
                     id="notes"
                     rows="5"
                     cols="30"
-                    className={errors.notes ? "input-error" : ""}
+                    className={errors.notes ? "inputError" : ""}
                     {...register("notes", {
                         maxLength: {
                             value: 2000,
                             message: 'Input mag maximaal 2000 karakters bevatten',
                         },
                     })}/>
-                {errors.notes && <p className="error-message">{errors.notes.message}</p>}
+                {errors.notes && <p className="errorMessage">{errors.notes.message}</p>}
 
                 <Button type="submit">
                     Opslaan

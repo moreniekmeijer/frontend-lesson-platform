@@ -1,8 +1,9 @@
 import {useForm} from "react-hook-form";
-import DragDrop from "../dragDrop/DragDrop.jsx";
+import DragDrop from "../../dragDrop/DragDrop.jsx";
 import {useState} from "react";
-import Button from "../button/Button.jsx";
+import Button from "../../button/Button.jsx";
 import axios from "axios";
+import "../Forms.css";
 
 function MaterialForm() {
     const {register, handleSubmit, formState: {errors}} = useForm();
@@ -57,7 +58,7 @@ function MaterialForm() {
                     <input
                         type="text"
                         id="title"
-                        className={errors.title ? "input-error" : ""}
+                        className={errors.title ? "inputError" : ""}
                         {...register("title", {
                             required: {
                                 value: true,
@@ -66,14 +67,14 @@ function MaterialForm() {
                         })}
                     />
                 </label>
-                {errors.title && <p className="error-message">{errors.title.message}</p>}
+                {errors.title && <p className="errorMessage">{errors.title.message}</p>}
 
                 <label htmlFor="link">
                     Link (optioneel):
                     <input
                         type="text"
                         id="link"
-                        className={errors.link ? "input-error" : ""}
+                        className={errors.link ? "inputError" : ""}
                         {...register("link", {
                             pattern: {
                                 value: /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/.*)?$/,
@@ -83,7 +84,7 @@ function MaterialForm() {
                         placeholder="https://example.com"
                     />
                 </label>
-                {errors.link && <p className="error-message">{errors.link.message}</p>}
+                {errors.link && <p className="errorMessage">{errors.link.message}</p>}
 
                 <label htmlFor="category">
                     Categorie (optioneel):

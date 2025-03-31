@@ -78,6 +78,3 @@ a:hover, Link:hover, NavLink:hover {
     color: var(--hover-color);
 }
 
-fieldset {
-    border: none;
-}

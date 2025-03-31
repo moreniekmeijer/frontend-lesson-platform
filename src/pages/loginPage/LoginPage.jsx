@@ -24,22 +24,22 @@ function LoginPage() {
                         <input
                             type="text"
                             id="username"
-                            className={errors.username ? "input-error" : ""}
+                            className={errors.username ? "inputError" : ""}
                             {...register("username", {required: "Gebruikersnaam is verplicht"})}
                         />
                     </label>
-                    {errors.username && <p className="error-message">{errors.username.message}</p>}
+                    {errors.username && <p className="errorMessage">{errors.username.message}</p>}
 
                     <label htmlFor="password">
                         Wachtwoord:
                         <input
                             type="password"
                             id="password"
-                            className={errors.password ? "input-error" : ""}
+                            className={errors.password ? "inputError" : ""}
                             {...register("password", {required: "Wachtwoord is verplicht"})}
                         />
                     </label>
-                    {errors.password && <p className="error-message">{errors.password.message}</p>}
+                    {errors.password && <p className="errorMessage">{errors.password.message}</p>}
 
                     <label htmlFor="email">
                         E-mail (optioneel):

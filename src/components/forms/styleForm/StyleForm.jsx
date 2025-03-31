@@ -1,7 +1,8 @@
-import Button from "../button/Button.jsx";
+import Button from "../../button/Button.jsx";
 import {useForm} from "react-hook-form";
 import axios from "axios";
 import {useState} from "react";
+import "../Forms.css";
 
 function StyleForm() {
     const [successId, setSuccessId] = useState(null);
@@ -33,7 +34,7 @@ function StyleForm() {
                     <input
                         type="text"
                         id="name"
-                        className={errors.name ? "input-error" : ""}
+                        className={errors.name ? "inputError" : ""}
                         {...register("name", {
                             required: {
                                 value: true,
@@ -42,7 +43,7 @@ function StyleForm() {
                         })}
                     />
                 </label>
-                {errors.name && <p className="error-message">{errors.name.message}</p>}
+                {errors.name && <p className="errorMessage">{errors.name.message}</p>}
 
                 <label htmlFor="origin">
                     Land van oorsprong:
@@ -50,7 +51,7 @@ function StyleForm() {
                         type="text"
                         id="origin"
                         placeholder="In het Engels"
-                        className={errors.origin ? "input-error" : ""}
+                        className={errors.origin ? "inputError" : ""}
                         {...register("origin", {
                             required: {
                                 value: true,
@@ -59,7 +60,7 @@ function StyleForm() {
                         })}
                     />
                 </label>
-                {errors.origin && <p className="error-message">{errors.origin.message}</p>}
+                {errors.origin && <p className="errorMessage">{errors.origin.message}</p>}
 
                 <label htmlFor="description">
                     Omschrijving:
@@ -68,7 +69,7 @@ function StyleForm() {
                     id="description"
                     rows="5"
                     cols="30"
-                    className={errors.description ? "input-error" : ""}
+                    className={errors.description ? "inputError" : ""}
                     {...register("description", {
                         required: {
                             value: true,
@@ -79,7 +80,7 @@ function StyleForm() {
                             message: 'Input mag maximaal 2000 karakters bevatten',
                         },
                     })}/>
-                {errors.description && <p className="error-message">{errors.description.message}</p>}
+                {errors.description && <p className="errorMessage">{errors.description.message}</p>}
 
                 <Button type="submit">
                     Opslaan
