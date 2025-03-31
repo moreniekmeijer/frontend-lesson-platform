@@ -1,10 +1,10 @@
-import "./MoreItemsTile.css"
+import styles from "./MoreItemsTile.module.css"
 
 function MoreItemsTile({ title, items }) {
     return (
-        <section className="moreItemsTile">
+        <section className={styles.moreItemsTile}>
             <h3>{title}</h3>
-            <ul className="itemList">
+            <ul className={styles.itemList}>
                 {items.map((item, index) => (
                     <li key={index}>
                         {item.type === "video" && (

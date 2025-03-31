@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Button from "../button/Button.jsx";
 import axios from "axios";
-import "./SearchTile.css";
+import styles from "./SearchTile.module.css";
 
 function SearchTile() {
     const [searchTerm, setSearchTerm] = useState("");
@@ -57,7 +57,7 @@ function SearchTile() {
     };
 
     return (
-        <section className="search-tile">
+        <section className={styles.searchTile}>
             <input
                 type="text"
                 value={searchTerm}
@@ -67,7 +67,7 @@ function SearchTile() {
             />
 
             {Object.keys(filters).map((key) => (
-                <label key={key} className="option">
+                <label key={key} className={styles.options}>
                     <p>{categoryLabels[key]}</p>
                     <select
                         value={filters[key]}

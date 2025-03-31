@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import "./DragDrop.css";
+import styles from "./DragDrop.module.css";
 
 const DragDrop = ({ onFileSelect }) => {
     const [dragging, setDragging] = useState(false);
@@ -39,7 +39,7 @@ const DragDrop = ({ onFileSelect }) => {
 
     return (
         <div
-            className={`drag-drop-container ${dragging ? "dragging" : ""}`}
+            className={`${styles.dragDropContainer} ${dragging ? styles.dragging : ""}`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
@@ -51,7 +51,7 @@ const DragDrop = ({ onFileSelect }) => {
                 style={{ display: "none" }}
                 onChange={handleFileChange}
             />
-            <span className="plus-icon">➕</span>
+            <span>➕</span>
             <p>{selectedFile ? selectedFile.name : "Click or drop a file here"}</p>
         </div>
     );

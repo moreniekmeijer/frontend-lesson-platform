@@ -4,7 +4,7 @@
     align-items: center;
 }
 
-.left-container, .right-container {
+.leftContainer, .rightContainer {
     display: flex;
     align-items: center;
     height: 5rem;
@@ -12,26 +12,26 @@
     padding: 2rem;
 }
 
-.left-container {
+.leftContainer {
     border-radius: 0 0 2rem 0;
 }
 
-.header-title,
-.header-title:hover {
+.headerTitle,
+.headerTitle:hover {
     color: var(--secondary-color);
 }
 
-.right-container {
+.rightContainer {
     border-radius: 0 0 0 2rem;
 }
 
-.right-container ul {
+.rightContainer ul {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
-.menu-icon {
+.menuIcon {
     font-size: 2rem;
     color: var(--text-color);
     cursor: pointer;
@@ -43,7 +43,7 @@
     gap: 1rem;
 }
 
-.profile-circle {
+.profileCircle {
     width: 3rem;
     height: 3rem;
     background-color: var(--accent-color);

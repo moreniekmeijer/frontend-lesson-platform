@@ -4,7 +4,7 @@ import axios from "axios";
 import StyleTile from "../../components/styleTile/StyleTile.jsx";
 import MoreItemsTile from "../../components/moreVideosTile/MoreItemsTile.jsx";
 import CountryTile from "../../components/countryTile/CountryTile.jsx";
-import "./StylePage.css";
+import styles from "./StylePage.module.css";
 
 function StylePage() {
     const { id } = useParams();
@@ -46,10 +46,12 @@ function StylePage() {
     ];
 
     return (
-        <section className="style-page">
+        <section className={styles.stylePage}>
             {/*<h1>{styleData?.name || "Stijl"}</h1>*/}
-            <StyleTile data={styleData} />
-            <MoreItemsTile title="Videos" items={videoExamples} />
+            <div className="left-container-aaaaa">
+                <StyleTile data={styleData}/>
+                <MoreItemsTile title="Videos" items={videoExamples}/>
+            </div>
             <CountryTile countryName={styleData?.origin || "Onbekend"} />
         </section>
     );

@@ -1,4 +1,4 @@
-button {
+.button {
     font-family: inherit;
     display: flex;
     width: max-content;
@@ -13,11 +13,23 @@ button {
     box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
 }
 
-button:hover {
+.button:hover {
     background: var(--red-hover-color);
     cursor: pointer;
 }
 
-button:active {
+.button:active {
     background: var(--red-active-color);
+}
+
+.secondary {
+    background: var(--primary-color);
+}
+
+.secondary:hover {
+    background: var(--hover-color);
+}
+
+.secondary:active {
+    background: var(--accent-color);
 }

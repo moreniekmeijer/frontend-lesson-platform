@@ -1,11 +1,11 @@
-import "./StyleTile.css";
+import styles from "./StyleTile.module.css";
 import Button from "../button/Button.jsx";
 
 function StyleTile({ data }) {
     if (!data) return null;
 
     return (
-        <article className="style-tile">
+        <article className={styles.styleTile}>
             <span>
                 <h2>{data.name}</h2>
                 <Button>Arrangement</Button>

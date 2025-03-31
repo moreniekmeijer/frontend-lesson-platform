@@ -2,36 +2,37 @@ import MaterialForm from "../../components/materialForm/materialForm.jsx";
 import StyleForm from "../../components/styleForm/StyleForm.jsx";
 import LessonForm from "../../components/LessonForm/LessonForm.jsx";
 import {useState} from "react";
-import "./UploadPage.css";
+import styles from "./UploadPage.module.css";
+import Button from "../../components/button/Button.jsx";
 
 function UploadPage() {
     const [activeTab, setActiveTab] = useState('material');
 
     const getTabClass = (tabName) =>
-        activeTab === tabName ? 'active-tab' : 'inactive-tab';
+        activeTab === tabName ? styles.activeTab : "";
 
     return (
-        <section className="upload-page">
+        <section className={styles.uploadPage}>
             <h3>Wat wil je toevoegen?</h3>
-            <div className="tabs">
-                <button
+            <div className={styles.tabs}>
+                <Button
                     className={getTabClass('material')}
                     onClick={() => setActiveTab('material')}
                 >
                     Materiaal
-                </button>
-                <button
+                </Button>
+                <Button
                     className={getTabClass('style')}
                     onClick={() => setActiveTab('style')}
                 >
                     Stijl
-                </button>
-                <button
+                </Button>
+                <Button
                     className={getTabClass('lesson')}
                     onClick={() => setActiveTab('lesson')}
                 >
                     Les
-                </button>
+                </Button>
             </div>
             {activeTab === 'material' && <MaterialForm/>}
             {activeTab === 'style' && <StyleForm/>}

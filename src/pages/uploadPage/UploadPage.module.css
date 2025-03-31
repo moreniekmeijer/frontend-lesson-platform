@@ -1,4 +1,4 @@
-.upload-page {
+.uploadPage {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -12,7 +12,7 @@
     width: 100%;
 }
 
-.active-tab {
+.activeTab {
     background-color: var(--accent-color);
 }
 
@@ -31,7 +31,7 @@ fieldset {
     gap: 0.4rem;
 }
 
-.checkbox-container {
+.checkboxContainer {
     display: flex;
     flex-direction: column;
 }
@@ -53,13 +53,10 @@ select {
     padding-right: 0.5rem;
 }
 
-
-/*Error handling*/
-
-.input-error {
+.inputError {
     border: 1px solid red;
 }
 
-.error-message {
+.errorMessage {
     color: red;
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './CountryTile.css';
+import styles from './CountryTile.module.css';
 
 function CountryTile({countryName}) {
     const [countryData, setCountryData] = useState(null);
@@ -25,7 +25,7 @@ function CountryTile({countryName}) {
     }
 
     return (
-        <div className="country-tile">
+        <div className={styles.countryTile}>
             <h3>{countryData.translations?.nld?.common || countryData.name.common}</h3>
             <span><img src={countryData.flags.png} alt={`Flag of ${countryData.name.common}`} /></span>
         </div>

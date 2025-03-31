@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import MoreItemsTile from "../../components/moreVideosTile/MoreItemsTile.jsx";
-import "./HomePage.css"
+import styles from "./HomePage.module.css"
 import SearchTile from "../../components/searchTile/SearchTile.jsx";
 
 function HomePage() {
@@ -32,13 +32,13 @@ function HomePage() {
 
     return (
         <>
-            <section className="lessons">
+            <section className={styles.lessons}>
                 <MoreItemsTile title="Volgende les" items={videoExamples} />
-                <section className="notes">
+                <section className={styles.notes}>
                     <h3>Notities</h3>
                     <p>{lesson.notes}</p>
                 </section>
-                <section className="agenda">
+                <section className={styles.agenda}>
                     <h3>Agenda</h3>
                     <ul>
                         <li>wordt denk ik eigen component</li>
