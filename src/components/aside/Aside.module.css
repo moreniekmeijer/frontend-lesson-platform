@@ -1,10 +1,12 @@
+
+/*Misschien moet aside in App.css*/
 aside {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 258px;
     height: 85%;
-    background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="258" height="654" viewBox="0 0 258 654" fill="none"%3E%3Cpath d="M0 0H93.1767C153.282 0 183.335 0 201.09 18.7804C218.845 37.5608 217.14 67.9228 213.729 128.647C197.102 424.669 208.905 569.367 258 734H0V0Z" fill="%231A3116"/%3E%3C/svg%3E') no-repeat;
+    background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="258" height="654" viewBox="0 0 258 654" fill="none"%3E%3Cpath d="M0 0H93.1767C153.282 0 183.335 0 201.09 18.7804C218.845 37.5608 217.14 67.9228 213.729 128.647C197.102 424.669 208.905 569.367 258 734H0V0Z" fill="%23bad1ac"/%3E%3C/svg%3E') no-repeat;
     background-size: cover;
     padding: 2rem;
     color: white;
@@ -19,20 +21,16 @@ aside {
     font-size: 1.2rem;
 }
 
-.active-submenu-link, .active-submenu-link:hover {
-    color: var(--red-color);
+.activeSubmenuLink, .activeSubmenuLink:hover {
+    color: var(--red-active-color);
     padding-left: 1rem;
 }
 
-.default-submenu-link {
-
-}
-
-.active-menu-link, .active-menu-link:hover {
-    color: var(--red-color);
+.activeMenuLink, .activeMenuLink:hover {
+    color: var(--red-active-color);
     padding-left: 1rem;
 }
 
-.default-menu-link {
-
+.defaultMenuLink, .defaultSubmenuLink {
+    color: var(--secondary-color);
 }

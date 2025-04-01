@@ -9,12 +9,29 @@ Header {
 }
 
 main {
-  margin: 120px 220px 100px 280px;
-  padding: 1rem;
-  max-width: 76vw;
-}
-
-.left-container-aaaaa {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+  margin: 2rem 2rem 2rem 18rem;
+  padding: 1rem;
+  /*max-width: 76vw;*/
+}
+
+.upperContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.lowerContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.leftItems {
+  max-width: 60%;
+}
+
+.rightItems {
 }

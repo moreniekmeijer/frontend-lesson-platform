@@ -8,32 +8,28 @@
     display: flex;
     align-items: center;
     height: 4rem;
-    background-color: var(--primary-color);
     padding: 2rem;
 }
 
 .leftContainer {
     border-radius: 0 0 2rem 0;
+    background-color: var(--secondary-color);
 }
 
 .headerTitle,
 .headerTitle:hover {
-    color: var(--secondary-color);
+    color: var(--primary-color);
 }
 
 .rightContainer {
-    border-radius: 0 0 0 2rem;
-}
-
-.rightContainer ul {
-    display: flex;
-    align-items: center;
     gap: 1rem;
+    border-radius: 0 0 0 2rem;
+    background-color: var(--primary-color);
 }
 
-.menuIcon {
-    font-size: 2rem;
-    color: var(--text-color);
+.menuIcon button {
+    border: none;
+    background: none;
     cursor: pointer;
 }
 
