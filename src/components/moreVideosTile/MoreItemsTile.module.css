@@ -1,16 +1,26 @@
+.moreItemsTile {
+    margin-block: 0.5rem;
+}
+
 .itemList {
     display: flex;
     gap: 0.5rem;
     overflow-x: auto;
     white-space: nowrap;
-    padding: 0.5rem 0;
+    padding: 0 0 0.5rem 0;
     max-width: 100%;
 }
 
 .itemList li {
     flex-shrink: 0;
-    max-width: 244px;
+    max-width: 200px;
 }
+
+.secondary video, .secondary li {
+    width: 170px;  /* Kleiner dan 244px */
+    height: 134px; /* Evenredig verkleind */
+}
+
 
 /*!* Verborgen scrollbar in Firefox *!*/
 /*scrollbar-width: thin; !* "auto", "thin", of "none" *!*/

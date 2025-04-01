@@ -54,8 +54,8 @@ function HomePage() {
             </div>
             <div className="lowerContainer">
                 <div className="leftItems">
-                    <MoreItemsTile title="Nieuw toegevoegd" items={videoExamples}/>
-                    <MoreItemsTile title="Videos volgende les" items={videoExamples}/>
+                    <MoreItemsTile title="Nieuw toegevoegd" items={videoExamples} variant="secondary"/>
+                    <MoreItemsTile title="Videos volgende les" items={videoExamples} variant="secondary"/>
                 </div>
                 <SearchTile/>
             </div>
