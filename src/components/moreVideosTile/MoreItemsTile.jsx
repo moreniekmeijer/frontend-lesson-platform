@@ -10,16 +10,16 @@ function MoreItemsTile({title, items, variant}) {
             <ul className={styles.itemList}>
                 {items.map((item, index) => (
                     <li key={index}>
-                        {item.type === "video" && (
+                        {item.fileType === "VIDEO" && (
                             <video width="200" height="157" controls>
-                                <source src={item.url} type="video/mp4"/>
+                                <source src={item.link} type="video/mp4"/>
                                 Your browser does not support the video tag.
                             </video>
                         )}
-                        {item.type === "image" && (
-                            <img src={item.url} alt={`Item ${index}`} width="200" height="157"/>
+                        {item.fileType === "IMAGE" && (
+                            <img src={item.filePath} alt={`Item ${index}`} width="200" height="157"/>
                         )}
-                        {item.type === "text" && (
+                        {item.fileType === "PDF" && (
                             <p>{item.content}</p>
                         )}
                     </li>

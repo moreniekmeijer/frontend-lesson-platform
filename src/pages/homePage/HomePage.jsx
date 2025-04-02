@@ -10,11 +10,11 @@ function HomePage() {
     const [lessonStyles, setLessonStyles] = useState({});
 
     const videoExamples = [
-        {type: "video", url: "https://www.youtube.com/watch?v=DqZX8m2T-e0&t=193s"},
-        {type: "video", url: "https://www.youtube.com/watch?v=DqZX8m2T-e0&t=193s"},
-        {type: "video", url: "https://www.youtube.com/watch?v=DqZX8m2T-e0&t=193s"},
-        {type: "video", url: "https://www.youtube.com/watch?v=DqZX8m2T-e0&t=193s"},
-        {type: "video", url: "https://www.youtube.com/watch?v=abc123"}
+        {fileType: "VIDEO", url: "https://www.youtube.com/watch?v=DqZX8m2T-e0&t=193s"},
+        {fileType: "VIDEO", url: "https://www.youtube.com/watch?v=DqZX8m2T-e0&t=193s"},
+        {fileType: "VIDEO", url: "https://www.youtube.com/watch?v=DqZX8m2T-e0&t=193s"},
+        {fileType: "VIDEO", url: "https://www.youtube.com/watch?v=DqZX8m2T-e0&t=193s"},
+        {fileType: "VIDEO", url: "https://www.youtube.com/watch?v=abc123"}
     ];
 
     async function getLessonData() {

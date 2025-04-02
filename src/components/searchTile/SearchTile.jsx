@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import Button from "../button/Button.jsx";
 import axios from "axios";
 import styles from "./SearchTile.module.css";
+import MoreItemsTile from "../moreVideosTile/MoreItemsTile.jsx";
 
 function SearchTile() {
     const [searchTerm, setSearchTerm] = useState("");
@@ -20,6 +21,8 @@ function SearchTile() {
         styleName: [],
         origin: [],
     });
+
+    const [materials, setMaterials] = useState([]);
 
     const categoryLabels = {
         fileType: "Bestandstype",
@@ -51,6 +54,34 @@ function SearchTile() {
         void fetchOptions();
     }, []);
 
+    useEffect(() => {
+        async function fetchMaterials() {
+            try {
+
+                const params = {
+                    search: searchTerm || null,
+                    ...filters,
+                };
+
+                Object.keys(params).forEach((key) => {
+                    if (!params[key]) delete params[key];
+                });
+
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/materials`, { params });
+                setMaterials(response.data);
+
+            } catch (error) {
+                console.error("Fout bij zoeken naar materialen:", error);
+            }
+        }
+
+        const timeoutId = setTimeout(() => {
+            void fetchMaterials();
+        }, 500);
+
+        return () => clearTimeout(timeoutId);
+    }, [searchTerm, filters]);
+
     const handleSearch = () => {
         console.log("Zoekterm:", searchTerm);
         console.log("Gekozen filters:", filters);
@@ -63,7 +94,6 @@ function SearchTile() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Zoekterm..."
-                style={{ padding: "8px", border: "1px solid #ccc", borderRadius: "4px", width: "100%" }}
             />
 
             {Object.keys(filters).map((key) => (
@@ -71,7 +101,7 @@ function SearchTile() {
                     <p>{categoryLabels[key]}</p>
                     <select
                         value={filters[key]}
-                        onChange={(e) => setFilters({ ...filters, [key]: e.target.value })}
+                        onChange={(e) => setFilters({...filters, [key]: e.target.value})}
                     >
                         <option value="">Kies {categoryLabels[key].toLowerCase()}...</option>
                         {options[key].map((option) => (
@@ -84,7 +114,15 @@ function SearchTile() {
             ))}
 
             <Button onClick={handleSearch}>Zoeken</Button>
+
+            <MoreItemsTile
+                title="Zoekresultaten"
+                items={materials}
+                variant="secondary"
+            />
         </section>
+
+
     );
 }
 
