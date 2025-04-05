@@ -20,21 +20,38 @@ const DragDrop = ({ onFileSelect }) => {
         setDragging(false);
         const files = event.dataTransfer.files;
         if (files.length > 0) {
-            setSelectedFile(files[0]);
-            onFileSelect(files[0]);
+            const file = files[0];
+            if (isValidFile(file)) {
+                setSelectedFile(file);
+                onFileSelect(file);
+            } else {
+                alert("Unsupported file type");
+            }
         }
-    };
-
-    const handleClick = () => {
-        fileInputRef.current.click();
     };
 
     const handleFileChange = (event) => {
         const files = event.target.files;
         if (files.length > 0) {
-            setSelectedFile(files[0]);
-            onFileSelect(files[0]);
+            const file = files[0];
+            if (isValidFile(file)) {
+                setSelectedFile(file);
+                onFileSelect(file);
+            } else {
+                alert("Unsupported file type");
+            }
         }
+    };
+
+    const isValidFile = (file) => {
+        const validExtensions = [".pdf", ".mp4"];
+        const fileExtension = file.name.split(".").pop();
+        return validExtensions.includes(`.${fileExtension}`);
+    };
+
+
+    const handleClick = () => {
+        fileInputRef.current.click();
     };
 
     return (

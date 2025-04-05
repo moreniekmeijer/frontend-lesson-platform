@@ -12,7 +12,7 @@ function StyleTile({data}) {
             </span>
             <p>{data.description}</p>
             {/*TODO - de backend geeft nu alleen links mee vanuit materials (in get /styles), dus er is geen metadata, dus ik kan de links*/}
-            {/*     - geen titel geven vanuit de backend... Misschien toch de volledige material objecten meesturen?*/}
+            {/*     - geen titel geven vanuit de backend... Misschien toch de volledige material objecten meesturen (want de videos moeten sws geladen worden)?*/}
             {/*TODO - Misschien ook de 'geen links beschikbaar' fallback weghalen, want is niet nodig*/}
             <ul>
                 {data.links && data.links.length > 0 ? (

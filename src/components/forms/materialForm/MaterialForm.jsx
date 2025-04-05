@@ -13,38 +13,42 @@ function MaterialForm() {
         setFile(selectedFile);
     }
 
-    function handleFormSubmit(data) {
-        const formData = new FormData();
+    function handleFormSubmit(metaData) {
 
-        // Voeg de tekstvelden toe
-        Object.keys(data).forEach((key) => {
-            formData.append(key, data[key]);
-        });
+        async function sendData(fileToUpload) {
 
-        // Voeg het bestand toe als het bestaat
-        if (file) {
-            formData.append("file", file);
-            formData.append("filePath", file.name);
-        }
-
-        // Debugging: Log wat er wordt verstuurd
-        for (let pair of formData.entries()) {
-            console.log(pair[0], pair[1]);
-        }
-
-        async function sendData() {
             try {
-                const response = axios.post(`${import.meta.env.VITE_API_URL}/materials`, formData);
-                console.log("Succes:", response.data);
+                const response = await axios.post(`${import.meta.env.VITE_API_URL}/materials`, metaData);
                 alert("Upload succesvol!");
+
+                const materialId = response.data.id;
+
+                if (fileToUpload) {
+                    const fileFormData = new FormData();
+                    fileFormData.append("file", fileToUpload);
+
+                    for (let [key, value] of fileFormData.entries()) {
+                        console.log(`${key}:`, value);
+                    }
+
+                    await axios.post(`${import.meta.env.VITE_API_URL}/materials/${materialId}/file`, fileFormData, {
+                        headers: {
+                            "Content-Type": "multipart/form-data"
+                        }
+                    });
+
+                    alert("Bestand geüpload!");
+                }
             } catch (error) {
                 console.error("Error:", error.response?.data || error.message);
                 alert("Er is iets misgegaan tijdens het uploaden.");
             }
         }
 
-        void sendData();
+        void sendData(file);
     }
+
+    // TODO - alerts weghalen en nette html berichtgeving daarvoor in de plaats
 
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -112,7 +116,7 @@ function MaterialForm() {
                     <select id="style" {...register("style")}>
                         <option value="{uit backend}">`Stijl 1</option>
                         <option value="Maracatu">Stijl 2</option>
-                        <option value="3">Stijl 3</option>
+                        <option value="Samba">Stijl 3</option>
                     </select>
                 </label>
 
