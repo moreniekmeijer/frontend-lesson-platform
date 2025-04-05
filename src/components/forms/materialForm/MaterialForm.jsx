@@ -1,13 +1,39 @@
 import {useForm} from "react-hook-form";
 import DragDrop from "../../dragDrop/DragDrop.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Button from "../../button/Button.jsx";
 import axios from "axios";
 import "../Forms.css";
 
 function MaterialForm() {
-    const {register, handleSubmit, formState: {errors}} = useForm();
+    const { register, handleSubmit, formState: { errors }, watch } = useForm();
     const [file, setFile] = useState(null);
+    const [styles, setStyles] = useState([]);
+    const [selectedOrigin, setSelectedOrigin] = useState(null);
+    const selectedStyleId = watch("styleId");
+
+    useEffect(() => {
+        async function fetchStyles() {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/styles`);
+                setStyles(response.data);
+            } catch (error) {
+                console.error("Kon stijlen niet ophalen:", error);
+            }
+        }
+
+        void fetchStyles();
+    }, []);
+
+    useEffect(() => {
+        if (selectedStyleId) {
+            const selectedStyle = styles.find((style) => style.id.toString() === selectedStyleId);
+            setSelectedOrigin(selectedStyle?.origin || null);
+        } else {
+            setSelectedOrigin(null);
+        }
+    }, [selectedStyleId, styles]);
+
 
     function handleFileSelect(selectedFile) {
         setFile(selectedFile);
@@ -110,15 +136,20 @@ function MaterialForm() {
                     />
                 </label>
 
-
-                <label htmlFor="style">
+                <label htmlFor="styleId">
                     Voeg toe aan stijl:
-                    <select id="style" {...register("style")}>
-                        <option value="{uit backend}">`Stijl 1</option>
-                        <option value="Maracatu">Stijl 2</option>
-                        <option value="Samba">Stijl 3</option>
+                    <select id="styleId" {...register("styleId", {required: true})}>
+                        <option value="">-- Kies een stijl --</option>
+                        {styles.map((style) => (
+                            <option key={style.id} value={style.id}>
+                                {style.name}
+                            </option>
+                        ))}
                     </select>
                 </label>
+                {selectedOrigin && (
+                    <p><strong>Herkomst:</strong> {selectedOrigin}</p>
+                )}
 
                 <label htmlFor="hidden">
                     <input type="checkbox" id="hidden" {...register("hidden")}/>
