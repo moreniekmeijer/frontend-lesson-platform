@@ -48,3 +48,11 @@
     align-items: center;
     border-radius: 50%;
 }
+
+.link {
+    color: var(--secondary-color);
+}
+
+.link:hover {
+    color: var(--hover-color);
+}

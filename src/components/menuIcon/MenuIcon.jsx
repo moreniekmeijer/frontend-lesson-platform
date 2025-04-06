@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import {useContext, useState} from "react";
+import { NavLink } from "react-router-dom";
 import styles from "./MenuIcon.module.css";
+import {AuthContext} from "../../context/AuthContext.jsx";
 
 const MenuIcon = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const {logout} = useContext(AuthContext);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -30,7 +33,7 @@ const MenuIcon = () => {
 
             {isOpen && (
                 <ul onMouseLeave={closeMenu} className={styles.dropdownMenu}>
-                    <li className={styles.dropdownItem}>Optie 1</li>
+                    <li className={styles.dropdownItem}><NavLink to="/login" onClick={logout}>Log uit</NavLink></li>
                     <li className={styles.dropdownItem}>Optie 2</li>
                     <li className={styles.dropdownItem}>Optie 3</li>
                 </ul>

@@ -70,7 +70,7 @@ ul {
 
 a, Link, NavLink {
     text-decoration: none;
-    color: var(--primary-color);
+    color: var(--accent-color);
     cursor: pointer;
 }
 
