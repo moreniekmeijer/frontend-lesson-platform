@@ -29,10 +29,11 @@ function AuthContextProvider({children}) {
     }, []);
 
     function login(token) {
+        console.log(token);
         localStorage.setItem('token', token);
         const decoded = jwtDecode(token);
 
-        void fetchUserData(decoded.sub, token, '/profile');
+        void fetchUserData(decoded.sub, token, '/');
 
     }
 
@@ -50,7 +51,7 @@ function AuthContextProvider({children}) {
 
     async function fetchUserData(id, token, redirectUrl) {
         try {
-            const result = await axios.get(`http://localhost:3000/600/users/${id}`, {
+            const result = await axios.get(`${import.meta.env.VITE_API_URL}/users/${id}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,

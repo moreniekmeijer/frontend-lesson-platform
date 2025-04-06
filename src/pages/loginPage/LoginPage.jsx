@@ -3,15 +3,23 @@ import {useContext} from "react";
 import {useNavigate} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import Button from "../../components/button/Button.jsx";
+import axios from "axios";
 
 function LoginPage() {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const {login} = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const onSubmit = (data) => {
-        login(data.username);
-        navigate("/");
+    const onSubmit = async (data) => {
+        console.log(data);
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/authenticate`, data)
+            console.log(response);
+            login(response.data.jwt);
+            navigate('/');
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
