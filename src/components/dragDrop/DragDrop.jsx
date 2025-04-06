@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, {useState, useRef, forwardRef, useImperativeHandle} from "react";
 import styles from "./DragDrop.module.css";
 
-const DragDrop = ({ onFileSelect }) => {
+const DragDrop = forwardRef(({ onFileSelect }, ref) => {
     const [dragging, setDragging] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef(null);
@@ -44,15 +44,23 @@ const DragDrop = ({ onFileSelect }) => {
     };
 
     const isValidFile = (file) => {
-        const validExtensions = [".pdf", ".mp4"];
+        const validExtensions = [".pdf", ".mp4", ".mov", ".mp3"];
         const fileExtension = file.name.split(".").pop();
         return validExtensions.includes(`.${fileExtension}`);
     };
 
-
     const handleClick = () => {
         fileInputRef.current.click();
     };
+
+    useImperativeHandle(ref, () => ({
+        reset() {
+            setSelectedFile(null);
+            if (fileInputRef.current) {
+                fileInputRef.current.value = null;
+            }
+        }
+    }));
 
     return (
         <div
@@ -72,6 +80,6 @@ const DragDrop = ({ onFileSelect }) => {
             <p>{selectedFile ? selectedFile.name : "Click or drop a file here"}</p>
         </div>
     );
-};
+});
 
 export default DragDrop;

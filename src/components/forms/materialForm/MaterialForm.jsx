@@ -1,6 +1,6 @@
 import {useForm} from "react-hook-form";
 import DragDrop from "../../dragDrop/DragDrop.jsx";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Button from "../../button/Button.jsx";
 import axios from "axios";
 import "../Forms.css";
@@ -10,7 +10,10 @@ function MaterialForm() {
     const [file, setFile] = useState(null);
     const [styles, setStyles] = useState([]);
     const [selectedOrigin, setSelectedOrigin] = useState(null);
+    const [validationError, setValidationError] = useState("");
     const selectedStyleId = watch("styleId");
+    const selectedLink = watch("link");
+    const dragDropRef = useRef();
 
     useEffect(() => {
         async function fetchStyles() {
@@ -34,14 +37,25 @@ function MaterialForm() {
         }
     }, [selectedStyleId, styles]);
 
+    useEffect(() => {
+        if ((file || selectedLink)) {
+            setValidationError("");
+        }
+    }, [file, selectedLink]);
 
     function handleFileSelect(selectedFile) {
         setFile(selectedFile);
     }
 
     function handleFormSubmit(metaData) {
-
         async function sendData(fileToUpload) {
+            const hasLink = metaData.link && metaData.link.trim() !== "";
+            const hasFile = fileToUpload !== null;
+
+            if (!hasLink && !hasFile) {
+                setValidationError("Je moet minimaal een bestand óf een link toevoegen.");
+                return;
+            }
 
             try {
                 const response = await axios.post(`${import.meta.env.VITE_API_URL}/materials`, metaData);
@@ -53,17 +67,18 @@ function MaterialForm() {
                     const fileFormData = new FormData();
                     fileFormData.append("file", fileToUpload);
 
-                    for (let [key, value] of fileFormData.entries()) {
-                        console.log(`${key}:`, value);
-                    }
-
                     await axios.post(`${import.meta.env.VITE_API_URL}/materials/${materialId}/file`, fileFormData, {
                         headers: {
                             "Content-Type": "multipart/form-data"
                         }
                     });
-
                     alert("Bestand geüpload!");
+                } else if (metaData.link) {
+                    console.log(metaData.link);
+                    await axios.post(`${import.meta.env.VITE_API_URL}/materials/${materialId}/link`, {
+                        link: metaData.link
+                    });
+                    alert("Link toegevoegd!");
                 }
             } catch (error) {
                 console.error("Error:", error.response?.data || error.message);
@@ -74,13 +89,27 @@ function MaterialForm() {
         void sendData(file);
     }
 
+    function removeFile() {
+        setFile(null);
+        dragDropRef.current?.reset();
+    }
+
     // TODO - alerts weghalen en nette html berichtgeving daarvoor in de plaats
 
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)}>
             <fieldset>
                 <label>Upload een bestand:</label>
-                <DragDrop onFileSelect={handleFileSelect}/>
+                <DragDrop onFileSelect={handleFileSelect} ref={dragDropRef} />
+                {file && (
+                    <div>
+                        <p><strong>Geselecteerd bestand:</strong></p>
+                        <p>{file.name}</p>
+                        <Button type="button" onClick={removeFile} variant="secondary">
+                            Verwijder bestand
+                        </Button>
+                    </div>
+                )}
             </fieldset>
             <fieldset>
                 <label htmlFor="title">
@@ -99,25 +128,29 @@ function MaterialForm() {
                 </label>
                 {errors.title && <p className="errorMessage">{errors.title.message}</p>}
 
-                <label htmlFor="link">
-                    Link (optioneel):
-                    <input
-                        type="text"
-                        id="link"
-                        className={errors.link ? "inputError" : ""}
-                        {...register("link", {
-                            pattern: {
-                                value: /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/.*)?$/,
-                                message: "Moet een geldige link zijn (bijv. https://example.com)",
-                            },
-                        })}
-                        placeholder="https://example.com"
-                    />
-                </label>
-                {errors.link && <p className="errorMessage">{errors.link.message}</p>}
+                {!file && (
+                    <>
+                        <label htmlFor="link">
+                            Link:
+                            <input
+                                type="text"
+                                id="link"
+                                className={errors.link ? "inputError" : ""}
+                                {...register("link", {
+                                    pattern: {
+                                        value: /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/.*)?$/,
+                                        message: "Moet een geldige link zijn (bijv. https://example.com)",
+                                    },
+                                })}
+                                placeholder="https://example.com"
+                            />
+                        </label>
+                        {errors.link && <p className="errorMessage">{errors.link.message}</p>}
+                    </>
+                )}
 
                 <label htmlFor="category">
-                    Categorie (optioneel):
+                    Categorie:
                     <input
                         type="text"
                         id="category"
@@ -127,7 +160,7 @@ function MaterialForm() {
                 </label>
 
                 <label htmlFor="instrument">
-                    Instrument (optioneel):
+                    Instrument:
                     <input
                         type="instrument"
                         id="instrument"
@@ -138,7 +171,12 @@ function MaterialForm() {
 
                 <label htmlFor="styleId">
                     Voeg toe aan stijl:
-                    <select id="styleId" {...register("styleId", {required: true})}>
+                    <select id="styleId" {...register("styleId", {
+                        required: {
+                            value: true,
+                            message: "Style is verplicht"
+                        }
+                    })}>
                         <option value="">-- Kies een stijl --</option>
                         {styles.map((style) => (
                             <option key={style.id} value={style.id}>
@@ -147,18 +185,22 @@ function MaterialForm() {
                         ))}
                     </select>
                 </label>
+                {errors.styleId && <p className="errorMessage">{errors.styleId.message}</p>}
+
                 {selectedOrigin && (
                     <p><strong>Herkomst:</strong> {selectedOrigin}</p>
                 )}
 
-                <label htmlFor="hidden">
-                    <input type="checkbox" id="hidden" {...register("hidden")}/>
-                    Houd video verborgen
-                </label>
+                {/*<label htmlFor="hidden">*/}
+                {/*    <input type="checkbox" id="hidden" {...register("hidden")}/>*/}
+                {/*    Houd video verborgen*/}
+                {/*</label>*/}
 
                 <Button type="submit">
                     Opslaan
                 </Button>
+                {validationError && <p className="errorMessage">{validationError}</p>}
+
             </fieldset>
         </form>
     )
