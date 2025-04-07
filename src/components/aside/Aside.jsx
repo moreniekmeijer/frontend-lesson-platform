@@ -2,23 +2,21 @@ import styles from "./Aside.module.css";
 import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import useApiRequest from "../../hooks/useApiRequest.jsx";
 
 function Aside() {
     const location = useLocation();
     const isStylesActive = location.pathname.startsWith('/stijlen');
-    const [stylesList, setStylesList] = useState([]);
+
+    const {
+        data: stylesList,
+        loading,
+        error,
+        executeRequest: fetchStyles
+    } = useApiRequest();
 
     useEffect(() => {
-        const fetchStyles = async () => {
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/styles`);
-                setStylesList(response.data);
-            } catch (error) {
-                console.error("Error fetching styles:", error);
-            }
-        };
-
-        void fetchStyles();
+        void fetchStyles("get", `${import.meta.env.VITE_API_URL}/styles`);
     }, []);
 
     return (
@@ -49,6 +47,9 @@ function Aside() {
                         <NavLink to="/uploaden" className={({ isActive }) => isActive ? styles.activeMenuLink : styles.defaultMenuLink}>Uploaden</NavLink>
                     </li>
                 </ul>
+
+                {loading && <p className={styles.loading}>Laden...</p>}
+                {error && <p className={styles.error}>Er ging iets mis: {error}</p>}
             </nav>
         </aside>
     );

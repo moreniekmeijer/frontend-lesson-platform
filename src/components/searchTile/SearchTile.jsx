@@ -1,8 +1,8 @@
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import Button from "../button/Button.jsx";
-import axios from "axios";
 import styles from "./SearchTile.module.css";
 import MoreItemsTile from "../moreVideosTile/MoreItemsTile.jsx";
+import useApiRequest from "../../hooks/useApiRequest";
 
 function SearchTile() {
     const [searchTerm, setSearchTerm] = useState("");
@@ -14,16 +14,6 @@ function SearchTile() {
         origin: "",
     });
 
-    const [options, setOptions] = useState({
-        fileType: [],
-        instrument: [],
-        category: [],
-        styleName: [],
-        origin: [],
-    });
-
-    const [materials, setMaterials] = useState([]);
-
     const categoryLabels = {
         fileType: "Bestandstype",
         instrument: "Instrument",
@@ -32,55 +22,70 @@ function SearchTile() {
         origin: "Herkomst",
     };
 
+    // Custom hook instanties
+    const {
+        data: optionsData,
+        loading: optionsLoading,
+        error: optionsError,
+        executeRequest: fetchOptions
+    } = useApiRequest();
+
+    const {
+        data: materialsData,
+        loading: materialsLoading,
+        error: materialsError,
+        executeRequest: fetchMaterials
+    } = useApiRequest();
+
+    // Haal unieke waarden uit opties
+    const extractOptions = (materials) => {
+        const uniqueValues = (key) => [...new Set(materials.map((item) => item[key]).filter(Boolean))];
+        return {
+            fileType: uniqueValues("fileType"),
+            instrument: uniqueValues("instrument"),
+            category: uniqueValues("category"),
+            styleName: uniqueValues("styleName"),
+            origin: uniqueValues("origin"),
+        };
+    };
+
+    // Haal filteropties op bij het laden
     useEffect(() => {
-        async function fetchOptions() {
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/materials`);
-                const materials = response.data;
-                const uniqueValues = (key) => [...new Set(materials.map((item) => item[key]).filter(Boolean))];
+        const loadOptions = async () => {
+            await fetchOptions("get", `${import.meta.env.VITE_API_URL}/materials`);
+        };
 
-                setOptions({
-                    fileType: uniqueValues("fileType"),
-                    instrument: uniqueValues("instrument"),
-                    category: uniqueValues("category"),
-                    styleName: uniqueValues("styleName"),
-                    origin: uniqueValues("origin"),
-                });
-            } catch (error) {
-                console.error("Fout bij ophalen van materialen:", error);
-            }
-        }
-
-        void fetchOptions();
+        void loadOptions();
     }, []);
 
+    // Haal materialen op wanneer filters of zoekterm veranderen
     useEffect(() => {
-        async function fetchMaterials() {
-            try {
-
-                const params = {
-                    search: searchTerm || null,
-                    ...filters,
-                };
-
-                Object.keys(params).forEach((key) => {
-                    if (!params[key]) delete params[key];
-                });
-
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/materials`, { params });
-                setMaterials(response.data);
-
-            } catch (error) {
-                console.error("Fout bij zoeken naar materialen:", error);
-            }
-        }
-
         const timeoutId = setTimeout(() => {
-            void fetchMaterials();
+            const params = {
+                search: searchTerm || null,
+                ...filters,
+            };
+
+            Object.keys(params).forEach((key) => {
+                if (!params[key]) delete params[key];
+            });
+
+            const queryString = new URLSearchParams(params).toString();
+            const url = `${import.meta.env.VITE_API_URL}/materials?${queryString}`;
+
+            void fetchMaterials("get", url);
         }, 500);
 
         return () => clearTimeout(timeoutId);
     }, [searchTerm, filters]);
+
+    const options = optionsData ? extractOptions(optionsData) : {
+        fileType: [],
+        instrument: [],
+        category: [],
+        styleName: [],
+        origin: [],
+    };
 
     const handleSearch = () => {
         console.log("Zoekterm:", searchTerm);
@@ -101,7 +106,7 @@ function SearchTile() {
                     <p>{categoryLabels[key]}</p>
                     <select
                         value={filters[key]}
-                        onChange={(e) => setFilters({...filters, [key]: e.target.value})}
+                        onChange={(e) => setFilters({ ...filters, [key]: e.target.value })}
                     >
                         <option value="">Kies {categoryLabels[key].toLowerCase()}...</option>
                         {options[key].map((option) => (
@@ -115,14 +120,15 @@ function SearchTile() {
 
             <Button onClick={handleSearch}>Zoeken</Button>
 
+            {materialsLoading && <p>Bezig met laden...</p>}
+            {materialsError && <p>Fout: {materialsError}</p>}
+
             <MoreItemsTile
                 title="Zoekresultaten"
-                items={materials}
+                items={materialsData || []}
                 variant="secondary"
             />
         </section>
-
-
     );
 }
 
