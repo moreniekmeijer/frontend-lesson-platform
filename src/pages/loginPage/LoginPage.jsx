@@ -11,7 +11,6 @@ function LoginPage() {
     const navigate = useNavigate();
 
     const onSubmit = async (data) => {
-        console.log(data);
         try {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/authenticate`, data)
             console.log(response);

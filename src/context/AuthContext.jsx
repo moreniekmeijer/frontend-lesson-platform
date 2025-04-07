@@ -1,7 +1,8 @@
-import React, {createContext, useEffect, useState} from 'react';
+import {createContext, useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {jwtDecode} from "jwt-decode";
 import axios from "axios";
+import isTokenExpired from "../helpers/isTokenExpired.jsx";
 
 export const AuthContext = createContext({});
 
@@ -17,8 +18,12 @@ function AuthContextProvider({children}) {
         const token = localStorage.getItem('token');
 
         if (token) {
-            const decoded = jwtDecode(token);
-            void fetchUserData(decoded.sub, token);
+            if (isTokenExpired(token)) {
+                logout();
+            } else {
+                const decoded = jwtDecode(token);
+                void fetchUserData(decoded.sub, token);
+            }
         } else {
             setAuth({
                 isAuth: false,
@@ -29,12 +34,16 @@ function AuthContextProvider({children}) {
     }, []);
 
     function login(token) {
-        console.log(token);
+        console.log('Inloggen met token:', token);
         localStorage.setItem('token', token);
-        const decoded = jwtDecode(token);
 
-        void fetchUserData(decoded.sub, token, '/');
-
+        if (isTokenExpired(token)) {
+            console.log('Token is expired tijdens login!');
+            logout();
+        } else {
+            const decoded = jwtDecode(token);
+            void fetchUserData(decoded.sub, token, '/');
+        }
     }
 
     function logout() {
@@ -58,8 +67,8 @@ function AuthContextProvider({children}) {
                 },
             });
 
-            setAuth({
-                ...auth,
+            setAuth(prev => ({
+                ...prev,
                 isAuth: true,
                 user: {
                     username: result.data.username,
@@ -67,7 +76,8 @@ function AuthContextProvider({children}) {
                     id: result.data.id,
                 },
                 status: 'done',
-            });
+            }));
+
 
             if (redirectUrl) {
                 navigate(redirectUrl);
@@ -75,12 +85,14 @@ function AuthContextProvider({children}) {
 
         } catch (e) {
             console.error(e);
+            localStorage.removeItem('token');
             setAuth({
                 isAuth: false,
                 user: null,
                 status: 'done',
             });
         }
+
     }
 
     const contextData = {
