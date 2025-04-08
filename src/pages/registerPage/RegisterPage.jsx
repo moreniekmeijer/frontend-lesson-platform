@@ -2,13 +2,14 @@ import {useForm} from "react-hook-form";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import Button from "../../components/button/Button.jsx";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {AuthContext} from "../../context/AuthContext.jsx";
 
 function RegisterPage() {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const {login} = useContext(AuthContext);
     const navigate = useNavigate();
+    const [invalidInviteCode, setInvalidInviteCode] = useState(null);
 
     const onSubmit = async (data) => {
         try {
@@ -19,6 +20,10 @@ function RegisterPage() {
 
         } catch (error) {
             console.error("Registratie mislukt:", error);
+
+            if (error.response.status === 409) {
+                setInvalidInviteCode("Registratiecode is incorrect");
+            }
         }
     };
 
@@ -39,13 +44,13 @@ function RegisterPage() {
                     {errors.username && <p className="errorMessage">{errors.username.message}</p>}
 
                     <label htmlFor="email">
-                        E-mailadres:
+                        E-mailadres (optioneel):
                         <input
                             type="email"
                             id="email"
                             className={errors.email ? "inputError" : ""}
                             {...register("email", {
-                                required: "E-mailadres is verplicht",
+                                required: false,
                                 pattern: {
                                     value: /^\S+@\S+$/i,
                                     message: "Ongeldig e-mailadres"
@@ -70,18 +75,19 @@ function RegisterPage() {
                             })}
                         />
                     </label>
-
                     {errors.password && <p className="errorMessage">{errors.password.message}</p>}
+
                     <label htmlFor="inviteCode">
                         Registratiecode:
                         <input
                             type="text"
                             id="inviteCode"
                             className={errors.inviteCode ? "inputError" : ""}
-                            {...register("inviteCode", { required: "Registratiecode is verplicht" })}
+                            {...register("inviteCode", {required: "Registratiecode is verplicht"})}
                         />
                     </label>
                     {errors.inviteCode && <p className="errorMessage">{errors.inviteCode.message}</p>}
+                    {invalidInviteCode && <p className="errorMessage">{invalidInviteCode}</p>}
 
                     <Button type="submit">Registreren</Button>
                 </fieldset>

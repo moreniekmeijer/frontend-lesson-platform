@@ -48,14 +48,14 @@ function LoginPage() {
                     </label>
                     {errors.password && <p className="errorMessage">{errors.password.message}</p>}
 
-                    <label htmlFor="email">
-                        E-mail (optioneel):
-                        <input
-                            type="email"
-                            id="email"
-                            {...register("email")}
-                        />
-                    </label>
+                    {/*<label htmlFor="email">*/}
+                    {/*    E-mail (optioneel):*/}
+                    {/*    <input*/}
+                    {/*        type="email"*/}
+                    {/*        id="email"*/}
+                    {/*        {...register("email")}*/}
+                    {/*    />*/}
+                    {/*</label>*/}
 
                     <Button type="submit">Inloggen</Button>
                 </fieldset>
