@@ -6,20 +6,28 @@ import axios from "axios";
 function MaterialPage() {
     const {id} = useParams();
     const [material, setMaterial] = useState(null);
+    const [relatedItems, setRelatedItems] = useState([]);
 
     useEffect(() => {
-        const fetchMaterial = async () => {
+        const fetchMaterialAndRelated = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/materials/${id}`)
-                setMaterial(response.data);
-                console.log(response.data);
-            } catch (error) {
-                console.error("Error fetching styles:", error);
+                const materialResponse = await axios.get(`${import.meta.env.VITE_API_URL}/materials/1`);
+                const materialData = materialResponse.data;
+                setMaterial(materialData);
+
+                const relatedResponse = await axios.get(`${import.meta.env.VITE_API_URL}/materials?styleName=${materialData.styleName}`);
+                const relatedMaterial = relatedResponse.data.filter(m => m.id !== materialData.id);
+
+                setRelatedItems(relatedMaterial);
+                console.log(relatedResponse.data);
+            } catch (err) {
+                console.error("Error fetching material + related:", err);
             }
         };
 
-        void fetchMaterial();
+        void fetchMaterialAndRelated();
     }, [id]);
+
 
     if (!material) return <p>Loading...</p>;
 
@@ -61,7 +69,6 @@ function MaterialPage() {
                 </a>
             )}
 
-            {/* Extra info */}
             <section>
                 <h3>{material.styleName}</h3>
                 <p><strong>Categorie:</strong> {material.category}</p>
@@ -69,8 +76,7 @@ function MaterialPage() {
                 <p><strong>Herkomst:</strong> {material.origin}</p>
             </section>
 
-            {/* Gerelateerde items – optioneel als je die data hebt */}
-            <MoreItemsTile title="Gerelateerd" items={[material]}/>
+            <MoreItemsTile title="Gerelateerd" items={relatedItems}/>
         </section>
     );
 }
