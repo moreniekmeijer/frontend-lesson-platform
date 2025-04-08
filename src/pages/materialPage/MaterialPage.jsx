@@ -2,11 +2,14 @@ import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import MoreItemsTile from "../../components/moreVideosTile/MoreItemsTile.jsx";
 import axios from "axios";
+import { Document, Page } from 'react-pdf';
 
 function MaterialPage() {
     const {id} = useParams();
     const [material, setMaterial] = useState(null);
     const [relatedItems, setRelatedItems] = useState([]);
+    const [numPages, setNumPages] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
 
     useEffect(() => {
         const fetchMaterialAndRelated = async () => {
@@ -30,6 +33,9 @@ function MaterialPage() {
         void fetchMaterialAndRelated();
     }, [id]);
 
+    const onLoadSuccess = ({ numPages }) => {
+        setNumPages(numPages);
+    };
 
     if (!material) return <p>Loading...</p>;
     console.log(material.fileLink)
@@ -45,13 +51,29 @@ function MaterialPage() {
                     Your browser does not support the video tag.
                 </video>
             )}
-            {material.fileType === "PDF" && (
-                <img
-                    src={material.fileLink}
-                    alt="PDF Preview"
-                    width="600"
-                    height="400"
-                />
+
+            {/*TODO - fix pdf viewer*/}
+            {material.fileType === "PDF" && material.fileLink && (
+                <div>
+                    {/* Render the PDF document */}
+                    <Document
+                        file={material.fileLink}
+                        onLoadSuccess={onLoadSuccess}
+                    >
+                        <Page pageNumber={pageNumber} />
+                    </Document>
+
+                    {/* Controls for navigation */}
+                    <div>
+                        <button onClick={() => setPageNumber(pageNumber - 1)} disabled={pageNumber <= 1}>
+                            Previous
+                        </button>
+                        <span>Page {pageNumber} of {numPages}</span>
+                        <button onClick={() => setPageNumber(pageNumber + 1)} disabled={pageNumber >= numPages}>
+                            Next
+                        </button>
+                    </div>
+                </div>
             )}
             {material.fileType === "IMAGE" && (
                 <img
