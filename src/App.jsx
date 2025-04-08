@@ -11,6 +11,8 @@ import NotFoundPage from "./pages/notFoundPage/NotFoundPage.jsx";
 import {AuthContext} from "./context/AuthContext.jsx";
 import {useContext} from "react";
 import PrivateRoute from "./components/PrivateRoute.jsx";
+import RegisterPage from "./pages/registerPage/RegisterPage.jsx";
+import PublicRoute from "./components/PublicRoute.jsx";
 
 function App() {
     return (
@@ -19,8 +21,8 @@ function App() {
             <main>
                 <Routes>
                     <Route path="/" element={<PrivateRoute element={<HomePage />} />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    {/* <Route path="/register" element={<RegisterPage />} /> */}
+                    <Route path="/login" element={<PublicRoute element={<LoginPage />} />} />
+                    <Route path="/register" element={<PublicRoute element={<RegisterPage />} />} />
                     <Route path="/stijlen/:id" element={<PrivateRoute element={<StylePage />} />} />
                     <Route path="/materiaal/:id" element={<PrivateRoute element={<MaterialPage />} />} />
                     <Route path="/uploaden" element={<PrivateRoute element={<UploadPage />} />} />

@@ -23,7 +23,7 @@ function Header() {
                     <li><span className={styles.accountName}>{user.username}</span></li>
                 </ul>
                 :
-                <div className={styles.rightContainer}><NavLink className={styles.link} to="/">Nieuw?</NavLink></div>}
+                <div className={styles.rightContainer}><NavLink className={styles.link} to="/register">Nieuw?</NavLink></div>}
         </header>
     );
 }
