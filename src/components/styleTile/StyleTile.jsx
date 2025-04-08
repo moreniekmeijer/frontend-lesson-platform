@@ -1,19 +1,33 @@
 import styles from "./StyleTile.module.css";
 import Button from "../button/Button.jsx";
+import {Link, useNavigate} from "react-router-dom";
+import {useState} from "react";
 
 function StyleTile({data}) {
+    const navigate = useNavigate();
+
     if (!data) return null;
+
+    const arrangementId = data.arrangementId; // Nu direct uit backend
+    const handleNavigate = () => {
+        if (arrangementId) {
+            navigate(`/materiaal/${arrangementId}`);
+        }
+    };
 
     return (
         <article className={styles.styleTile}>
             <span>
                 <h2>{data.name}</h2>
-                <Button>Arrangement</Button>
+                {arrangementId && (
+                    <Button onClick={handleNavigate}>
+                        Arrangement
+                    </Button>
+                )}
             </span>
             <p>{data.description}</p>
-            {/*TODO - de backend geeft nu alleen links mee vanuit materials (in get /styles), dus er is geen metadata, dus ik kan de links*/}
-            {/*     - geen titel geven vanuit de backend... Misschien toch de volledige material objecten meesturen (want de videos moeten sws geladen worden)?*/}
-            {/*TODO - Misschien ook de 'geen links beschikbaar' fallback weghalen, want is niet nodig*/}
+            {/*TODO - links zijn nu rechtstreeks, misschien ook verwijzen naar viewer in materiaal/{id}?*/}
+            {/*TODO - Misschien ook de 'geen links beschikbaar' alleen zichtbaar voor admin*/}
             <ul>
                 {data.links && data.links.length > 0 ? (
                     data.links.map((link, index) => (

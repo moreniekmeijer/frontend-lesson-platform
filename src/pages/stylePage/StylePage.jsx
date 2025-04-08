@@ -8,9 +8,10 @@ import styles from "./StylePage.module.css";
 
 function StylePage() {
     const { id } = useParams();
-    const [styleData, setStyleData] = useState(null);
+    const [styleData, setStyleData] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [videos, setVideos] = useState([]);
 
     useEffect(() => {
         if (!id) {
@@ -23,8 +24,9 @@ function StylePage() {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/styles/${id}`);
                 setStyleData(response.data);
-            } catch (err) {
-                setError(err.message);
+                setVideos(response.data.materials);
+            } catch (error) {
+                setError(error.message);
             } finally {
                 setLoading(false);
             }
@@ -36,21 +38,12 @@ function StylePage() {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
 
-    // const videoExamples = styleData?.videos || [];
-    const videoExamples = [
-        { type: "video", url: "https://www.youtube.com/watch?v=DqZX8m2T-e0&t=193s" },
-        { type: "video", url: "https://www.youtube.com/watch?v=DqZX8m2T-e0&t=193s" },
-        { type: "video", url: "https://www.youtube.com/watch?v=DqZX8m2T-e0&t=193s" },
-        { type: "video", url: "https://www.youtube.com/watch?v=DqZX8m2T-e0&t=193s" },
-        { type: "video", url: "https://www.youtube.com/watch?v=abc123" }
-    ];
-
     return (
         <section className={styles.stylePage}>
             {/*<h1>{styleData?.name || "Stijl"}</h1>*/}
             <div className="left-container-aaaaa">
                 <StyleTile data={styleData}/>
-                <MoreItemsTile title="Videos" items={videoExamples}/>
+                <MoreItemsTile title="Videos" items={videos}/>
             </div>
             <CountryTile countryName={styleData?.origin || "Onbekend"} />
         </section>
