@@ -11,12 +11,14 @@ function MaterialPage() {
     useEffect(() => {
         const fetchMaterialAndRelated = async () => {
             try {
-                const materialResponse = await axios.get(`${import.meta.env.VITE_API_URL}/materials/1`);
+                const materialResponse = await axios.get(`${import.meta.env.VITE_API_URL}/materials/${id}`);
                 const materialData = materialResponse.data;
                 setMaterial(materialData);
 
                 const relatedResponse = await axios.get(`${import.meta.env.VITE_API_URL}/materials?styleName=${materialData.styleName}`);
                 const relatedMaterial = relatedResponse.data.filter(m => m.id !== materialData.id);
+
+                console.log("Gerelateerde items:", relatedMaterial);
 
                 setRelatedItems(relatedMaterial);
                 console.log(relatedResponse.data);
@@ -30,6 +32,7 @@ function MaterialPage() {
 
 
     if (!material) return <p>Loading...</p>;
+    console.log(material.fileLink)
 
     return (
         <section className="material-page">
@@ -37,14 +40,14 @@ function MaterialPage() {
 
             {/* Bestandstype weergeven */}
             {material.fileType === "VIDEO" && (
-                <video width="600" height="400" controls>
+                <video key={material.id} width="600" height="400" controls>
                     <source src={material.fileLink} type="video/mp4"/>
                     Your browser does not support the video tag.
                 </video>
             )}
             {material.fileType === "PDF" && (
                 <img
-                    src="/path/to/pdf-placeholder.png"
+                    src={material.fileLink}
                     alt="PDF Preview"
                     width="600"
                     height="400"

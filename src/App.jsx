@@ -22,7 +22,7 @@ function App() {
                     <Route path="/login" element={<LoginPage />} />
                     {/* <Route path="/register" element={<RegisterPage />} /> */}
                     <Route path="/stijlen/:id" element={<PrivateRoute element={<StylePage />} />} />
-                    <Route path="/materiaal" element={<PrivateRoute element={<MaterialPage />} />} />
+                    <Route path="/materiaal/:id" element={<PrivateRoute element={<MaterialPage />} />} />
                     <Route path="/uploaden" element={<PrivateRoute element={<UploadPage />} />} />
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
