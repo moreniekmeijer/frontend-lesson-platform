@@ -2,14 +2,14 @@ import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import MoreItemsTile from "../../components/moreVideosTile/MoreItemsTile.jsx";
 import axios from "axios";
-import { Document, Page } from 'react-pdf';
+import styles from "./MaterialPage.module.css";
+import getYouTubeVideoId from "../../helpers/getYouTubeVideoId.jsx";
+import Button from "../../components/button/Button.jsx";
 
 function MaterialPage() {
     const {id} = useParams();
     const [material, setMaterial] = useState(null);
     const [relatedItems, setRelatedItems] = useState([]);
-    const [numPages, setNumPages] = useState(null);
-    const [pageNumber, setPageNumber] = useState(1);
     const token = localStorage.getItem("token");
 
     useEffect(() => {
@@ -40,14 +40,10 @@ function MaterialPage() {
         void fetchMaterialAndRelated();
     }, [id]);
 
-    const onLoadSuccess = ({ numPages }) => {
-        setNumPages(numPages);
-    };
-
     if (!material) return <p>Loading...</p>;
 
     return (
-        <section className="material-page">
+        <section className="materialPage">
             <h2>{material.title}</h2>
 
             {/* Bestandstype weergeven */}
@@ -58,29 +54,10 @@ function MaterialPage() {
                 </video>
             )}
 
-            {/*TODO - fix pdf viewer*/}
             {material.fileType === "PDF" && material.fileLink && (
-                <div>
-                    {/* Render the PDF document */}
-                    <Document
-                        file={material.fileLink}
-                        onLoadSuccess={onLoadSuccess}
-                    >
-                        <Page pageNumber={pageNumber} />
-                    </Document>
-
-                    {/* Controls for navigation */}
-                    <div>
-                        <button onClick={() => setPageNumber(pageNumber - 1)} disabled={pageNumber <= 1}>
-                            Previous
-                        </button>
-                        <span>Page {pageNumber} of {numPages}</span>
-                        <button onClick={() => setPageNumber(pageNumber + 1)} disabled={pageNumber >= numPages}>
-                            Next
-                        </button>
-                    </div>
-                </div>
+                <iframe src={material.fileLink} frameBorder="0"></iframe>
             )}
+
             {material.fileType === "IMAGE" && (
                 <img
                     src={material.fileLink}
@@ -89,15 +66,40 @@ function MaterialPage() {
                     height="400"
                 />
             )}
-            {material.fileType === "LINK" && (
-                <a href={material.filePath} target="_blank" rel="noreferrer">
-                    <img
-                        src="https://cdn-icons-png.flaticon.com/512/84/84380.png"
-                        alt="Extern materiaal"
+
+            {material.fileType === "LINK" && material.filePath && (
+                // Check of de link een YouTube URL is
+                material.filePath.includes("youtube.com") || material.filePath.includes("youtu.be") ? (
+                    <iframe
+                        src={`https://www.youtube.com/embed/${getYouTubeVideoId(material.filePath)}`}
                         width="600"
                         height="400"
+                        frameBorder="0"
+                        allowFullScreen
+                        title="YouTube video"
                     />
-                </a>
+                ) : (
+                    <a href={material.filePath} target="_blank" rel="noreferrer">
+                        <iframe
+                            src={material.fileLink}
+                            width="600"
+                            height="400"
+                            frameBorder="0"
+                        />
+                    </a>
+                )
+            )}
+
+            {/*TODO - download knop > backend aanpassen*/}
+            {(material.fileType === "VIDEO" || material.fileType === "PDF" || material.fileType === "IMAGE") && (
+                <span className={styles.buttonContainer}>
+                    <a href={material.fileLink} target="_blank" rel="noopener noreferrer">
+                        <Button variant="secondary">Open in een nieuw tabblad</Button>
+                    </a>
+                    <a href={`${material.fileLink}?action=download`}>
+                        <Button variant="secondary">Download {material.title}</Button>
+                    </a>
+                </span>
             )}
 
             <section>

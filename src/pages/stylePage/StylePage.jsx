@@ -5,44 +5,28 @@ import StyleTile from "../../components/styleTile/StyleTile.jsx";
 import MoreItemsTile from "../../components/moreVideosTile/MoreItemsTile.jsx";
 import CountryTile from "../../components/countryTile/CountryTile.jsx";
 import styles from "./StylePage.module.css";
+import useApiRequest from "../../hooks/useApiRequest.jsx";
 
 function StylePage() {
     const { id } = useParams();
-    const [styleData, setStyleData] = useState({});
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [videos, setVideos] = useState([]);
-    const token = localStorage.getItem("token");
+
+    const {
+        data: styleData,
+        loading,
+        error,
+        executeRequest,
+    } = useApiRequest();
 
     useEffect(() => {
-        if (!id) {
-            setError("Geen geldig ID gevonden.");
-            setLoading(false);
-            return;
-        }
-
-        const fetchStyleData = async () => {
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/styles/${id}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-                setStyleData(response.data);
-                setVideos(response.data.materials);
-            } catch (error) {
-                setError(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        void fetchStyleData();
+        if (!id) return;
+        void executeRequest('get', `${import.meta.env.VITE_API_URL}/styles/${id}`);
     }, [id]);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
+    if (!styleData) return <p>Geen data gevonden.</p>;
+
+    const videos = styleData.materials || [];
 
     return (
         <section className={styles.stylePage}>

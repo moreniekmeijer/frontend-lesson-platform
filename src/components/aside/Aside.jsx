@@ -2,30 +2,24 @@ import styles from "./Aside.module.css";
 import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import useApiRequest from "../../hooks/useApiRequest.jsx";
 
 function Aside() {
     const location = useLocation();
     const isStylesActive = location.pathname.startsWith('/stijlen');
-    const [stylesList, setStylesList] = useState([]);
-    const token = localStorage.getItem("token");
+
+    const {
+        data: stylesList,
+        loading,
+        error,
+        executeRequest,
+    } = useApiRequest();
 
     useEffect(() => {
-        const fetchStyles = async () => {
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/styles`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-                setStylesList(response.data);
-            } catch (error) {
-                console.error("Error fetching styles:", error);
-            }
-        };
-
-        void fetchStyles();
+        void executeRequest('get', `${import.meta.env.VITE_API_URL}/styles`);
+        console.log("style list: " + stylesList);
     }, []);
+
 
     return (
         <aside className={styles.aside}>
@@ -37,7 +31,7 @@ function Aside() {
                     <li>
                         <NavLink to="/stijlen" className={({ isActive }) => isActive ? styles.activeMenuLink : styles.defaultMenuLink}>Stijlen</NavLink>
                     </li>
-                    {isStylesActive && stylesList.length > 0 && (
+                    {isStylesActive && stylesList?.length > 0 && (
                         <ul className={styles.submenu}>
                             {stylesList.map(style => (
                                 <li key={style.id}>
@@ -54,6 +48,8 @@ function Aside() {
                     <li>
                         <NavLink to="/uploaden" className={({ isActive }) => isActive ? styles.activeMenuLink : styles.defaultMenuLink}>Uploaden</NavLink>
                     </li>
+                    {loading && <p className={styles.loading}>Laden...</p>}
+                    {error && <p className={styles.error}>Fout bij ophalen stijlen: {error}</p>}
                 </ul>
             </nav>
         </aside>
