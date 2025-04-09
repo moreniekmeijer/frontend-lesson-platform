@@ -26,7 +26,8 @@ function App() {
                     <Route path="/stijlen/:id" element={<PrivateRoute element={<StylePage />} />} />
                     <Route path="/materiaal/:id" element={<PrivateRoute element={<MaterialPage />} />} />
                     <Route path="/uploaden" element={<PrivateRoute element={<UploadPage />} />} />
-                    <Route path="*" element={<NotFoundPage />} />
+                    <Route path="*" element={<PrivateRoute element={<NotFoundPage />} />} />
+                    <Route path="*" element={<PublicRoute element={<LoginPage />} />} />
                 </Routes>
             </main>
             <Aside />
