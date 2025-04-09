@@ -10,21 +10,28 @@ function MaterialPage() {
     const [relatedItems, setRelatedItems] = useState([]);
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
+    const token = localStorage.getItem("token");
 
     useEffect(() => {
         const fetchMaterialAndRelated = async () => {
             try {
-                const materialResponse = await axios.get(`${import.meta.env.VITE_API_URL}/materials/${id}`);
+                const materialResponse = await axios.get(`${import.meta.env.VITE_API_URL}/materials/${id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
                 const materialData = materialResponse.data;
                 setMaterial(materialData);
 
-                const relatedResponse = await axios.get(`${import.meta.env.VITE_API_URL}/materials?styleName=${materialData.styleName}`);
+                const relatedResponse = await axios.get(`${import.meta.env.VITE_API_URL}/materials?styleName=${materialData.styleName}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
                 const relatedMaterial = relatedResponse.data.filter(m => m.id !== materialData.id);
-
-                console.log("Gerelateerde items:", relatedMaterial);
-
                 setRelatedItems(relatedMaterial);
-                console.log(relatedResponse.data);
             } catch (err) {
                 console.error("Error fetching material + related:", err);
             }
@@ -38,7 +45,6 @@ function MaterialPage() {
     };
 
     if (!material) return <p>Loading...</p>;
-    console.log(material.fileLink)
 
     return (
         <section className="material-page">

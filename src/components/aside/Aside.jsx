@@ -7,11 +7,17 @@ function Aside() {
     const location = useLocation();
     const isStylesActive = location.pathname.startsWith('/stijlen');
     const [stylesList, setStylesList] = useState([]);
+    const token = localStorage.getItem("token");
 
     useEffect(() => {
         const fetchStyles = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/styles`);
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/styles`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
                 setStylesList(response.data);
             } catch (error) {
                 console.error("Error fetching styles:", error);

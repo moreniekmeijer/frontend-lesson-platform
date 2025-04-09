@@ -12,6 +12,7 @@ function StylePage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [videos, setVideos] = useState([]);
+    const token = localStorage.getItem("token");
 
     useEffect(() => {
         if (!id) {
@@ -22,7 +23,12 @@ function StylePage() {
 
         const fetchStyleData = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/styles/${id}`);
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/styles/${id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
                 setStyleData(response.data);
                 setVideos(response.data.materials);
             } catch (error) {
@@ -40,7 +46,6 @@ function StylePage() {
 
     return (
         <section className={styles.stylePage}>
-            {/*<h1>{styleData?.name || "Stijl"}</h1>*/}
             <div className="left-container-aaaaa">
                 <StyleTile data={styleData}/>
                 <MoreItemsTile title="Videos" items={videos}/>

@@ -8,6 +8,7 @@ import "../../App.css"
 function HomePage() {
     const [lesson, setLesson] = useState([]);
     const [lessonStyles, setLessonStyles] = useState({});
+    const token = localStorage.getItem("token");
 
     const videoExamples = [
         {fileType: "VIDEO", url: "https://www.youtube.com/watch?v=DqZX8m2T-e0&t=193s"},
@@ -17,9 +18,15 @@ function HomePage() {
         {fileType: "VIDEO", url: "https://www.youtube.com/watch?v=abc123"}
     ];
 
+    // TODO - change backend en make second GET for styles (from ID)
     async function getLessonData() {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/lessons/next`);
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/lessons/next`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
             setLesson(response.data);
             setLessonStyles(response.data.styles);
         } catch (e) {
@@ -38,12 +45,14 @@ function HomePage() {
                     <MoreItemsTile title="Volgende les" items={videoExamples}/>
                 </div>
                 <div>
+                    {/*TODO - own item?*/}
                     <section className={styles.notes}>
                         <h3>Notities</h3>
                         <p>{lesson.notes}</p>
                     </section>
                     <section className={styles.agenda}>
                         <h3>Agenda</h3>
+                        {/*TODO - make own item with helperfile to extract readable date*/}
                         <ul>
                             <li>wordt denk ik eigen component</li>
                             <li>of {lesson.scheduledDateTime}</li>

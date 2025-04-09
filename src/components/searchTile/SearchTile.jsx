@@ -5,6 +5,7 @@ import styles from "./SearchTile.module.css";
 import MoreItemsTile from "../moreVideosTile/MoreItemsTile.jsx";
 
 function SearchTile() {
+    const token = localStorage.getItem("token");
     const [searchTerm, setSearchTerm] = useState("");
     const [filters, setFilters] = useState({
         fileType: "",
@@ -35,7 +36,12 @@ function SearchTile() {
     useEffect(() => {
         async function fetchOptions() {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/materials`);
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/materials`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
                 const materials = response.data;
                 const uniqueValues = (key) => [...new Set(materials.map((item) => item[key]).filter(Boolean))];
 
@@ -67,7 +73,13 @@ function SearchTile() {
                     if (!params[key]) delete params[key];
                 });
 
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/materials`, { params });
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/materials`, {
+                    params,
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
                 setMaterials(response.data);
 
             } catch (error) {
@@ -82,10 +94,10 @@ function SearchTile() {
         return () => clearTimeout(timeoutId);
     }, [searchTerm, filters]);
 
-    const handleSearch = () => {
-        console.log("Zoekterm:", searchTerm);
-        console.log("Gekozen filters:", filters);
-    };
+    // const handleSearch = () => {
+    //     console.log("Zoekterm:", searchTerm);
+    //     console.log("Gekozen filters:", filters);
+    // };
 
     return (
         <section className={styles.searchTile}>
@@ -113,7 +125,7 @@ function SearchTile() {
                 </label>
             ))}
 
-            <Button onClick={handleSearch}>Zoeken</Button>
+            {/*<Button onClick={handleSearch}>Zoeken</Button>*/}
 
             <MoreItemsTile
                 title="Zoekresultaten"

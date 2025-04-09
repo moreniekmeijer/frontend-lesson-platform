@@ -38,7 +38,6 @@ function AuthContextProvider({children}) {
         localStorage.setItem('token', token);
 
         if (isTokenExpired(token)) {
-            console.log('Token is expired tijdens login!');
             logout();
         } else {
             const decoded = jwtDecode(token);

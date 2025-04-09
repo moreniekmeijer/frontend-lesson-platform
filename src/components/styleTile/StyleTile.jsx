@@ -8,7 +8,7 @@ function StyleTile({data}) {
 
     if (!data) return null;
 
-    const arrangementId = data.arrangementId; // Nu direct uit backend
+    const arrangementId = data.arrangementId;
     const handleNavigate = () => {
         if (arrangementId) {
             navigate(`/materiaal/${arrangementId}`);

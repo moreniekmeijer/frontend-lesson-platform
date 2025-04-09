@@ -2,8 +2,6 @@ import styles from "./MoreItemsTile.module.css"
 import {Link} from "react-router-dom";
 
 function MoreItemsTile({title, items, variant}) {
-    console.log("Items in MoreItemsTile:", items); // Toegevoegd om te controleren
-
     return (
         <section className={`${styles.moreItemsTile} ${variant === "secondary" ? styles.secondary : ""}`}>
             {variant === "secondary" ?

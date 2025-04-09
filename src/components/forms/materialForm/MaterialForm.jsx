@@ -74,7 +74,6 @@ function MaterialForm() {
                     });
                     alert("Bestand geüpload!");
                 } else if (metaData.link) {
-                    console.log(metaData.link);
                     await axios.post(`${import.meta.env.VITE_API_URL}/materials/${materialId}/link`, {
                         link: metaData.link
                     });
