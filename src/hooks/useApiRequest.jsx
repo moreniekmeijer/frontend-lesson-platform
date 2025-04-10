@@ -6,7 +6,7 @@ const useApiRequest = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const executeRequest = async (method, url, requestData = null) => {
+    const executeRequest = async (method, url, requestData = null, queryParams = null) => {
         setLoading(true);
         setError(null);
 
@@ -21,6 +21,7 @@ const useApiRequest = () => {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
+                params: queryParams || {},
             };
 
             let response;

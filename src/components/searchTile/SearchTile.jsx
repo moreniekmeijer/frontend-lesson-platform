@@ -3,9 +3,9 @@ import Button from "../button/Button.jsx";
 import axios from "axios";
 import styles from "./SearchTile.module.css";
 import MoreItemsTile from "../moreVideosTile/MoreItemsTile.jsx";
+import useApiRequest from "../../hooks/useApiRequest.jsx";
 
 function SearchTile() {
-    const token = localStorage.getItem("token");
     const [searchTerm, setSearchTerm] = useState("");
     const [filters, setFilters] = useState({
         fileType: "",
@@ -15,15 +15,18 @@ function SearchTile() {
         origin: "",
     });
 
-    const [options, setOptions] = useState({
-        fileType: [],
-        instrument: [],
-        category: [],
-        styleName: [],
-        origin: [],
-    });
+    const {
+        data: allMaterials,
+        error: optionsError,
+        executeRequest: fetchAllMaterials
+    } = useApiRequest();
 
-    const [materials, setMaterials] = useState([]);
+    const {
+        data: filteredMaterials,
+        loading,
+        error,
+        executeRequest: fetchFilteredMaterials
+    } = useApiRequest();
 
     const categoryLabels = {
         fileType: "Bestandstype",
@@ -33,71 +36,51 @@ function SearchTile() {
         origin: "Herkomst",
     };
 
+    // Haal alle materialen op voor de filteropties
     useEffect(() => {
-        async function fetchOptions() {
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/materials`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-                const materials = response.data;
-                const uniqueValues = (key) => [...new Set(materials.map((item) => item[key]).filter(Boolean))];
-
-                setOptions({
-                    fileType: uniqueValues("fileType"),
-                    instrument: uniqueValues("instrument"),
-                    category: uniqueValues("category"),
-                    styleName: uniqueValues("styleName"),
-                    origin: uniqueValues("origin"),
-                });
-            } catch (error) {
-                console.error("Fout bij ophalen van materialen:", error);
-            }
-        }
-
-        void fetchOptions();
+        void fetchAllMaterials("get", `${import.meta.env.VITE_API_URL}/materials`);
     }, []);
 
+    const [options, setOptions] = useState({
+        fileType: [],
+        instrument: [],
+        category: [],
+        styleName: [],
+        origin: [],
+    });
+
     useEffect(() => {
-        async function fetchMaterials() {
-            try {
+        if (!allMaterials) return;
 
-                const params = {
-                    search: searchTerm || null,
-                    ...filters,
-                };
+        const uniqueValues = (key) =>
+            [...new Set(allMaterials.map((item) => item[key]).filter(Boolean))];
 
-                Object.keys(params).forEach((key) => {
-                    if (!params[key]) delete params[key];
-                });
+        setOptions({
+            fileType: uniqueValues("fileType"),
+            instrument: uniqueValues("instrument"),
+            category: uniqueValues("category"),
+            styleName: uniqueValues("styleName"),
+            origin: uniqueValues("origin"),
+        });
+    }, [allMaterials]);
 
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/materials`, {
-                    params,
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-                setMaterials(response.data);
-
-            } catch (error) {
-                console.error("Fout bij zoeken naar materialen:", error);
-            }
-        }
-
+    // Zoekresultaten ophalen op basis van zoekterm + filters
+    useEffect(() => {
         const timeoutId = setTimeout(() => {
-            void fetchMaterials();
+            const params = {
+                search: searchTerm || null,
+                ...filters,
+            };
+
+            Object.keys(params).forEach((key) => {
+                if (!params[key]) delete params[key];
+            });
+
+            void fetchFilteredMaterials("get", `${import.meta.env.VITE_API_URL}/materials`, null, params);
         }, 500);
 
         return () => clearTimeout(timeoutId);
     }, [searchTerm, filters]);
-
-    // const handleSearch = () => {
-    //     console.log("Zoekterm:", searchTerm);
-    //     console.log("Gekozen filters:", filters);
-    // };
 
     return (
         <section className={styles.searchTile}>
@@ -108,6 +91,7 @@ function SearchTile() {
                 placeholder="Zoekterm..."
             />
 
+            {/*TODO - misschien gekozen categorieen laten uitlichten zodat het duidelijk is of je iets hebt aangevinkt*/}
             {Object.keys(filters).map((key) => (
                 <label key={key} className={styles.options}>
                     <p>{categoryLabels[key]}</p>
@@ -129,7 +113,7 @@ function SearchTile() {
 
             <MoreItemsTile
                 title="Zoekresultaten"
-                items={materials}
+                items={filteredMaterials || []}
                 variant="secondary"
             />
         </section>
