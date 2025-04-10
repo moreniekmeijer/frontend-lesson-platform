@@ -1,34 +1,36 @@
 import Button from "../../button/Button.jsx";
 import {useForm} from "react-hook-form";
 import axios from "axios";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import "../Forms.css";
+import useApiRequest from "../../../hooks/useApiRequest.jsx";
 
 function StyleForm() {
     const [successId, setSuccessId] = useState(null);
-    const [error, setError] = useState(false);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
-    function handleFormSubmit(data) {
-        async function postData() {
-            setError(false);
-            try {
-                const response = await axios.post(`${import.meta.env.VITE_API_URL}/styles`, data);
-                setSuccessId(response.data.id);
-            } catch (e) {
-                console.error(e);
-                setError(true);
-            }
-        }
+    const {
+        data,
+        error,
+        executeRequest
+    } = useApiRequest();
 
-        void postData();
+    function handleFormSubmit(formData) {
+        void executeRequest("post", `${import.meta.env.VITE_API_URL}/styles`, formData);
     }
+
+    useEffect(() => {
+        if (data?.id) {
+            setSuccessId(data.id);
+            reset();
+        }
+    }, [data, reset]);
 
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)}>
             <fieldset>
                 {successId && <p>De stijl is succesvol opgeslagen!</p>}
-                {error && <p>Er is iets misgegaan. Probeer het opnieuw.</p>}
+                {error === "The name must be unique. This name already exists." && <p>Deze stijl bestaat al.</p>}
                 <label htmlFor="name">
                     Naam:
                     <input
@@ -76,8 +78,8 @@ function StyleForm() {
                             message: 'Een omschrijving is verplicht',
                         },
                         maxLength: {
-                            value: 2000,
-                            message: 'Input mag maximaal 2000 karakters bevatten',
+                            value: 1000,
+                            message: 'Input mag maximaal 1000 karakters bevatten',
                         },
                     })}/>
                 {errors.description && <p className="errorMessage">{errors.description.message}</p>}

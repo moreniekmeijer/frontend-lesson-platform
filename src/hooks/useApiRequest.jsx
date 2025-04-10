@@ -41,10 +41,11 @@ const useApiRequest = () => {
                 default:
                     throw new Error(`Ongeldige methode: ${method}`);
             }
-
             setData(response.data);
-        } catch (err) {
-            setError(err.message);
+
+        } catch (error) {
+            console.error("API request error:", error.response);
+            setError(error.response.data.error);
         } finally {
             setLoading(false);
         }
