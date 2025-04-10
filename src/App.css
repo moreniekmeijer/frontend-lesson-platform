@@ -31,7 +31,7 @@ main {
 }
 
 .leftItems {
-  max-width: 60%;
+  flex-basis: 20rem;
 }
 
 .rightItems {

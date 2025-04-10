@@ -10,6 +10,8 @@ const useApiRequest = () => {
         setLoading(true);
         setError(null);
 
+        console.log("requestData: ", requestData);
+
         try {
             const token = localStorage.getItem('token');
             if (!token) {
@@ -42,6 +44,7 @@ const useApiRequest = () => {
                     throw new Error(`Ongeldige methode: ${method}`);
             }
             setData(response.data);
+            console.log("after call" , response);
 
         } catch (error) {
             console.error("API request error:", error.response);
@@ -50,6 +53,8 @@ const useApiRequest = () => {
             setLoading(false);
         }
     };
+
+    console.log("after call data" , data);
 
     return { data, loading, error, executeRequest };
 };

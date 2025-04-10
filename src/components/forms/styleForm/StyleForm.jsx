@@ -1,6 +1,5 @@
 import Button from "../../button/Button.jsx";
 import {useForm} from "react-hook-form";
-import axios from "axios";
 import {useEffect, useState} from "react";
 import "../Forms.css";
 import useApiRequest from "../../../hooks/useApiRequest.jsx";

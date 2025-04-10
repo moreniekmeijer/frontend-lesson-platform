@@ -2,7 +2,7 @@ import {useState, useEffect} from "react";
 import Button from "../button/Button.jsx";
 import axios from "axios";
 import styles from "./SearchTile.module.css";
-import MoreItemsTile from "../moreVideosTile/MoreItemsTile.jsx";
+import MoreItemsTile from "../moreItemsTile/MoreItemsTile.jsx";
 import useApiRequest from "../../hooks/useApiRequest.jsx";
 
 function SearchTile() {
@@ -92,7 +92,8 @@ function SearchTile() {
             />
 
             {/*TODO - misschien gekozen categorieen laten uitlichten zodat het duidelijk is of je iets hebt aangevinkt*/}
-            {Object.keys(filters).map((key) => (
+            <div className={styles.optionsContainer}>
+                {Object.keys(filters).map((key) => (
                 <label key={key} className={styles.options}>
                     <p>{categoryLabels[key]}</p>
                     <select
@@ -108,6 +109,7 @@ function SearchTile() {
                     </select>
                 </label>
             ))}
+            </div>
 
             {/*<Button onClick={handleSearch}>Zoeken</Button>*/}
 
