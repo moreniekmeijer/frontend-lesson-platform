@@ -10,7 +10,9 @@ const useApiRequest = () => {
         setLoading(true);
         setError(null);
 
-        console.log("requestData: ", requestData);
+        console.log("ExecuteRequest gestart");
+        console.log("Request URL: ", url);
+
 
         try {
             const token = localStorage.getItem('token');
@@ -44,7 +46,8 @@ const useApiRequest = () => {
                     throw new Error(`Ongeldige methode: ${method}`);
             }
             setData(response.data);
-            console.log("after call" , response);
+            console.log("Response ontvangen:", response);
+            console.log("Response data:", response.data);
 
         } catch (error) {
             console.error("API request error:", error.response);
@@ -53,8 +56,6 @@ const useApiRequest = () => {
             setLoading(false);
         }
     };
-
-    console.log("after call data" , data);
 
     return { data, loading, error, executeRequest };
 };

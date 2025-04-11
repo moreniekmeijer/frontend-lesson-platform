@@ -20,7 +20,6 @@ function Aside() {
         console.log("style list: " + stylesList);
     }, []);
 
-
     return (
         <aside className={styles.aside}>
             <nav className={styles.navigation}>

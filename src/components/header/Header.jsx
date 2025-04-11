@@ -3,7 +3,7 @@ import styles from "./Header.module.css";
 import MenuIcon from "../menuIcon/MenuIcon.jsx";
 import {Link, NavLink} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext.jsx";
-import getInitials from "../../helpers/getInitials.jsx";
+import getInitials from "../../helpers/getInitials.js";
 
 function Header() {
     const {user} = useContext(AuthContext);

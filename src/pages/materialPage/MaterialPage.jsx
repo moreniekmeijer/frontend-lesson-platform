@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
 import axios from "axios";
 import styles from "./MaterialPage.module.css";
-import getYouTubeVideoId from "../../helpers/getYouTubeVideoId.jsx";
+import getYouTubeVideoId from "../../helpers/getYouTubeVideoId.js";
 import Button from "../../components/button/Button.jsx";
 
 function MaterialPage() {

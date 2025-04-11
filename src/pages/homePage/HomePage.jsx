@@ -4,6 +4,8 @@ import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
 import SearchTile from "../../components/searchTile/SearchTile.jsx";
 import styles from "./HomePage.module.css";
 import "../../App.css";
+import AgendaTile from "../../components/agendaTile/AgendaTile.jsx";
+import NotesTile from "../../components/notesTile/NotesTile.jsx";
 
 function HomePage() {
     const [lesson, setLesson] = useState(null);
@@ -51,7 +53,7 @@ function HomePage() {
             }
         }
 
-        fetchLessonData();
+        void fetchLessonData();
     }, [token]);
 
     return (
@@ -62,17 +64,9 @@ function HomePage() {
                 </div>
 
                 <div>
-                    <section className={styles.notes}>
-                        <h3>Notities</h3>
-                        <p>{lesson?.notes || "Geen notities"}</p>
-                    </section>
+                    <NotesTile title="Notities" notes={lesson?.notes} />
 
-                    <section className={styles.agenda}>
-                        <h3>Agenda</h3>
-                        <ul>
-                            <li>{lesson?.scheduledDateTime || "Geen datum beschikbaar"}</li>
-                        </ul>
-                    </section>
+                    <AgendaTile/>
 
                     <section className={styles.styles}>
                         <h3>Stijlen in deze les</h3>
