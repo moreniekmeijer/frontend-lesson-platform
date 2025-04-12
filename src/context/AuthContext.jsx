@@ -18,7 +18,6 @@ function AuthContextProvider({children}) {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        console.log(jwtDecode(token));
 
         if (token) {
             if (isTokenExpired(token)) {

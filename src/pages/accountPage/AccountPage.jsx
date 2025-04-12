@@ -11,7 +11,8 @@ function AccountPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [confirmDelete, setConfirmDelete] = useState(false);
-    const { register, handleSubmit, reset, formState: { errors, isDirty } } = useForm();
+    const { register, handleSubmit, reset, watch, formState: { errors, isDirty } } = useForm();
+    const newPassword = watch("password");
 
     useEffect(() => {
         if (user) {
@@ -95,6 +96,23 @@ function AccountPage() {
                     </label>
                     {errors.email && <p className="errorMessage">{errors.email.message}</p>}
 
+                    <label htmlFor="currentPassword">
+                        Huidig wachtwoord:
+                        <input
+                            type="password"
+                            id="currentPassword"
+                            {...register("currentPassword", {
+                                validate: value => {
+                                    if (newPassword && !value) {
+                                        return "Vul je huidige wachtwoord in om het te wijzigen";
+                                    }
+                                    return true;
+                                }
+                            })}
+                        />
+                    </label>
+                    {errors.currentPassword && <p className="errorMessage">{errors.currentPassword.message}</p>}
+
                     <label htmlFor="password">
                         Nieuw wachtwoord:
                         <input
@@ -123,9 +141,9 @@ function AccountPage() {
                         </Button>
                     </>
                 ) : (
-                    <div className={styles.confirmContainer}>
+                    <div>
                         <p><i>Weet je zeker dat je je account wilt verwijderen?</i></p>
-                        <div style={{ display: "flex", gap: "1rem" }}>
+                        <div>
                             <Button type="button" onClick={handleDeleteAccount} variant="danger">
                                 Ja, verwijder
                             </Button>
