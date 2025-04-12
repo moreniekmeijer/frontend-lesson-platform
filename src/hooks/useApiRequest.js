@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-const useApiRequest = () => {
-    const [data, setData] = useState(null);
+const useApiRequest = (defaultData = null) => {
+    const [data, setData] = useState(defaultData);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -12,7 +12,6 @@ const useApiRequest = () => {
 
         console.log("ExecuteRequest gestart");
         console.log("Request URL: ", url);
-
 
         try {
             const token = localStorage.getItem('token');
@@ -45,13 +44,13 @@ const useApiRequest = () => {
                 default:
                     throw new Error(`Ongeldige methode: ${method}`);
             }
-            setData(response.data);
-            console.log("Response ontvangen:", response);
-            console.log("Response data:", response.data);
+
+            setData(response.data ?? defaultData);
+            return response;
 
         } catch (error) {
             console.error("API request error:", error.response);
-            setError(error.response.data.error);
+            setError(error.response?.data?.error);
         } finally {
             setLoading(false);
         }

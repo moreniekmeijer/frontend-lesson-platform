@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import useApiRequest from "../../hooks/useApiRequest.jsx";
+import useApiRequest from "../../hooks/useApiRequest.js";
 import {formatToDayMonth} from "../../helpers/formatDate.js";
 
 const AgendaTile = () => {

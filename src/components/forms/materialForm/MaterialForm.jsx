@@ -1,9 +1,9 @@
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import DragDrop from "../../dragDrop/DragDrop.jsx";
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../../button/Button.jsx";
-import axios from "axios";
 import "../Forms.css";
+import useApiRequest from "../../../hooks/useApiRequest.js";
 
 function MaterialForm() {
     const { register, handleSubmit, formState: { errors }, watch } = useForm();
@@ -15,27 +15,21 @@ function MaterialForm() {
     const selectedLink = watch("link");
     const dragDropRef = useRef();
 
-    useEffect(() => {
-        async function fetchStyles() {
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/styles`);
-                setStyles(response.data);
-            } catch (error) {
-                console.error("Kon stijlen niet ophalen:", error);
-            }
-        }
+    // Gebruik useApiRequest voor ophalen van stijlen
+    const { data: fetchedStyles, loading: stylesLoading, error: stylesError, executeRequest: fetchStyles, postData } = useApiRequest([]);
 
-        void fetchStyles();
+    useEffect(() => {
+        void fetchStyles('get', `${import.meta.env.VITE_API_URL}/styles`);
     }, []);
 
     useEffect(() => {
         if (selectedStyleId) {
-            const selectedStyle = styles.find((style) => style.id.toString() === selectedStyleId);
+            const selectedStyle = fetchedStyles.find((style) => style.id.toString() === selectedStyleId);
             setSelectedOrigin(selectedStyle?.origin || null);
         } else {
             setSelectedOrigin(null);
         }
-    }, [selectedStyleId, styles]);
+    }, [selectedStyleId, fetchedStyles]);
 
     useEffect(() => {
         if ((file || selectedLink)) {
@@ -47,53 +41,49 @@ function MaterialForm() {
         setFile(selectedFile);
     }
 
-    function handleFormSubmit(metaData) {
-        async function sendData(fileToUpload) {
-            const hasLink = metaData.link && metaData.link.trim() !== "";
-            const hasFile = fileToUpload !== null;
+    const { executeRequest } = useApiRequest();
 
-            if (!hasLink && !hasFile) {
-                setValidationError("Je moet minimaal een bestand óf een link toevoegen.");
-                return;
-            }
+    async function handleFormSubmit(metaData) {
+        const hasLink = metaData.link && metaData.link.trim() !== "";
+        const hasFile = file !== null;
 
-            try {
-                const response = await axios.post(`${import.meta.env.VITE_API_URL}/materials`, metaData);
-                alert("Upload succesvol!");
-
-                const materialId = response.data.id;
-
-                if (fileToUpload) {
-                    const fileFormData = new FormData();
-                    fileFormData.append("file", fileToUpload);
-
-                    await axios.post(`${import.meta.env.VITE_API_URL}/materials/${materialId}/file`, fileFormData, {
-                        headers: {
-                            "Content-Type": "multipart/form-data"
-                        }
-                    });
-                    alert("Bestand geüpload!");
-                } else if (metaData.link) {
-                    await axios.post(`${import.meta.env.VITE_API_URL}/materials/${materialId}/link`, {
-                        link: metaData.link
-                    });
-                    alert("Link toegevoegd!");
-                }
-            } catch (error) {
-                console.error("Error:", error.response?.data || error.message);
-                alert("Er is iets misgegaan tijdens het uploaden.");
-            }
+        if (!hasLink && !hasFile) {
+            setValidationError("Je moet minimaal een bestand óf een link toevoegen.");
+            return;
         }
 
-        void sendData(file);
+        try {
+            // Versturen van metaData met POST-aanroep voor materiaal
+            const response = await executeRequest('post', `${import.meta.env.VITE_API_URL}/materials`, metaData);
+            console.log("Response ontvangen:", response);
+
+            const material = response?.data || {}; // Fallback naar een lege object als er geen data is
+            alert("Upload succesvol!");
+
+            const materialId = material.id;
+
+            if (file) {
+                // Versturen van bestand met multipart form-data
+                const fileFormData = new FormData();
+                fileFormData.append("file", file);
+
+                await executeRequest('post', `${import.meta.env.VITE_API_URL}/materials/${materialId}/file`, fileFormData);
+                alert("Bestand geüpload!");
+            } else if (metaData.link) {
+                // Versturen van link
+                await executeRequest('post', `${import.meta.env.VITE_API_URL}/materials/${materialId}/link`, { link: metaData.link });
+                alert("Link toegevoegd!");
+            }
+        } catch (error) {
+            console.error("Error:", error.response?.data || error.message);
+            alert("Er is iets misgegaan tijdens het uploaden.");
+        }
     }
 
     function removeFile() {
         setFile(null);
         dragDropRef.current?.reset();
     }
-
-    // TODO - alerts weghalen en nette html berichtgeving daarvoor in de plaats
 
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -177,7 +167,9 @@ function MaterialForm() {
                         }
                     })}>
                         <option value="">-- Kies een stijl --</option>
-                        {styles.map((style) => (
+                        {stylesLoading && <option>Bezig met laden...</option>}
+                        {stylesError && <option>Fout bij ophalen stijlen</option>}
+                        {fetchedStyles.map((style) => (
                             <option key={style.id} value={style.id}>
                                 {style.name}
                             </option>
@@ -190,11 +182,6 @@ function MaterialForm() {
                     <p><strong>Herkomst:</strong> {selectedOrigin}</p>
                 )}
 
-                {/*<label htmlFor="hidden">*/}
-                {/*    <input type="checkbox" id="hidden" {...register("hidden")}/>*/}
-                {/*    Houd video verborgen*/}
-                {/*</label>*/}
-
                 <Button type="submit">
                     Opslaan
                 </Button>
@@ -202,7 +189,7 @@ function MaterialForm() {
 
             </fieldset>
         </form>
-    )
+    );
 }
 
 export default MaterialForm;

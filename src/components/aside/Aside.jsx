@@ -2,7 +2,7 @@ import styles from "./Aside.module.css";
 import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import useApiRequest from "../../hooks/useApiRequest.jsx";
+import useApiRequest from "../../hooks/useApiRequest.js";
 
 function Aside() {
     const location = useLocation();

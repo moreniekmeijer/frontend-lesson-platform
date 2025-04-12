@@ -1,7 +1,8 @@
 form {
     display: flex;
+    flex-wrap: wrap;
+    max-width: 40rem;
     gap: 1rem;
-    width: 600px;
     border: solid var(--primary-color);
     border-radius: 2rem;
     padding: 1rem;
@@ -42,4 +43,43 @@ select {
 
 .errorMessage {
     color: red;
+}
+
+.react-datepicker__input-container input {
+    width: 100% !important;
+    border-radius: 1rem !important;
+    border: 1px solid var(--primary-color) !important;
+    background-color: transparent !important;
+    box-sizing: border-box !important;
+    font-family: 'K2D', sans-serif !important;
+}
+
+.react-datepicker__header {
+    background-color: transparent !important;  /* Zet de achtergrond transparant */
+    border-bottom: 1px solid var(--primary-color) !important;  /* Optioneel: grenslijn onder de header */
+    border-radius: 1rem 1rem 0 0 !important;  /* Border-radius voor de bovenkant */
+    padding: 0.5rem !important;  /* Optioneel: pas padding aan voor meer ruimte */
+}
+
+/* Style de kalender zelf */
+.react-datepicker {
+    border-radius: 1rem !important;
+    border: 1px solid var(--primary-color) !important;
+    background-color: transparent !important;
+}
+
+.react-datepicker__input-container input {
+    width: 100% !important;
+}
+
+/* Hover state voor de dagen */
+.react-datepicker__day:hover {
+    background-color: var(--hover-color) !important;
+    color: var(--accent-color) !important;
+}
+
+/* De geselecteerde dag */
+.react-datepicker__day--selected, .react-datepicker__day:active {
+    background-color: var(--accent-color) !important;
+    color: white !important;
 }

@@ -5,7 +5,7 @@ import StyleTile from "../../components/styleTile/StyleTile.jsx";
 import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
 import CountryTile from "../../components/countryTile/CountryTile.jsx";
 import styles from "./StylePage.module.css";
-import useApiRequest from "../../hooks/useApiRequest.jsx";
+import useApiRequest from "../../hooks/useApiRequest.js";
 
 function StylePage() {
     const { id } = useParams();

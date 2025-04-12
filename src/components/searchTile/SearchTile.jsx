@@ -3,7 +3,7 @@ import Button from "../button/Button.jsx";
 import axios from "axios";
 import styles from "./SearchTile.module.css";
 import MoreItemsTile from "../moreItemsTile/MoreItemsTile.jsx";
-import useApiRequest from "../../hooks/useApiRequest.jsx";
+import useApiRequest from "../../hooks/useApiRequest.js";
 
 function SearchTile() {
     const [searchTerm, setSearchTerm] = useState("");

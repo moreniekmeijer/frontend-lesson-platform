@@ -1,84 +1,102 @@
 import Button from "../../button/Button.jsx";
-import {useForm} from "react-hook-form";
-import axios from "axios";
+import {Controller, useForm} from "react-hook-form";
 import {useEffect, useState} from "react";
-import "../Forms.css"
+import "react-datepicker/dist/react-datepicker.css";
+import "../Forms.css";
+import useApiRequest from "../../../hooks/useApiRequest.js";
+import DatePicker, {registerLocale} from "react-datepicker";
+import {nl} from "date-fns/locale";
+
+registerLocale("nl", nl);
 
 function LessonForm({setActiveTab}) {
     const [successId, setSuccessId] = useState(null);
-    const [error, setError] = useState(false);
-    const [styles, setStyles] = useState([]);
     const [selectedStyles, setSelectedStyles] = useState([]);
-    const {register, handleSubmit, formState: {errors}} = useForm();
+    const {register, handleSubmit, control, formState: {errors}} = useForm();
 
-    async function getStyles() {
-        setError(false);
-        try {
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/styles`);
-            setStyles(response.data);
-        } catch (e) {
-            console.error(e);
-            setError(true);
-        }
-    }
+    const {
+        data: fetchedStyles = [],
+        loading: stylesLoading,
+        error: stylesError,
+        executeRequest: fetchStyles
+    } = useApiRequest([]);
 
-    // Dit is niet handig misschien vanuit efficiency oogpunt.
-    // Of de backend API anders of vanuit app.jsx?
+    const {
+        executeRequest: postLesson,
+        error: postError,
+        setError: setPostError
+    } = useApiRequest();
+
     useEffect(() => {
-        void getStyles();
-    }, [])
+        void fetchStyles("get", `${import.meta.env.VITE_API_URL}/styles`);
+    }, []);
 
     function handleStyleChange(styleName) {
-        setSelectedStyles((prevSelected) => {
-            if (prevSelected.includes(styleName)) {
-                return prevSelected.filter((name) => name !== styleName);
-            } else {
-                return [...prevSelected, styleName];
-            }
-        });
+        setSelectedStyles((prevSelected) =>
+            prevSelected.includes(styleName)
+                ? prevSelected.filter((name) => name !== styleName)
+                : [...prevSelected, styleName]
+        );
     }
 
-    function handleFormSubmit(data) {
+    async function handleFormSubmit(data) {
         const addedData = {
             ...data,
             styleNames: selectedStyles,
-            scheduledDateTime: new Date().toISOString(),
+            scheduledDateTime: data.scheduledDateTime.toISOString(),
         };
 
-        async function postData() {
-            setError(false);
-            try {
-                const response = await axios.post(`${import.meta.env.VITE_API_URL}/lessons`, addedData);
-                setSuccessId(response.data.id);
-                setSelectedStyles([]);
-            } catch (e) {
-                console.error(e);
-                setError(true);
-            }
+        try {
+            const response = await postLesson("post", `${import.meta.env.VITE_API_URL}/lessons`, addedData);
+            setSuccessId(response.data.id);
+            setSelectedStyles([]);
+        } catch (e) {
+            console.error("Post error:", e);
         }
-
-        void postData();
     }
 
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)}>
             {successId && <p>De Les is klaargezet!</p>}
-            {error && <p>Er is iets misgegaan. Probeer het opnieuw.</p>}
+            {(stylesError || postError) && <p>Er is iets misgegaan. Probeer het opnieuw.</p>}
 
-            {/*Deze optie om stijlen te kiezen is nog niet ideaal*/}
-            <fieldset className="styleNames">
+            <fieldset>
+                <label>Datum:</label>
+                <Controller
+                    name="scheduledDateTime"
+                    control={control}
+                    rules={{required: "Datum is verplicht"}}
+                    render={({field}) => (
+                        <DatePicker
+                            selected={field.value}
+                            onChange={(date) => field.onChange(date)}
+                            dateFormat="dd-MM-yyyy"
+                            locale="nl"
+                            inline
+                            minDate={new Date()}
+                            calendarStartDay={1}
+                        />
+                    )}
+                />
+                {errors.scheduledDateTime && (
+                    <p className="errorMessage">{errors.scheduledDateTime.message}</p>
+                )}
+            </fieldset>
+
+            <fieldset>
                 <legend>Kies stijlen:</legend>
-                {styles.length === 0 ? (
-                    <p>Geen stijlen beschikbaar!
-                        <button
-                            type="button"
-                            onClick={() => setActiveTab('style')}>
+                {stylesLoading ? (
+                    <p>Bezig met laden...</p>
+                ) : fetchedStyles.length === 0 ? (
+                    <p>
+                        Geen stijlen beschikbaar!
+                        <button type="button" onClick={() => setActiveTab('style')}>
                             Wil je stijlen toevoegen?
                         </button>
                     </p>
                 ) : (
                     <div className="checkboxContainer">
-                        {styles.map((style) => (
+                        {fetchedStyles.map((style) => (
                             <label key={style.id} className="checkbox">
                                 <input
                                     type="checkbox"
@@ -91,11 +109,8 @@ function LessonForm({setActiveTab}) {
                         ))}
                     </div>
                 )}
-            </fieldset>
-            <fieldset>
-                <label htmlFor="notes">
-                    Notities:
-                </label>
+
+                <label htmlFor="notes">Notities:</label>
                 <textarea
                     id="notes"
                     rows="5"
@@ -104,17 +119,16 @@ function LessonForm({setActiveTab}) {
                     {...register("notes", {
                         maxLength: {
                             value: 2000,
-                            message: 'Input mag maximaal 2000 karakters bevatten',
+                            message: "Input mag maximaal 2000 karakters bevatten",
                         },
-                    })}/>
+                    })}
+                />
                 {errors.notes && <p className="errorMessage">{errors.notes.message}</p>}
 
-                <Button type="submit">
-                    Opslaan
-                </Button>
+                <Button type="submit">Opslaan</Button>
             </fieldset>
         </form>
-    )
+    );
 }
 
 export default LessonForm;
