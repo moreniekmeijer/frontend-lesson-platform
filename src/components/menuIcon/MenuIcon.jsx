@@ -34,7 +34,7 @@ const MenuIcon = () => {
             {isOpen && (
                 <ul onMouseLeave={closeMenu} className={styles.dropdownMenu}>
                     <li className={styles.dropdownItem}><NavLink to="/login" onClick={logout}>Log uit</NavLink></li>
-                    <li className={styles.dropdownItem}>Optie 2</li>
+                    <li className={styles.dropdownItem}><NavLink to="/account">Account</NavLink></li>
                     <li className={styles.dropdownItem}>Optie 3</li>
                 </ul>
             )}

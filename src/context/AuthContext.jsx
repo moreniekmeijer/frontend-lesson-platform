@@ -49,7 +49,7 @@ function AuthContextProvider({children}) {
     }
 
     function logout() {
-        localStorage.clear();
+        localStorage.removeItem('token');
         setAuth({
             isAuth: false,
             user: null,
