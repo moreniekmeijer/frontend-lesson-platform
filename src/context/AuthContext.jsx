@@ -14,8 +14,11 @@ function AuthContextProvider({children}) {
     });
     const navigate = useNavigate();
 
+    console.log(auth.user);
+
     useEffect(() => {
         const token = localStorage.getItem('token');
+        console.log(jwtDecode(token));
 
         if (token) {
             if (isTokenExpired(token)) {
@@ -66,17 +69,20 @@ function AuthContextProvider({children}) {
                 },
             });
 
+            console.log("user object: ", result);
+
+            const userRole = result.data.authorities?.find(auth => auth.authority === 'ROLE_ADMIN') ? 'admin' : 'user';
+
             setAuth(prev => ({
                 ...prev,
                 isAuth: true,
                 user: {
                     username: result.data.username,
                     email: result.data.email,
-                    id: result.data.id,
+                    role: userRole,
                 },
                 status: 'done',
             }));
-
 
             if (redirectUrl) {
                 navigate(redirectUrl);
