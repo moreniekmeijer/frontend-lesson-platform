@@ -1,17 +1,18 @@
-.uploadPage {
+/*.uploadPage {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: center;*/
+/*    gap: 1rem;*/
+/*    width: 100%;*/
+/*}*/
+
+.tabs {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     gap: 1rem;
     width: 100%;
 }
 
-.tabs {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-
+/*TODO - make tabs visual connected (by border) to form container*/
 .activeTab {
     background-color: var(--accent-color);
 }

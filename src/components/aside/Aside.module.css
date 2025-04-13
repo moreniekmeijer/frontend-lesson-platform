@@ -1,14 +1,11 @@
-
-/*Misschien moet aside in App.css*/
 aside {
     position: sticky;
-    top: 6rem; /* onder de fixed header */
     align-self: flex-start;
+    top: 6rem;
     height: calc(100vh - 6rem); /* exact onder de header blijven */
     background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="258" height="654" viewBox="0 0 258 654" fill="none"%3E%3Cpath d="M0 0H93.1767C153.282 0 183.335 0 201.09 18.7804C218.845 37.5608 217.14 67.9228 213.729 128.647C197.102 424.669 208.905 569.367 258 734H0V0Z" fill="%23bad1ac"/%3E%3C/svg%3E') no-repeat;
     background-size: cover;
     padding: 2rem;
-    color: white;
     flex: 1 1 20rem;
     min-width: 16rem;
     max-width: 20rem;

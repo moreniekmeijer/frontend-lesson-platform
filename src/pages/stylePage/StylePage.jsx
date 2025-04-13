@@ -29,13 +29,13 @@ function StylePage() {
     const videos = styleData.materials || [];
 
     return (
-        <section className={styles.stylePage}>
-            <div >
+        <>
+            <div className="leftContainer">
                 <StyleTile data={styleData}/>
                 <MoreItemsTile title="Videos" items={videos}/>
             </div>
-            <CountryTile countryName={styleData?.origin || "Onbekend"} />
-        </section>
+            <div className="rightContainer"><CountryTile countryName={styleData?.origin || "Onbekend"}/></div>
+        </>
     );
 }
 

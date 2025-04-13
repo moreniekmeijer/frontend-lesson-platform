@@ -28,7 +28,7 @@ function RegisterPage() {
     };
 
     return (
-        <>
+        <section className="centerContainer">
             <h2>Registreren</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <fieldset>
@@ -94,7 +94,7 @@ function RegisterPage() {
                     <p>Al een account? Log <NavLink to="/login">hier</NavLink> in</p>
                 </fieldset>
             </form>
-        </>
+        </section>
     );
 }
 

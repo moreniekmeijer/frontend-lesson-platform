@@ -21,7 +21,7 @@ function LoginPage() {
     };
 
     return (
-        <>
+        <section className="centerContainer">
             <h2>Login</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <fieldset>
@@ -61,7 +61,7 @@ function LoginPage() {
                     <p>Nieuw? registreer je <NavLink to="/register">hier</NavLink></p>
                 </fieldset>
             </form>
-        </>
+        </section>
     );
 }
 

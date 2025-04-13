@@ -63,10 +63,10 @@ function AccountPage() {
     if (loading) return <p>Gegevens laden...</p>;
 
     return (
-        <>
+        <section className={`"leftContainer" ${styles.container}`}>
             <h2>Mijn Account</h2>
             {error && <p className="errorMessage">{error}</p>}
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
                 <legend><h4>Gegevens bijwerken</h4></legend>
                 <fieldset>
                     <label htmlFor="username">
@@ -131,7 +131,7 @@ function AccountPage() {
                 <legend><h4>Account verwijderen</h4></legend>
                 {!confirmDelete ? (
                     <>
-                        <p>Let op: dit kan niet ongedaan worden gemaakt!</p>
+                        <p><i>Let op: dit kan niet ongedaan worden gemaakt!</i></p>
                         <Button
                             type="button"
                             onClick={() => setConfirmDelete(true)}
@@ -154,7 +154,7 @@ function AccountPage() {
                     </div>
                 )}
             </section>
-        </>
+        </section>
     );
 }
 

@@ -5,6 +5,7 @@ import axios from "axios";
 import styles from "./MaterialPage.module.css";
 import getYouTubeVideoId from "../../helpers/getYouTubeVideoId.js";
 import Button from "../../components/button/Button.jsx";
+import StyleTile from "../../components/styleTile/StyleTile.jsx";
 
 function MaterialPage() {
     const {id} = useParams();
@@ -43,8 +44,8 @@ function MaterialPage() {
     if (!material) return <p>Loading...</p>;
 
     return (
-        <section className="materialPage">
-            <section className="upperContainer">
+        <>
+            <section className="leftContainer">
                 <h2>{material.title}</h2>
 
                 {/* Bestandstype weergeven */}
@@ -91,7 +92,6 @@ function MaterialPage() {
                     )
                 )}
 
-                {/*TODO - download knop > backend aanpassen*/}
                 {(material.fileType === "VIDEO" || material.fileType === "PDF" || material.fileType === "IMAGE") && (
                     <span className={styles.buttonContainer}>
                     <a href={material.fileLink} target="_blank" rel="noopener noreferrer">
@@ -102,19 +102,20 @@ function MaterialPage() {
                     </a>
                 </span>
                 )}
+                <MoreItemsTile title="Gerelateerd" items={relatedItems} variant="secondary" />
             </section>
 
-            <section className="lowerContainer">
+            <section className="rightContainer">
+                {/*TODO - misschien StyleTile nog implementeren hier*/}
+                <StyleTile />
                 <section>
                     <h3>{material.styleName}</h3>
                     <p><strong>Categorie:</strong> {material.category}</p>
                     <p><strong>Instrument:</strong> {material.instrument}</p>
                     <p><strong>Herkomst:</strong> {material.origin}</p>
                 </section>
-
-                <MoreItemsTile title="Gerelateerd" items={relatedItems}/>
             </section>
-        </section>
+        </>
     );
 }
 

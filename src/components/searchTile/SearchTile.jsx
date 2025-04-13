@@ -1,6 +1,4 @@
 import {useState, useEffect} from "react";
-import Button from "../button/Button.jsx";
-import axios from "axios";
 import styles from "./SearchTile.module.css";
 import MoreItemsTile from "../moreItemsTile/MoreItemsTile.jsx";
 import useApiRequest from "../../hooks/useApiRequest.js";
@@ -14,6 +12,7 @@ function SearchTile() {
         styleName: "",
         origin: "",
     });
+    const filterOrder = ['origin', 'styleName', 'instrument', 'category', 'fileType'];
 
     const {
         data: allMaterials,
@@ -42,11 +41,11 @@ function SearchTile() {
     }, []);
 
     const [options, setOptions] = useState({
-        fileType: [],
+        origin: [],
+        styleName: [],
         instrument: [],
         category: [],
-        styleName: [],
-        origin: [],
+        fileType: [],
     });
 
     useEffect(() => {
@@ -93,10 +92,10 @@ function SearchTile() {
 
             {/*TODO - misschien gekozen categorieen laten uitlichten zodat het duidelijk is of je iets hebt aangevinkt*/}
             <div className={styles.optionsContainer}>
-                {Object.keys(filters).map((key) => (
+                {filterOrder.map((key) => (
                 <label key={key} className={styles.options}>
-                    <p>{categoryLabels[key]}</p>
                     <select
+                        className={`${filters[key] ? styles.selected : ''}`}
                         value={filters[key]}
                         onChange={(e) => setFilters({...filters, [key]: e.target.value})}
                     >

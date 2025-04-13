@@ -12,7 +12,7 @@ function UploadPage() {
         activeTab === tabName ? styles.activeTab : "";
 
     return (
-        <section className={styles.uploadPage}>
+        <section className="leftContainer" >
             <h3>Wat wil je toevoegen?</h3>
             <div className={styles.tabs}>
                 <Button

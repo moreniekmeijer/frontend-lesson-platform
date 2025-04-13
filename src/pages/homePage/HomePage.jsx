@@ -41,7 +41,6 @@ function HomePage() {
                 const stylesData = styleResponses.map(res => res.data);
                 setLessonStyles(stylesData);
 
-                // Arrangementmateriaal uit styles extraheren
                 const arrangements = stylesData
                     .map(style => style.materials.find(m => m.id === style.arrangementId))
                     .filter(Boolean);
@@ -58,29 +57,11 @@ function HomePage() {
 
     return (
         <>
-            <div className="upperContainer">
-                <div className="leftItems">
-                    <MoreItemsTile title="Arrangementen" items={arrangementMaterials} />
+            <div className="leftContainer">
+                <div className="upperItems">
+                    <MoreItemsTile title="Arrangementen" items={arrangementMaterials}/>
                 </div>
-
                 <div>
-                    <NotesTile title="Notities" notes={lesson?.notes} />
-
-                    <AgendaTile/>
-
-                    <section className={styles.styles}>
-                        <h3>Stijlen in deze les</h3>
-                        <ul>
-                            {lessonStyles.map((style) => (
-                                <li key={style.id}>{style.name}</li>
-                            ))}
-                        </ul>
-                    </section>
-                </div>
-            </div>
-
-            <div className="lowerContainer">
-                <div className="leftItems">
                     {lessonStyles.map((style, index) => {
                         const videoMaterials = style.materials.filter(m => m.fileType === "VIDEO");
                         if (videoMaterials.length === 0) return null;
@@ -95,7 +76,24 @@ function HomePage() {
                         );
                     })}
                 </div>
-                <SearchTile />
+            </div>
+
+            <div className="rightContainer">
+                <div className="upperItems">
+                    <section className={styles.lessonInfo}>
+                        <div>
+                            <h3>Stijlen in deze les</h3>
+                            <ul>
+                                {lessonStyles.map((style) => (
+                                    <li key={style.id}>{style.name}</li>
+                                ))}
+                            </ul>
+                        </div>
+                        <NotesTile title="Notities" notes={lesson?.notes}/>
+                    </section>
+                    <AgendaTile/>
+                </div>
+                <SearchTile/>
             </div>
         </>
     );

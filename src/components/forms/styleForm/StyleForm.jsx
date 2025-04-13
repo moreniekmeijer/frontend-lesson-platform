@@ -62,7 +62,8 @@ function StyleForm() {
                     />
                 </label>
                 {errors.origin && <p className="errorMessage">{errors.origin.message}</p>}
-
+            </fieldset>
+            <fieldset>
                 <label htmlFor="description">
                     Omschrijving:
                 </label>

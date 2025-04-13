@@ -1,7 +1,6 @@
 import styles from "./StyleTile.module.css";
 import Button from "../button/Button.jsx";
-import {Link, useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 function StyleTile({data}) {
     const navigate = useNavigate();
@@ -16,7 +15,7 @@ function StyleTile({data}) {
     };
 
     return (
-        <article className={styles.styleTile}>
+        <section className={styles.styleTile}>
             <span>
                 <h2>{data.name}</h2>
                 {arrangementId && (
@@ -39,7 +38,7 @@ function StyleTile({data}) {
                     <li>Geen links beschikbaar</li>
                 )}
             </ul>
-        </article>
+        </section>
     );
 }
 

@@ -12,6 +12,7 @@ fieldset {
     border: none;
     display: flex;
     flex-direction: column;
+    flex: 1 1 12rem;
     gap: 0.4rem;
 }
 
@@ -45,6 +46,7 @@ select {
     color: red;
 }
 
+/*TODO - styling in eigen component*/
 .react-datepicker__input-container input {
     width: 100% !important;
     border-radius: 1rem !important;
@@ -55,13 +57,12 @@ select {
 }
 
 .react-datepicker__header {
-    background-color: transparent !important;  /* Zet de achtergrond transparant */
-    border-bottom: 1px solid var(--primary-color) !important;  /* Optioneel: grenslijn onder de header */
-    border-radius: 1rem 1rem 0 0 !important;  /* Border-radius voor de bovenkant */
-    padding: 0.5rem !important;  /* Optioneel: pas padding aan voor meer ruimte */
+    background-color: transparent !important;
+    border-bottom: 1px solid var(--primary-color) !important;
+    border-radius: 1rem 1rem 0 0 !important;
+    padding: 0.5rem !important;
 }
 
-/* Style de kalender zelf */
 .react-datepicker {
     border-radius: 1rem !important;
     border: 1px solid var(--primary-color) !important;
@@ -72,13 +73,11 @@ select {
     width: 100% !important;
 }
 
-/* Hover state voor de dagen */
 .react-datepicker__day:hover {
     background-color: var(--hover-color) !important;
     color: var(--accent-color) !important;
 }
 
-/* De geselecteerde dag */
 .react-datepicker__day--selected, .react-datepicker__day:active {
     background-color: var(--accent-color) !important;
     color: white !important;
