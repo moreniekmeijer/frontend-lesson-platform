@@ -81,4 +81,3 @@ a, Link, NavLink {
 a:hover, Link:hover, NavLink:hover {
     color: var(--hover-color);
 }
-

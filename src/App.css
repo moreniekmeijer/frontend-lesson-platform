@@ -1,6 +1,14 @@
 #root {
   position: absolute;
   margin: 0 auto;
+  height: 100%;
+}
+
+.layout {
+  display: flex;
+  flex-direction: row;
+  padding-top: 4rem;
+  min-height: 100vh;
 }
 
 Header {
@@ -10,12 +18,11 @@ Header {
 }
 
 main {
+  flex: 1;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin: 2rem 2rem 2rem 18rem;
-  padding: 1rem;
-  /*max-width: 76vw;*/
+  gap: 1rem;
 }
 
 .upperContainer {

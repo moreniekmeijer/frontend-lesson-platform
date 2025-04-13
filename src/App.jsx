@@ -23,30 +23,32 @@ function App() {
     return (
         <>
             <Header />
-            <main>
-                <Routes>
-                    <Route path="/" element={<PrivateRoute element={<HomePage />} />} />
-                    <Route path="/login" element={<PublicRoute element={<LoginPage />} />} />
-                    <Route path="/register" element={<PublicRoute element={<RegisterPage />} />} />
-                    <Route path="/account" element={<PrivateRoute element={<AccountPage />} />} />
-                    <Route path="/users" element={<AdminRoute element={<UserManagementPage />} />} />
-                    <Route path="/stijlen/:id" element={<PrivateRoute element={<StylePage />} />} />
-                    <Route path="/materiaal/:id" element={<PrivateRoute element={<MaterialPage />} />} />
-                    <Route path="/uploaden" element={<AdminRoute element={<UploadPage />} />} />
-                    <Route path="*" element={<PrivateRoute element={<NotFoundPage />} />} />
-                    <Route
-                        path="*"
-                        element={
-                            isAuth ? (
-                                <NotFoundPage />
-                            ) : (
-                                <Navigate to="/login" replace />
-                            )
-                        }
-                    />
-                </Routes>
-            </main>
-            {isAuth && <Aside />}
+            <div className="layout">
+                {isAuth && <Aside/>}
+                <main>
+                    <Routes>
+                        <Route path="/" element={<PrivateRoute element={<HomePage/>}/>}/>
+                        <Route path="/login" element={<PublicRoute element={<LoginPage/>}/>}/>
+                        <Route path="/register" element={<PublicRoute element={<RegisterPage/>}/>}/>
+                        <Route path="/account" element={<PrivateRoute element={<AccountPage/>}/>}/>
+                        <Route path="/users" element={<AdminRoute element={<UserManagementPage/>}/>}/>
+                        <Route path="/stijlen/:id" element={<PrivateRoute element={<StylePage/>}/>}/>
+                        <Route path="/materiaal/:id" element={<PrivateRoute element={<MaterialPage/>}/>}/>
+                        <Route path="/uploaden" element={<AdminRoute element={<UploadPage/>}/>}/>
+                        <Route path="*" element={<PrivateRoute element={<NotFoundPage/>}/>}/>
+                        <Route
+                            path="*"
+                            element={
+                                isAuth ? (
+                                    <NotFoundPage/>
+                                ) : (
+                                    <Navigate to="/login" replace/>
+                                )
+                            }
+                        />
+                    </Routes>
+                </main>
+            </div>
         </>
     );
 }
