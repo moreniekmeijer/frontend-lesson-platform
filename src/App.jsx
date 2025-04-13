@@ -1,7 +1,7 @@
 import './App.css'
 import Header from "./components/header/Header.jsx";
 import Aside from "./components/aside/Aside.jsx";
-import {Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import HomePage from "./pages/homePage/HomePage.jsx";
 import StylePage from "./pages/stylePage/StylePage.jsx";
 import MaterialPage from "./pages/materialPage/MaterialPage.jsx";
@@ -14,8 +14,12 @@ import PublicRoute from "./routes/PublicRoute.jsx";
 import AdminRoute from "./routes/AdminRoute.jsx";
 import AccountPage from "./pages/accountPage/AccountPage.jsx";
 import UserManagementPage from "./pages/userManagementPage/UserManagementPage.jsx";
+import {useContext} from "react";
+import {AuthContext} from "./context/AuthContext.jsx";
 
 function App() {
+    const { isAuth } = useContext(AuthContext);
+
     return (
         <>
             <Header />
@@ -30,10 +34,19 @@ function App() {
                     <Route path="/materiaal/:id" element={<PrivateRoute element={<MaterialPage />} />} />
                     <Route path="/uploaden" element={<AdminRoute element={<UploadPage />} />} />
                     <Route path="*" element={<PrivateRoute element={<NotFoundPage />} />} />
-                    <Route path="*" element={<PublicRoute element={<LoginPage />} />} />
+                    <Route
+                        path="*"
+                        element={
+                            isAuth ? (
+                                <NotFoundPage />
+                            ) : (
+                                <Navigate to="/login" replace />
+                            )
+                        }
+                    />
                 </Routes>
             </main>
-            <Aside />
+            {isAuth && <Aside />}
         </>
     );
 }

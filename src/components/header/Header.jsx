@@ -1,32 +1,47 @@
 import {useContext} from "react";
 import styles from "./Header.module.css";
 import MenuIcon from "../menuIcon/MenuIcon.jsx";
-import {Link, NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import getInitials from "../../helpers/getInitials.js";
 
-function Header() {
-    const {user} = useContext(AuthContext);
-
+export function PublicHeader() {
     return (
-        <header className={styles.header}>
-            <div className={styles.leftContainer}>
-                <h2><Link to="/" className={styles.headerTitle}>Lesson Platform</Link></h2>
+        <header className={styles.publicHeader}>
+            <div className={styles.centerContainer}>
+                <h2 className={styles.headerTitle}>Lesson Platform</h2>
             </div>
-            {user ?
-                <ul className={styles.rightContainer}>
-                    <li className={styles.menuIcon}><MenuIcon/></li>
-                    {/*TODO - fill li items from GET users request*/}
-                    <li>
-                        <div className={styles.profileCircle}>{getInitials(user.username)}</div>
-                    </li>
-                    <li><span className={styles.accountName}>{user.username}</span></li>
-                </ul>
-                :
-                <div className={styles.rightContainer}><NavLink className={styles.link} to="/register">Nieuw?</NavLink></div>}
         </header>
     );
 }
 
-export default Header;
+export function AuthHeader() {
+    const { user } = useContext(AuthContext);
 
+    return (
+        <header className={styles.authHeader}>
+            <div className={styles.leftContainer}>
+                <h2>
+                    <Link to="/" className={styles.headerTitle}>Lesson Platform</Link>
+                </h2>
+            </div>
+            <ul className={styles.rightContainer}>
+                <li className={styles.menuIcon}>
+                    <MenuIcon />
+                </li>
+                <li>
+                    <div className={styles.profileCircle}>{getInitials(user.username)}</div>
+                </li>
+                <li>
+                    <span className={styles.accountName}>{user.username}</span>
+                </li>
+            </ul>
+        </header>
+    );
+}
+
+export default function Header() {
+    const { user } = useContext(AuthContext);
+
+    return user ? <AuthHeader /> : <PublicHeader />;
+}

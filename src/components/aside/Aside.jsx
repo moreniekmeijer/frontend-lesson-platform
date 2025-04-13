@@ -1,7 +1,6 @@
 import styles from "./Aside.module.css";
 import { NavLink, useLocation } from "react-router-dom";
-import {useContext, useEffect, useState} from "react";
-import axios from "axios";
+import {useContext, useEffect} from "react";
 import useApiRequest from "../../hooks/useApiRequest.js";
 import {AuthContext} from "../../context/AuthContext.jsx";
 
@@ -36,23 +35,23 @@ function Aside() {
                         </li>
                     )}
 
-                    {/* Inloggen - alleen als NIET ingelogd */}
-                    {!isAuth && (
-                        <li>
-                            <NavLink to="/login" className={({ isActive }) => isActive ? styles.activeMenuLink : styles.defaultMenuLink}>
-                                Inloggen
-                            </NavLink>
-                        </li>
-                    )}
+                    {/*/!* Inloggen - alleen als NIET ingelogd *!/*/}
+                    {/*{!isAuth && (*/}
+                    {/*    <li>*/}
+                    {/*        <NavLink to="/login" className={({ isActive }) => isActive ? styles.activeMenuLink : styles.defaultMenuLink}>*/}
+                    {/*            Inloggen*/}
+                    {/*        </NavLink>*/}
+                    {/*    </li>*/}
+                    {/*)}*/}
 
-                    {/* Registreren - alleen als NIET ingelogd */}
-                    {!isAuth && (
-                        <li>
-                            <NavLink to="/register" className={({ isActive }) => isActive ? styles.activeMenuLink : styles.defaultMenuLink}>
-                                Registreren
-                            </NavLink>
-                        </li>
-                    )}
+                    {/*/!* Registreren - alleen als NIET ingelogd *!/*/}
+                    {/*{!isAuth && (*/}
+                    {/*    <li>*/}
+                    {/*        <NavLink to="/register" className={({ isActive }) => isActive ? styles.activeMenuLink : styles.defaultMenuLink}>*/}
+                    {/*            Registreren*/}
+                    {/*        </NavLink>*/}
+                    {/*    </li>*/}
+                    {/*)}*/}
 
                     {/* Stijlen - alleen als ingelogd */}
                     {isAuth && (

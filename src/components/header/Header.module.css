@@ -1,10 +1,22 @@
-.header {
+.publicHeader {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
 }
 
-.leftContainer, .rightContainer {
+.centerContainer {
+    display: flex;
+    justify-content: center;
+    flex-basis: 30rem;
+    border-radius: 0 0 4rem 4rem;
+    background-color: var(--secondary-color);
+}
+
+.authHeader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.leftContainer, .rightContainer, .centerContainer {
     display: flex;
     align-items: center;
     height: 4rem;
