@@ -1,5 +1,5 @@
 import {useForm} from "react-hook-form";
-import {useNavigate} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import axios from "axios";
 import Button from "../../components/button/Button.jsx";
 import {useContext, useState} from "react";
@@ -90,6 +90,8 @@ function RegisterPage() {
                     {invalidInviteCode && <p className="errorMessage">{invalidInviteCode}</p>}
 
                     <Button type="submit">Registreren</Button>
+
+                    <p>Al een account? Log <NavLink to="/login">hier</NavLink> in</p>
                 </fieldset>
             </form>
         </>

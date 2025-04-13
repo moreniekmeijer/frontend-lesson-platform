@@ -1,6 +1,6 @@
 import {useForm} from "react-hook-form";
 import {useContext} from "react";
-import {useNavigate} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import Button from "../../components/button/Button.jsx";
 import axios from "axios";
@@ -57,6 +57,8 @@ function LoginPage() {
                     {/*</label>*/}
 
                     <Button type="submit">Inloggen</Button>
+
+                    <p>Nieuw? registreer je <NavLink to="/register">hier</NavLink></p>
                 </fieldset>
             </form>
         </>
