@@ -14,6 +14,12 @@
     box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
 }
 
+button:disabled:hover,
+button:disabled:active {
+    background: inherit;
+    cursor: not-allowed;
+}
+
 .button:hover {
     background: var(--red-hover-color);
     cursor: pointer;

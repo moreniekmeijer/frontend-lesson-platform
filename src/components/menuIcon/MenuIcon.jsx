@@ -1,11 +1,11 @@
 import {useContext, useState} from "react";
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import styles from "./MenuIcon.module.css";
 import {AuthContext} from "../../context/AuthContext.jsx";
 
 const MenuIcon = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const {logout} = useContext(AuthContext);
+    const {logout, user} = useContext(AuthContext);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -13,6 +13,8 @@ const MenuIcon = () => {
 
     // const openMenu = () => setIsOpen(true);
     const closeMenu = () => setIsOpen(false);
+    const isAdmin = user?.role === "admin";
+
 
     return (
         <div
@@ -27,15 +29,23 @@ const MenuIcon = () => {
                     xmlns="http://www.w3.org/2000/svg"
                     stroke="black"
                 >
-                    <path d="M3 12h18M3 6h18M3 18h18" strokeWidth="2" strokeLinecap="round" />
+                    <path d="M3 12h18M3 6h18M3 18h18" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
             </button>
 
             {isOpen && (
                 <ul onMouseLeave={closeMenu} className={styles.dropdownMenu}>
-                    <li className={styles.dropdownItem}><NavLink to="/login" onClick={logout}>Log uit</NavLink></li>
-                    <li className={styles.dropdownItem}><NavLink to="/account">Account</NavLink></li>
-                    <li className={styles.dropdownItem}>Optie 3</li>
+                    <li className={styles.dropdownItem}>
+                        <NavLink to="/login" onClick={logout}>Log uit</NavLink>
+                    </li>
+                    <li className={styles.dropdownItem}>
+                        <NavLink to="/account">Account</NavLink>
+                    </li>
+                    {isAdmin && (
+                        <li className={styles.dropdownItem}>
+                            <NavLink to="/users">Gebruikers</NavLink>
+                        </li>
+                    )}
                 </ul>
             )}
         </div>

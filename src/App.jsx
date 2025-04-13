@@ -13,6 +13,7 @@ import RegisterPage from "./pages/registerPage/RegisterPage.jsx";
 import PublicRoute from "./routes/PublicRoute.jsx";
 import AdminRoute from "./routes/AdminRoute.jsx";
 import AccountPage from "./pages/accountPage/AccountPage.jsx";
+import UserManagementPage from "./pages/userManagementPage/UserManagementPage.jsx";
 
 function App() {
     return (
@@ -24,9 +25,10 @@ function App() {
                     <Route path="/login" element={<PublicRoute element={<LoginPage />} />} />
                     <Route path="/register" element={<PublicRoute element={<RegisterPage />} />} />
                     <Route path="/account" element={<PrivateRoute element={<AccountPage />} />} />
+                    <Route path="/users" element={<AdminRoute element={<UserManagementPage />} />} />
                     <Route path="/stijlen/:id" element={<PrivateRoute element={<StylePage />} />} />
                     <Route path="/materiaal/:id" element={<PrivateRoute element={<MaterialPage />} />} />
-                    <Route path="/uploaden" element={<AdminRoute element={<UploadPage />} />} />  {/* Admin Route */}
+                    <Route path="/uploaden" element={<AdminRoute element={<UploadPage />} />} />
                     <Route path="*" element={<PrivateRoute element={<NotFoundPage />} />} />
                     <Route path="*" element={<PublicRoute element={<LoginPage />} />} />
                 </Routes>

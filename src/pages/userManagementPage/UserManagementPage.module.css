@@ -1,0 +1,21 @@
+.userTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.userTable th,
+.userTable td {
+    border: 1px solid var(--primary-color);
+    padding: 0.6rem;
+    text-align: left;
+}
+
+.userTable th {
+    background-color: var(--primary-color);
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+}
