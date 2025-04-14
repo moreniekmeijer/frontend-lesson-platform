@@ -24,7 +24,6 @@ function LessonForm({setActiveTab}) {
     const {
         executeRequest: postLesson,
         error: postError,
-        setError: setPostError
     } = useApiRequest();
 
     useEffect(() => {
@@ -97,7 +96,7 @@ function LessonForm({setActiveTab}) {
                 ) : (
                     <div className="checkboxContainer">
                         {fetchedStyles.map((style) => (
-                            <label key={style.id} className="checkbox">
+                            <label key={style.id}>
                                 <input
                                     type="checkbox"
                                     value={style.name}

@@ -19,7 +19,7 @@ main {
     /*border: 2px dashed red;*/
 
     display: flex;
-    flex: 1;
+    /*flex: 1;*/
     flex-wrap: wrap;
     height: 100%;
     padding: 1rem;
@@ -35,6 +35,10 @@ main {
     text-align: center;
 }
 
+.centerContainer button {
+    align-self: center;
+}
+
 .leftContainer, .rightContainer {
     /*border: 2px solid blue;*/
 
@@ -42,22 +46,25 @@ main {
     flex-direction: column;
     gap: 1rem;
     width: 100%;
+    padding: 1rem;
 }
 
 .leftContainer {
-    flex: 1 1 30rem; /* Grow: 1, Shrink: 1, Basis: 30rem */
-    min-width: 18rem; /* Niet smaller dan dit */
+    flex: 1 1 20rem;
+    min-width: 18rem;
     max-width: 60rem;
 }
 
 .rightContainer {
     flex: 1 1 10rem;
-    min-width: 10rem;
-    max-width: 40rem;
+    min-width: min-content;
+    max-width: 60rem;
+    padding-right: 1rem;
 }
 
 .upperItems {
     display: flex;
+    flex-wrap: wrap;
     min-height: 16rem;
     gap: 1rem;
 }

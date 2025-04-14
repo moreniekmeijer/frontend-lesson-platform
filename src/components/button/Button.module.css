@@ -12,17 +12,21 @@
     border-radius: 1rem;
     background: var(--red-color);
     box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+    cursor: pointer; /* Verplaatst naar hier om het overal te beheren */
 }
 
-button:disabled:hover,
-button:disabled:active {
+.button:disabled {
     background: inherit;
     cursor: not-allowed;
+    border: 1px solid var(--primary-color);
+}
+
+.button:disabled:hover {
+    background: transparent;
 }
 
 .button:hover {
     background: var(--red-hover-color);
-    cursor: pointer;
 }
 
 .button:active {
@@ -42,6 +46,15 @@ button:disabled:active {
 }
 
 .danger {
-    background-color:transparent;
+    background-color: transparent;
     border: 1px solid red;
+}
+
+.simple {
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+}
+
+.simple:hover {
+    background-color: var(--hover-color);
 }

@@ -16,18 +16,21 @@ function UploadPage() {
             <h3>Wat wil je toevoegen?</h3>
             <div className={styles.tabs}>
                 <Button
+                    variant="simple"
                     className={getTabClass('material')}
                     onClick={() => setActiveTab('material')}
                 >
                     Materiaal
                 </Button>
                 <Button
+                    variant="simple"
                     className={getTabClass('style')}
                     onClick={() => setActiveTab('style')}
                 >
                     Stijl
                 </Button>
                 <Button
+                    variant="simple"
                     className={getTabClass('lesson')}
                     onClick={() => setActiveTab('lesson')}
                 >

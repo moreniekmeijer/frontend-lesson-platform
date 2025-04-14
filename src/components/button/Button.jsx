@@ -1,13 +1,7 @@
 import styles from './Button.module.css';
 
 function Button({ variant = "primary", className, onClick, disabled, children }) {
-    let variantClass = "";
-
-    if (variant === "secondary") {
-        variantClass = styles.secondary;
-    } else if (variant === "danger") {
-        variantClass = styles.danger;
-    }
+    const variantClass = styles[variant] || "";
 
     const buttonClass = `${styles.button} ${variantClass} ${className || ""}`.trim();
 

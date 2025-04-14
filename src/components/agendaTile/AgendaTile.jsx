@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import useApiRequest from "../../hooks/useApiRequest.js";
 import {formatToDayMonth} from "../../helpers/formatDate.js";
+import styles from "./AgendaTile.module.css";
 
 const AgendaTile = () => {
     const { data, loading, error, executeRequest } = useApiRequest();
@@ -12,7 +13,7 @@ const AgendaTile = () => {
     const lessons = Array.isArray(data) ? data : [];
 
     return (
-        <section>
+        <section className={styles.agenda}>
             <h3>Agenda</h3>
             {loading && <p>Bezig met laden...</p>}
             {error && <p>Fout bij ophalen van lessen: {error}</p>}
@@ -21,11 +22,11 @@ const AgendaTile = () => {
                     {lessons.length > 0 ? (
                         lessons.map((lesson, index) => (
                             <li key={index}>
-                                {formatToDayMonth(lesson.scheduledDateTime) || 'Geen datum beschikbaar'}
+                                Volgende les - {formatToDayMonth(lesson.scheduledDateTime) || 'Geen datum beschikbaar'}
                             </li>
                         ))
                     ) : (
-                        <li>Geen lessen beschikbaar</li>
+                        <li>Geen lesson op de agenda!</li>
                     )}
                 </ul>
             )}

@@ -19,11 +19,17 @@ fieldset {
 .checkboxContainer {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
 }
 
-.checkbox {
+.checkboxContainer label {
     display: flex;
-    gap: 1rem;
+    gap: 0.6rem;
+    white-space: nowrap;
+}
+
+input[type="checkbox"] {
+    accent-color: var(--accent-color);
 }
 
 input, textarea, select {
@@ -48,7 +54,6 @@ select {
 
 /*TODO - styling in eigen component*/
 .react-datepicker__input-container input {
-    width: 100% !important;
     border-radius: 1rem !important;
     border: 1px solid var(--primary-color) !important;
     background-color: transparent !important;
@@ -64,6 +69,7 @@ select {
 }
 
 .react-datepicker {
+    width: max-content !important;
     border-radius: 1rem !important;
     border: 1px solid var(--primary-color) !important;
     background-color: transparent !important;

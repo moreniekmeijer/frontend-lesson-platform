@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
 import SearchTile from "../../components/searchTile/SearchTile.jsx";
@@ -59,7 +59,7 @@ function HomePage() {
         <>
             <div className="leftContainer">
                 <div className="upperItems">
-                    <MoreItemsTile title="Arrangementen" items={arrangementMaterials}/>
+                    <MoreItemsTile title="Voor volgende les: " items={arrangementMaterials}/>
                 </div>
                 <div>
                     {lessonStyles.map((style, index) => {
@@ -80,17 +80,10 @@ function HomePage() {
 
             <div className="rightContainer">
                 <div className="upperItems">
-                    <section className={styles.lessonInfo}>
-                        <div>
-                            <h3>Stijlen in deze les</h3>
-                            <ul>
-                                {lessonStyles.map((style) => (
-                                    <li key={style.id}>{style.name}</li>
-                                ))}
-                            </ul>
-                        </div>
-                        <NotesTile title="Notities" notes={lesson?.notes}/>
-                    </section>
+                    <NotesTile
+                        items={lessonStyles}
+                        notes={lesson?.notes || ""}
+                    />
                     <AgendaTile/>
                 </div>
                 <SearchTile/>
