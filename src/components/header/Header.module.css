@@ -68,3 +68,11 @@
 .link:hover {
     color: var(--hover-color);
 }
+
+@media (max-width: 600px) {
+    .leftContainer {
+        flex: 1;
+        margin-right: -2rem;
+        border-radius: 0;
+    }
+}

@@ -13,6 +13,7 @@ aside {
 
 .navigation {
     font-size: 1.5rem;
+    padding-bottom: 0.4rem;
 }
 
 .submenu {
@@ -32,4 +33,23 @@ aside {
 
 .defaultMenuLink, .defaultSubmenuLink {
     color: var(--secondary-color);
+}
+
+@media (orientation: portrait) {
+    aside {
+        top: 4rem;
+        flex: 1 1 12rem;
+        min-width: 10rem;
+        max-width: 18rem;
+        padding: 0;
+        background-image: none;
+    }
+
+    .navigation {
+        margin-top: -0.1rem;
+        margin-left: -0.1rem;
+        padding: 1rem;
+        border: 1px solid var(--primary-color);
+        border-radius: 0 0 2rem 0;
+    }
 }

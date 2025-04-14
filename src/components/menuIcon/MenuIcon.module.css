@@ -25,11 +25,26 @@
 }
 
 .dropdownItem {
-    padding: 8px 12px;
+    padding: 0.4rem 1rem;
     cursor: pointer;
     transition: background 0.2s;
 }
 
 .dropdownItem:hover {
     color: var(--hover-color);
+}
+
+@media (max-width: 600px) {
+    .menuContainer {
+        position: static;
+        display: inline-block;
+    }
+
+    .dropdownMenu {
+        width: 10rem;
+        top: 4rem;
+        right: 0;
+        border-top: none;
+        border-radius: 0 0 0 2rem;
+    }
 }

@@ -82,3 +82,9 @@ main {
     min-height: 16rem;
     gap: 1rem;
 }
+
+@media (max-width: 768px) {
+    main {
+        mask-image: linear-gradient(to bottom, transparent, black 6%);
+    }
+}
