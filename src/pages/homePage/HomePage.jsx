@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
 import SearchTile from "../../components/searchTile/SearchTile.jsx";
-import styles from "./HomePage.module.css";
 import "../../App.css";
 import AgendaTile from "../../components/agendaTile/AgendaTile.jsx";
 import NotesTile from "../../components/notesTile/NotesTile.jsx";
@@ -58,9 +57,7 @@ function HomePage() {
     return (
         <>
             <div className="leftContainer">
-                <div className="upperItems">
-                    <MoreItemsTile title="Voor volgende les: " items={arrangementMaterials}/>
-                </div>
+                <MoreItemsTile title="Voor volgende les: " items={arrangementMaterials}/>
                 <div>
                     {lessonStyles.map((style, index) => {
                         const videoMaterials = style.materials.filter(m => m.fileType === "VIDEO");

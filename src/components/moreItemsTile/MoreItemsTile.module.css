@@ -4,32 +4,27 @@
 
 .itemList {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.6rem;
     overflow-x: auto;
     white-space: nowrap;
     padding: 0 0 0.4rem 0;
     max-width: 100%;
 }
 
-.itemList li {
-    width: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: auto;
-}
-
-.secondary video, .secondary li {
-    width: 150px; /* Kleiner dan 244px */
+.secondary li, .secondary video, .secondary img {
+    width: 150px;
 }
 
 .itemList li a {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0.4rem 0.4rem 0;
     width: 100%;        /* Zorg dat de a zich niet uitrekt buiten li */
     overflow: hidden;   /* voorkom dat inhoud buiten de a valt */
     text-align: center; /* voor consistentie met de h4 */
+    border: 1px solid var(--primary-color);
+    border-radius: 1.4rem;
 }
 
 /* Verhoog de hoogte van de video en afbeeldingen inclusief de titel */

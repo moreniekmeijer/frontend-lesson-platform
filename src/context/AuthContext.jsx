@@ -56,7 +56,7 @@ function AuthContextProvider({children}) {
         });
 
         console.log('Gebruiker is uitgelogd!');
-        navigate('/login');
+        navigate('/inloggen');
     }
 
     async function fetchUserData(id, token, redirectUrl) {

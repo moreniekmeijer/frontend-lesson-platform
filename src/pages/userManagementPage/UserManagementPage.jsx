@@ -85,8 +85,10 @@ function UserManagementPage() {
                         </tr>
                         </thead>
                         <tbody>
-                        {/*TODO - tabel op alfabetische namen*/}
-                        {users.map(user => {
+                        {users
+                            .slice()
+                            .sort((a, b) => a.username.localeCompare(b.username))
+                            .map(user => {
                             const isAdmin = user.authorities.some(auth => auth.authority === 'ROLE_ADMIN');
                             const isOnlyAdmin = isAdmin && numberOfAdmins === 1;
                             const isCurrentUser = user.username === loggedInUsername.username;

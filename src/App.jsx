@@ -29,22 +29,23 @@ function App() {
                 <main>
                     <Routes>
                         <Route path="/" element={<PrivateRoute element={<HomePage/>}/>}/>
-                        <Route path="/login" element={<PublicRoute element={<LoginPage/>}/>}/>
-                        <Route path="/register" element={<PublicRoute element={<RegisterPage/>}/>}/>
+                        <Route path="/inloggen" element={<PublicRoute element={<LoginPage/>}/>}/>
+                        <Route path="/registreren" element={<PublicRoute element={<RegisterPage/>}/>}/>
                         <Route path="/account" element={<PrivateRoute element={<AccountPage/>}/>}/>
-                        <Route path="/users" element={<AdminRoute element={<UserManagementPage/>}/>}/>
+                        <Route path="/gebruikers" element={<AdminRoute element={<UserManagementPage/>}/>}/>
+                        <Route path="/stijlen" element={<Navigate to="/stijlen/1" replace />}/>
                         <Route path="/stijlen/:id" element={<PrivateRoute element={<StylePage/>}/>}/>
                         <Route path="/materiaal/:id" element={<PrivateRoute element={<MaterialPage/>}/>}/>
                         <Route path="/zoeken" element={<PrivateRoute element={<SearchPage/>}/>}/>
-                        <Route path="/uploaden" element={<AdminRoute element={<UploadPage/>}/>}/>
-                        <Route path="*" element={<PrivateRoute element={<NotFoundPage/>}/>}/>
+                        <Route path="/toevoegen" element={<Navigate to="/toevoegen/materiaal" replace />}/>
+                        <Route path="/toevoegen/:tab" element={<AdminRoute element={<UploadPage/>}/>}/>
                         <Route
                             path="*"
                             element={
                                 isAuth ? (
                                     <NotFoundPage/>
                                 ) : (
-                                    <Navigate to="/login" replace/>
+                                    <Navigate to="/inloggen"/>
                                 )
                             }
                         />

@@ -1,17 +1,22 @@
-import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useContext, useEffect, useState} from "react";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
 import axios from "axios";
 import styles from "./MaterialPage.module.css";
 import getYouTubeVideoId from "../../helpers/getYouTubeVideoId.js";
 import Button from "../../components/button/Button.jsx";
 import StyleTile from "../../components/styleTile/StyleTile.jsx";
+import {AuthContext} from "../../context/AuthContext.jsx";
+import useApiRequest from "../../hooks/useApiRequest.js";
 
 function MaterialPage() {
     const {id} = useParams();
+    const {user} = useContext(AuthContext);
     const [material, setMaterial] = useState(null);
     const [relatedItems, setRelatedItems] = useState([]);
     const token = localStorage.getItem("token");
+    const {executeRequest} = useApiRequest();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchMaterialAndRelated = async () => {
@@ -40,6 +45,15 @@ function MaterialPage() {
 
         void fetchMaterialAndRelated();
     }, [id]);
+
+    async function handleDelete() {
+        try {
+            await executeRequest('delete', `${import.meta.env.VITE_API_URL}/materials/${id}`);
+            navigate("/materiaal"); // Of waar je ook naartoe wilt
+        } catch (error) {
+            console.error("Fout bij verwijderen:", error);
+        }
+    }
 
     if (!material) return <p>Loading...</p>;
 
@@ -106,6 +120,7 @@ function MaterialPage() {
                     </a>
                 </span>
                 )}
+
                 {/*TODO - misschien StyleTile nog implementeren hier*/}
                 <StyleTile/>
                 <section>
@@ -114,6 +129,16 @@ function MaterialPage() {
                     <p><strong>Instrument:</strong> {material.instrument}</p>
                     <p><strong>Herkomst:</strong> {material.origin}</p>
                 </section>
+                {user?.role === 'admin' && (
+                    <span className={styles.buttonContainer}>
+                        <Button variant="danger" onClick={handleDelete}>
+                            Verwijder {material.title}
+                        </Button>
+                        <Link to="/toevoegen/materiaal">
+                            <Button variant="simple" >Materiaal toevoegen?</Button>
+                        </Link>
+                    </span>
+                )}
                 <MoreItemsTile title="Gerelateerd" items={relatedItems} variant="secondary"/>
             </section>
         </>

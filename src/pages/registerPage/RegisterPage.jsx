@@ -91,7 +91,7 @@ function RegisterPage() {
 
                     <Button type="submit">Registreren</Button>
 
-                    <p>Al een account? Log <NavLink to="/login">hier</NavLink> in</p>
+                    <p>Al een account? Log <NavLink to="/inloggen">hier</NavLink> in</p>
                 </fieldset>
             </form>
         </section>

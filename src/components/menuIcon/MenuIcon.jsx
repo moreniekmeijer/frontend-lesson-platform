@@ -36,14 +36,14 @@ const MenuIcon = () => {
             {isOpen && (
                 <ul onMouseLeave={closeMenu} className={styles.dropdownMenu}>
                     <li className={styles.dropdownItem}>
-                        <NavLink to="/login" onClick={logout}>Log uit</NavLink>
+                        <NavLink to="/inloggen" onClick={logout}>Log uit</NavLink>
                     </li>
                     <li className={styles.dropdownItem}>
                         <NavLink to="/account">Account</NavLink>
                     </li>
                     {isAdmin && (
                         <li className={styles.dropdownItem}>
-                            <NavLink to="/users">Gebruikers</NavLink>
+                            <NavLink to="/gebruikers">Gebruikers</NavLink>
                         </li>
                     )}
                 </ul>

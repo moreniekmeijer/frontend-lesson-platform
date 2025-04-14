@@ -60,7 +60,7 @@ function LoginPage() {
                     {loginError && <p className="errorMessage">{loginError}</p>}
                     <Button type="submit">Inloggen</Button>
 
-                    <p>Nieuw? registreer je <NavLink to="/register">hier</NavLink></p>
+                    <p>Nieuw? registreer je <NavLink to="/registreren">hier</NavLink></p>
                 </fieldset>
             </form>
         </section>

@@ -26,16 +26,13 @@ function StyleTile({data}) {
             </span>
             <p>{data.description}</p>
             {/*TODO - links zijn nu rechtstreeks, misschien ook verwijzen naar viewer in materiaal/{id}?*/}
-            {/*TODO - Misschien ook de 'geen links beschikbaar' alleen zichtbaar voor admin*/}
             <ul>
-                {data.links && data.links.length > 0 ? (
+                {data.links && data.links.length > 0 && (
                     data.links.map((link, index) => (
                         <li key={index}>
                             <a href={link} target="_blank" rel="noopener noreferrer">{link}</a>
                         </li>
                     ))
-                ) : (
-                    <li>Geen links beschikbaar</li>
                 )}
             </ul>
         </section>
