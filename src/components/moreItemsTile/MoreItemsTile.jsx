@@ -1,5 +1,7 @@
 import styles from "./MoreItemsTile.module.css"
 import {Link} from "react-router-dom";
+import youtube from "../../assets/YT-logo.png";
+import pdf from "../../assets/PDF-placeholder.png";
 
 function MoreItemsTile({title, items, variant}) {
     return (
@@ -12,9 +14,13 @@ function MoreItemsTile({title, items, variant}) {
                 {items.map((item) => (
                     <li key={item.id}>
                         <Link to={`/materiaal/${item.id}`}>
+                            {variant === "secondary" ?
+                                <h5 title={item.title}>{item.title}</h5>
+                                :
+                                <h4 title={item.title}>{item.title}</h4>}
 
                             {item.fileType === "VIDEO" && item.fileLink && (
-                                <video width="200" height="157" controls>
+                                <video controls>
                                     <source src={item.fileLink} type="video/mp4"/>
                                     Your browser does not support the video tag.
                                 </video>
@@ -22,19 +28,15 @@ function MoreItemsTile({title, items, variant}) {
 
                             {item.fileType === "LINK" && item.fileLink && (
                                 <img
-                                    src="../../assets/YT-logo.png"
+                                    src={youtube}
                                     alt="Video Link"
-                                    width="200"
-                                    height="130"
                                 />
                             )}
 
                             {item.fileType === "PDF" && item.fileLink && (
                                 <img
-                                    src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg"
+                                    src={pdf}
                                     alt="PDF Preview"
-                                    width="200"
-                                    height="130"
                                 />
                             )}
                         </Link>

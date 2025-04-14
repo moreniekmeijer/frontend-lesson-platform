@@ -58,6 +58,11 @@ h4 {
     margin-block: 0.3em;
 }
 
+h5 {
+    font-size: 1rem;
+    margin-block: 0.2em;
+}
+
 p, body {
     font-family: 'K2D', sans-serif;
     line-height: 1.5;

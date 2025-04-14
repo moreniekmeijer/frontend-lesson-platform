@@ -7,26 +7,52 @@
     gap: 0.5rem;
     overflow-x: auto;
     white-space: nowrap;
-    padding: 0 0 0.5rem 0;
+    padding: 0 0 0.4rem 0;
     max-width: 100%;
 }
 
 .itemList li {
-    flex-shrink: 0;
-    max-width: 200px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
 }
 
 .secondary video, .secondary li {
-    width: 170px;  /* Kleiner dan 244px */
-    height: 134px; /* Evenredig verkleind */
+    width: 150px; /* Kleiner dan 244px */
 }
 
+.itemList li a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;        /* Zorg dat de a zich niet uitrekt buiten li */
+    overflow: hidden;   /* voorkom dat inhoud buiten de a valt */
+    text-align: center; /* voor consistentie met de h4 */
+}
 
-/*!* Verborgen scrollbar in Firefox *!*/
-/*scrollbar-width: thin; !* "auto", "thin", of "none" *!*/
-/*scrollbar-color: #888 #f1f1f1; !* Scrollbalk kleur + achtergrondkleur *!*/
+/* Verhoog de hoogte van de video en afbeeldingen inclusief de titel */
+.itemList li h5, .itemList li h4 {
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--secondary-color);
+}
 
-/* Scrollbar voor WebKit (Chrome, Edge, Safari) */
+.itemList li h4:hover, .itemList li h5:hover {
+    color: var(--hover-color);
+}
+
+.itemList li img, .itemList li video {
+    max-width: 180px;
+    max-height: 134px;
+    object-fit: cover; /* Zorgt ervoor dat de inhoud van het beeld/video goed wordt ingepast */
+}
+
+/* Scrollbalk voor WebKit browsers */
 .itemList::-webkit-scrollbar {
     height: 0.8rem; /* Hoogte van de horizontale scrollbar */
 }
@@ -39,9 +65,4 @@
 .itemList::-webkit-scrollbar-thumb {
     background: var(--secondary-color); /* Kleur van de scrollbar zelf */
     border-radius: 1rem; /* Maakt het een perfecte cirkel */
-    margin: 0.4rem; /* Voegt ruimte toe om de bol 'vrij' te laten zweven */
 }
-
-/*.moreItemsTile span::-webkit-scrollbar-thumb:hover {*/
-
-/*}*/
