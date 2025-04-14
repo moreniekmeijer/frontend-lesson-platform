@@ -69,8 +69,8 @@ function RegisterPage() {
                             {...register("password", {
                                 required: "Wachtwoord is verplicht",
                                 minLength: {
-                                    value: 6,
-                                    message: "Wachtwoord moet minimaal 6 tekens bevatten"
+                                    value: 8,
+                                    message: "Wachtwoord moet minimaal 8 tekens bevatten"
                                 }
                             })}
                         />

@@ -1,5 +1,5 @@
 import {useForm} from "react-hook-form";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {NavLink, useNavigate} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import Button from "../../components/button/Button.jsx";
@@ -9,6 +9,7 @@ function LoginPage() {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const {login} = useContext(AuthContext);
     const navigate = useNavigate();
+    const [loginError, setLoginError] = useState("");
 
     const onSubmit = async (data) => {
         try {
@@ -16,6 +17,15 @@ function LoginPage() {
             login(response.data.jwt);
             navigate('/');
         } catch (error) {
+            if (error.response) {
+                if (error.response.status === 401) {
+                    setLoginError("Ongeldige gebruikersnaam of wachtwoord.");
+                } else {
+                    setLoginError("Er is iets misgegaan. Probeer het later opnieuw.");
+                }
+            } else {
+                setLoginError("Server niet bereikbaar.");
+            }
             console.error(error);
         }
     };
@@ -47,15 +57,7 @@ function LoginPage() {
                     </label>
                     {errors.password && <p className="errorMessage">{errors.password.message}</p>}
 
-                    {/*<label htmlFor="email">*/}
-                    {/*    E-mail (optioneel):*/}
-                    {/*    <input*/}
-                    {/*        type="email"*/}
-                    {/*        id="email"*/}
-                    {/*        {...register("email")}*/}
-                    {/*    />*/}
-                    {/*</label>*/}
-
+                    {loginError && <p className="errorMessage">{loginError}</p>}
                     <Button type="submit">Inloggen</Button>
 
                     <p>Nieuw? registreer je <NavLink to="/register">hier</NavLink></p>
