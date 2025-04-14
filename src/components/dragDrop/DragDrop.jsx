@@ -77,7 +77,7 @@ const DragDrop = forwardRef(({ onFileSelect }, ref) => {
                 onChange={handleFileChange}
             />
             <span>➕</span>
-            <p>{selectedFile ? selectedFile.name : "Click or drop a file here"}</p>
+            <p>{selectedFile ? selectedFile.name : "Klik of sleep hier een bestand heen"}</p>
         </div>
     );
 });

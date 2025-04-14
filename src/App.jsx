@@ -17,6 +17,7 @@ import UserManagementPage from "./pages/userManagementPage/UserManagementPage.js
 import {useContext} from "react";
 import {AuthContext} from "./context/AuthContext.jsx";
 import SearchPage from "./pages/searchPage/SearchPage.jsx";
+import djembes from "./assets/Djembes.png"
 
 function App() {
     const { isAuth } = useContext(AuthContext);
@@ -51,6 +52,11 @@ function App() {
                         />
                     </Routes>
                 </main>
+                {!isAuth &&
+                    <span className="backgroundImage">
+                        <img src={djembes} alt="Djembes"/>
+                    </span>
+                }
             </div>
         </>
     );
