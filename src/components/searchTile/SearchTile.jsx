@@ -136,13 +136,23 @@ function SearchTile({
 
     return (
         <section className={styles.searchTile}>
+            <h3>Welk materiaal zoek je?</h3>
             <section className={styles.searchArea}>
-                <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Zoekterm..."
-                />
+                <div>
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Zoekterm..."
+                    />
+
+                    <span className={styles.buttons}>
+                    {!hasSearched &&
+                        <Button onClick={handleSearch}>Zoeken</Button>
+                    }
+                        <Button variant="secondary" onClick={handleReset}>Reset</Button>
+                    </span>
+                </div>
 
                 {/*TODO - misschien gekozen categorieen laten uitlichten zodat het duidelijk is of je iets hebt aangevinkt*/}
                 <div className={styles.optionsContainer}>
@@ -163,11 +173,6 @@ function SearchTile({
                         </label>
                     ))}
                 </div>
-
-                <span className={styles.buttons}>
-                    {!hasSearched && <Button onClick={handleSearch}>Zoeken</Button>}
-                    <Button variant="secondary" onClick={handleReset}>Reset</Button>
-                </span>
             </section>
         </section>
     );

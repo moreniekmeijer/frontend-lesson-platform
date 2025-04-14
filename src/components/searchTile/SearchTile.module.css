@@ -6,9 +6,8 @@
 
 .searchArea {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 1rem;
-    max-width: 11rem;
 }
 
 .optionsContainer {
