@@ -16,6 +16,7 @@ import AccountPage from "./pages/accountPage/AccountPage.jsx";
 import UserManagementPage from "./pages/userManagementPage/UserManagementPage.jsx";
 import {useContext} from "react";
 import {AuthContext} from "./context/AuthContext.jsx";
+import SearchPage from "./pages/searchPage/SearchPage.jsx";
 
 function App() {
     const { isAuth } = useContext(AuthContext);
@@ -34,6 +35,7 @@ function App() {
                         <Route path="/users" element={<AdminRoute element={<UserManagementPage/>}/>}/>
                         <Route path="/stijlen/:id" element={<PrivateRoute element={<StylePage/>}/>}/>
                         <Route path="/materiaal/:id" element={<PrivateRoute element={<MaterialPage/>}/>}/>
+                        <Route path="/zoeken" element={<PrivateRoute element={<SearchPage/>}/>}/>
                         <Route path="/uploaden" element={<AdminRoute element={<UploadPage/>}/>}/>
                         <Route path="*" element={<PrivateRoute element={<NotFoundPage/>}/>}/>
                         <Route

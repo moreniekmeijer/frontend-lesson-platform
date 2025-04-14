@@ -9,7 +9,6 @@ function Aside() {
     const isStylesActive = location.pathname.startsWith('/stijlen');
     const { isAuth, user } = useContext(AuthContext);
 
-
     const {
         data: stylesList,
         loading,
@@ -57,10 +56,10 @@ function Aside() {
                         </ul>
                     )}
 
-                    {/* Materiaal - alleen als ingelogd */}
+                    {/* Zoeken - alleen als ingelogd */}
                     {isAuth && (
                         <li>
-                            <NavLink to="/materiaal" className={({ isActive }) => isActive ? styles.activeMenuLink : styles.defaultMenuLink}>
+                            <NavLink to="/zoeken" className={({ isActive }) => isActive ? styles.activeMenuLink : styles.defaultMenuLink}>
                                 Materiaal
                             </NavLink>
                         </li>
