@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import youtube from "../../assets/YT-logo.png";
 import pdf from "../../assets/PDF-placeholder.png";
 
+// TODO - videos tonen niet in Safari, check element en fallback!
 function MoreItemsTile({title, items, variant}) {
     return (
         <section className={`${styles.moreItemsTile} ${variant === "secondary" ? styles.secondary : ""}`}>

@@ -31,6 +31,7 @@ function UploadPage() {
         navigate(`/toevoegen/${reverseTabMap[newTab]}`);
     };
 
+    // TODO - Meldingen van toevoeging brengt flexbox in de war, moet nog netjes geplaatst
     return (
         <section className="leftContainer" >
             <h3>Wat wil je toevoegen?</h3>

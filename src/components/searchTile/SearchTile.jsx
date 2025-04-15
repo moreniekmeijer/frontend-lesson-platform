@@ -154,7 +154,7 @@ function SearchTile({
                     </span>
                 </div>
 
-                {/*TODO - misschien gekozen categorieen laten uitlichten zodat het duidelijk is of je iets hebt aangevinkt*/}
+                {/*TODO - als geen materiaal beschikbaar, toon melding "niets besc"*/}
                 <div className={styles.optionsContainer}>
                     {filterOrder.map((key) => (
                         <label key={key} className={styles.options}>

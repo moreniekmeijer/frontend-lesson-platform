@@ -32,7 +32,7 @@ function LoginPage() {
 
     return (
         <section className="centerContainer">
-            <h2>Login</h2>
+            <h2>Inloggen</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <fieldset>
                     <label htmlFor="username">
@@ -60,7 +60,7 @@ function LoginPage() {
                     {loginError && <p className="errorMessage">{loginError}</p>}
                     <Button type="submit">Inloggen</Button>
 
-                    <p>Nieuw? registreer je <NavLink to="/registreren">hier</NavLink></p>
+                    <p>Nieuw? Registreer je <NavLink to="/registreren">hier</NavLink></p>
                 </fieldset>
             </form>
         </section>

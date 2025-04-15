@@ -85,11 +85,11 @@ function MaterialPage() {
                     />
                 )}
 
-                {material.fileType === "LINK" && material.filePath && (
-                    // Check of de link een YouTube URL is
-                    material.filePath.includes("youtube.com") || material.filePath.includes("youtu.be") ? (
+                {material.fileType === "LINK" && material.fileLink && (
+                    // TODO - backend geeft nu fileLink, die moet je aanspreken
+                    material.fileLink.includes("youtube.com") || material.fileLink.includes("youtu.be") ? (
                         <iframe
-                            src={`https://www.youtube.com/embed/${getYouTubeVideoId(material.filePath)}`}
+                            src={`https://www.youtube.com/embed/${getYouTubeVideoId(material.fileLink)}`}
                             width="600"
                             height="400"
                             frameBorder="0"
