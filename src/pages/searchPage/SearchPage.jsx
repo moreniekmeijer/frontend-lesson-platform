@@ -5,7 +5,7 @@ import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
 function SearchPage() {
     const { state } = useLocation();
 
-    console.log(state?.results);  // Bekijk de resultaten in de console
+    console.log(state?.hasSearched);
 
     return (
         <section className="leftContainer">
@@ -14,11 +14,18 @@ function SearchPage() {
                 initialSearchTerm={state?.searchTerm}
                 initialHasSearched={state?.hasSearched}
             />
-            {state?.results && <MoreItemsTile
-                title="Zoekresultaten"
-                items={state.results}
-                variant="secondary"
-            />}
+            {/*TODO - dit werkt nog niet qua checks*/}
+            {state?.hasSearched === true ? (
+                state.results?.length > 0 ? (
+                    <MoreItemsTile
+                        title="Zoekresultaten"
+                        items={state.results}
+                        variant="secondary"
+                    />
+                ) : (
+                    <p>Helaas zijn er geen zoekresultaten beschikbaar...</p>
+                )
+            ) : null}
         </section>
     )
 }

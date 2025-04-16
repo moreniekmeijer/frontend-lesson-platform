@@ -34,7 +34,7 @@ function App() {
                         <Route path="/registreren" element={<PublicRoute element={<RegisterPage/>}/>}/>
                         <Route path="/account" element={<PrivateRoute element={<AccountPage/>}/>}/>
                         <Route path="/gebruikers" element={<AdminRoute element={<UserManagementPage/>}/>}/>
-                        <Route path="/stijlen" element={<Navigate to="/stijlen/1" replace />}/>
+                        <Route path="/stijlen" element={<Navigate to="/stijlen/:id" replace />}/>
                         <Route path="/stijlen/:id" element={<PrivateRoute element={<StylePage/>}/>}/>
                         <Route path="/materiaal/:id" element={<PrivateRoute element={<MaterialPage/>}/>}/>
                         <Route path="/zoeken" element={<PrivateRoute element={<SearchPage/>}/>}/>

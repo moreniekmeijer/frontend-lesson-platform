@@ -4,18 +4,19 @@ import { useEffect, useRef, useState } from "react";
 import Button from "../../button/Button.jsx";
 import "../Forms.css";
 import useApiRequest from "../../../hooks/useApiRequest.js";
+import {data} from "react-router-dom";
 
 function MaterialForm() {
-    const { register, handleSubmit, formState: { errors }, watch } = useForm();
+    const { register, handleSubmit, formState: { errors }, watch, reset } = useForm();
     const [file, setFile] = useState(null);
-    const [styles, setStyles] = useState([]);
     const [selectedOrigin, setSelectedOrigin] = useState(null);
+    const [successId, setSuccessId] = useState(null);
     const [validationError, setValidationError] = useState("");
     const selectedStyleId = watch("styleId");
     const selectedLink = watch("link");
     const dragDropRef = useRef();
+    // TODO - krijg nog verkeerde foutmelding als ik twee keer zelfde wil toevoegen
 
-    // Gebruik useApiRequest voor ophalen van stijlen
     const { data: fetchedStyles, loading: stylesLoading, error: stylesError, executeRequest: fetchStyles, postData } = useApiRequest([]);
 
     useEffect(() => {
@@ -53,30 +54,27 @@ function MaterialForm() {
         }
 
         try {
-            // Versturen van metaData met POST-aanroep voor materiaal
             const response = await executeRequest('post', `${import.meta.env.VITE_API_URL}/materials`, metaData);
             console.log("Response ontvangen:", response);
 
-            const material = response?.data || {}; // Fallback naar een lege object als er geen data is
-            alert("Upload succesvol!");
+            const material = response?.data || {};
 
             const materialId = material.id;
 
             if (file) {
-                // Versturen van bestand met multipart form-data
                 const fileFormData = new FormData();
                 fileFormData.append("file", file);
-
                 await executeRequest('post', `${import.meta.env.VITE_API_URL}/materials/${materialId}/file`, fileFormData);
-                alert("Bestand geüpload!");
             } else if (metaData.link) {
-                // Versturen van link
                 await executeRequest('post', `${import.meta.env.VITE_API_URL}/materials/${materialId}/link`, { link: metaData.link });
-                alert("Link toegevoegd!");
             }
+
+            setSuccessId(materialId);
+            reset();
+            removeFile();
+
         } catch (error) {
             console.error("Error:", error.response?.data || error.message);
-            alert("Er is iets misgegaan tijdens het uploaden.");
         }
     }
 
@@ -185,7 +183,9 @@ function MaterialForm() {
                 <Button type="submit">
                     Opslaan
                 </Button>
+
                 {validationError && <p className="errorMessage">{validationError}</p>}
+                {successId && <p>Het materiaal is succesvol opgeslagen!</p>}
 
             </fieldset>
         </form>

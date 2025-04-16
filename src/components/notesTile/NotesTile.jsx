@@ -1,6 +1,6 @@
 import styles from "./NotesTile.module.css";
 
-const NotesTile = ({title = "Stijlen volgende les:", items = [], notes = ""}) => {
+const NotesTile = ({title, items = [], notes = ""}) => {
     return (
         <section className={styles.notes}>
             <h3>{title}</h3>

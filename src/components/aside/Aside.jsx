@@ -1,14 +1,15 @@
 import styles from "./Aside.module.css";
-import {Link, NavLink, useLocation} from "react-router-dom";
-import {useContext, useEffect, useState} from "react";
+import {NavLink, useLocation} from "react-router-dom";
+import {useContext, useEffect, useRef, useState} from "react";
 import useApiRequest from "../../hooks/useApiRequest.js";
 import {AuthContext} from "../../context/AuthContext.jsx";
 
 function Aside() {
-    const location = useLocation();
-    const isStylesActive = location.pathname.startsWith('/stijlen');
-    const isUploadActive = location.pathname.startsWith('/toevoegen');
     const {isAuth, user} = useContext(AuthContext);
+    const [openMenu, setOpenMenu] = useState(null);
+    const [clickedMenu, setClickedMenu] = useState(null);
+    const timeoutRef = useRef(null);
+    const location = useLocation();
 
     const {
         data: stylesList,
@@ -19,14 +20,35 @@ function Aside() {
 
     useEffect(() => {
         void executeRequest('get', `${import.meta.env.VITE_API_URL}/styles`);
-        console.log("style list: " + stylesList);
     }, []);
+
+    const handleOpen = (menu) => {
+        clearTimeout(timeoutRef.current);
+        setOpenMenu(menu);
+    };
+
+    const handleClose = () => {
+        timeoutRef.current = setTimeout(() => {
+            setOpenMenu(null);
+        }, 300);
+    };
+
+    const toggleMenu = (menu) => {
+        setClickedMenu((prev) => (prev === menu ? null : menu));
+    };
+
+    const isMenuOpen = (menu) => {
+        const isCurrentPathActive =
+            (menu === 'styles' && location.pathname.startsWith('/stijlen/')) ||
+            (menu === 'upload' && location.pathname.startsWith('/toevoegen/'));
+
+        return openMenu === menu || clickedMenu === menu || isCurrentPathActive;
+    };
 
     return (
         <aside className={styles.aside}>
             <nav className={styles.navigation}>
                 <ul className={styles.menu}>
-                    {/* Home - alleen zichtbaar als ingelogd */}
                     {isAuth && (
                         <li>
                             <NavLink to="/"
@@ -37,15 +59,18 @@ function Aside() {
                     )}
 
                     {isAuth && stylesList?.length > 0 && (
-                        <>
-                            <li>
-                                <NavLink to="/stijlen"
-                                         className={({isActive}) => isActive ? styles.activeMenuLink : styles.defaultMenuLink}>
+                        <li onMouseEnter={() => handleOpen("styles")}
+                            onMouseLeave={handleClose}
+                            className="hasSubmenu"
+                        >
+                            <span
+                                className={styles.defaultMenuLink}
+                                onClick={() => toggleMenu("styles")}
+                            >
                                     Stijlen
-                                </NavLink>
-                            </li>
+                            </span>
 
-                            {isStylesActive && (
+                            {isMenuOpen("styles") && (
                                 <ul className={styles.submenu}>
                                     {stylesList.map(style => (
                                         <li key={style.id}>
@@ -57,7 +82,7 @@ function Aside() {
                                     ))}
                                 </ul>
                             )}
-                        </>
+                        </li>
                     )}
 
                     {isAuth && (
@@ -70,15 +95,17 @@ function Aside() {
                     )}
 
                     {isAuth && user?.role === 'admin' && (
-                        <>
-                            <li>
-                                <NavLink to="/toevoegen"
-                                         className={({isActive}) => isActive ? styles.activeMenuLink : styles.defaultMenuLink}>
-                                    Toevoegen
-                                </NavLink>
-                            </li>
+                        <li
+                            onMouseEnter={() => handleOpen('upload')}
+                            onMouseLeave={handleClose}
+                            className={styles.hasSubmenu}
+                        >
+                            <span
+                                className={styles.defaultMenuLink}
+                                onClick={() => toggleMenu("upload")}
+                            >Toevoegen</span>
 
-                            {isUploadActive && (
+                            {isMenuOpen("upload") && (
                                 <ul className={styles.submenu}>
                                     <li>
                                         <NavLink
@@ -106,7 +133,7 @@ function Aside() {
                                     </li>
                                 </ul>
                             )}
-                        </>
+                        </li>
                     )}
 
                     {loading && <p className={styles.loading}>Laden...</p>}

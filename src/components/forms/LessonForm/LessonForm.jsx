@@ -56,10 +56,10 @@ function LessonForm({setActiveTab}) {
 
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)}>
-            {successId && <p>De Les is klaargezet!</p>}
-            {(stylesError || postError) && <p>Er is iets misgegaan. Probeer het opnieuw.</p>}
-
             <fieldset>
+                {successId && <p>De Les is klaargezet!</p>}
+                {(stylesError || postError) && <p>Er is iets misgegaan. Probeer het opnieuw.</p>}
+
                 <label>Datum:</label>
                 <Controller
                     name="scheduledDateTime"
@@ -89,9 +89,9 @@ function LessonForm({setActiveTab}) {
                 ) : fetchedStyles.length === 0 ? (
                     <p>
                         Geen stijlen beschikbaar!
-                        <button type="button" onClick={() => setActiveTab('style')}>
+                        <Button onClick={() => setActiveTab('style')}>
                             Wil je stijlen toevoegen?
-                        </button>
+                        </Button>
                     </p>
                 ) : (
                     <div className="checkboxContainer">

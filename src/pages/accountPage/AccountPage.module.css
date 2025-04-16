@@ -1,13 +1,9 @@
-.container {
-    max-width: 30rem;
-}
-
 .form {
     display: flex;
     flex-direction: column;
+    max-width: 26rem;
 }
 
 .deleteContainer {
     padding: 1rem;
-    /*border-radius: 2rem;*/
 }

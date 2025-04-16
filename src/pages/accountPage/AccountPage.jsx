@@ -63,7 +63,7 @@ function AccountPage() {
     if (loading) return <p>Gegevens laden...</p>;
 
     return (
-        <section className={`"leftContainer" ${styles.container}`}>
+        <section className="leftContainer">
             <h2>Mijn Account</h2>
             {error && <p className="errorMessage">{error}</p>}
             <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>

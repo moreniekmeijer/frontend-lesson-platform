@@ -30,9 +30,6 @@ function SearchTile({
     } = useApiRequest();
 
     const {
-        // data: filteredMaterials,
-        loading,
-        error,
         executeRequest: fetchFilteredMaterials
     } = useApiRequest();
 
@@ -44,7 +41,6 @@ function SearchTile({
         origin: "Herkomst",
     };
 
-    // Haal alle materialen op voor de filteropties
     useEffect(() => {
         void fetchAllMaterials("get", `${import.meta.env.VITE_API_URL}/materials`);
     }, []);
@@ -96,7 +92,6 @@ function SearchTile({
         navigate("/zoeken", {state: {results: filteredMaterials}});
     };
 
-    // Voor nakijkers: deze useEffect zorgt voor het navigeren
     useEffect(() => {
         if (hasSearched && filteredMaterials.length > 0) {
             navigate("/zoeken", {
@@ -110,7 +105,6 @@ function SearchTile({
         }
     }, [filteredMaterials]);
 
-    // deze zorgt voor de automatische zoek updates
     useEffect(() => {
         if (!hasSearched) {
             return;

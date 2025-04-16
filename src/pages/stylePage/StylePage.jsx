@@ -29,7 +29,7 @@ function StylePage() {
     async function handleDelete() {
         try {
             await executeRequest('delete', `${import.meta.env.VITE_API_URL}/styles/${id}`);
-            navigate("/stijlen"); // Of waar je ook naartoe wilt
+            navigate("/"); // Of waar je ook naartoe wilt
         } catch (error) {
             console.error("Fout bij verwijderen:", error);
         }
@@ -51,12 +51,12 @@ function StylePage() {
                 <CountryTile countryName={styleData?.origin || "Onbekend"}/>
                 {user?.role === 'admin' && (
                     <span className={styles.buttonContainer}>
-                    <Button variant="danger" onClick={handleDelete}>
+                        <Button variant="danger" onClick={handleDelete}>
                         Verwijder stijl
-                    </Button>
-                    <Link to="/toevoegen/stijl">
-                        <Button variant="simple">Stijl toevoegen?</Button>
-                    </Link>
+                        </Button>
+                        <Link to="/toevoegen/stijl">
+                            <Button variant="simple">Stijl toevoegen?</Button>
+                        </Link>
                     </span>
                 )}
             </div>

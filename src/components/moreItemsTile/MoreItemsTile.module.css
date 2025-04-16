@@ -45,18 +45,3 @@
 .secondary li, .secondary video, .secondary img {
     width: 9rem;
 }
-
-/*TODO - misschien in global styling?*/
-.itemList::-webkit-scrollbar {
-    height: 0.8rem;
-}
-
-.itemList::-webkit-scrollbar-track {
-    background: var(--primary-color);
-    border-radius: 1rem;
-}
-
-.itemList::-webkit-scrollbar-thumb {
-    background: var(--secondary-color);
-    border-radius: 1rem;
-}

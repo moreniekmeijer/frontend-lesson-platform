@@ -49,12 +49,13 @@ function MaterialPage() {
     async function handleDelete() {
         try {
             await executeRequest('delete', `${import.meta.env.VITE_API_URL}/materials/${id}`);
-            navigate("/materiaal"); // Of waar je ook naartoe wilt
+            navigate("/zoeken");
         } catch (error) {
             console.error("Fout bij verwijderen:", error);
         }
     }
 
+    // TODO - ook niet netjes
     if (!material) return <p>Loading...</p>;
 
     return (
@@ -86,7 +87,6 @@ function MaterialPage() {
                 )}
 
                 {material.fileType === "LINK" && material.fileLink && (
-                    // TODO - backend geeft nu fileLink, die moet je aanspreken
                     material.fileLink.includes("youtube.com") || material.fileLink.includes("youtu.be") ? (
                         <iframe
                             src={`https://www.youtube.com/embed/${getYouTubeVideoId(material.fileLink)}`}
@@ -97,7 +97,7 @@ function MaterialPage() {
                             title="YouTube video"
                         />
                     ) : (
-                        <a href={material.filePath} target="_blank" rel="noreferrer">
+                        <a href={material.fileLink} target="_blank" rel="noreferrer">
                             <iframe
                                 src={material.fileLink}
                                 width="600"
@@ -139,7 +139,9 @@ function MaterialPage() {
                         </Link>
                     </span>
                 )}
-                <MoreItemsTile title="Gerelateerd" items={relatedItems} variant="secondary"/>
+                {relatedItems.length > 0 && (
+                    <MoreItemsTile title="Gerelateerd" items={relatedItems} variant="secondary"/>
+                )}
             </section>
         </>
     );

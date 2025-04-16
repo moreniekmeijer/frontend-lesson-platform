@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Itim&family=K2D:wght@300;400;700&display=swap');
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 :root {
     line-height: 1.5;
     font-weight: 400;
@@ -25,18 +31,9 @@
     --accent-color: #69ba52;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Itim', cursive;
     color: var(--text-color);
-    margin-block: 0.4rem;
-    /*margin-top: 0.6rem;*/
-    /*margin-bottom: 0.6rem;*/
 }
 
 h1 {
@@ -57,7 +54,6 @@ h4 {
 
 h5 {
     font-size: 1rem;
-    margin-block: 0.2rem;
 }
 
 p, body {
@@ -84,8 +80,26 @@ a:hover, Link:hover, NavLink:hover {
     color: var(--hover-color);
 }
 
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar {
+    height: 0.8rem;
+    width: 0.8rem;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--primary-color);
+    border-radius: 1rem;
+    margin-top: 2.6rem;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 1rem;
+}
+
+/* ---------- Queries ---------- */
 html {
-    font-size: 16px; /* standaard desktop */
+    font-size: 16px;
 }
 
 @media (min-width: 1440px) {
@@ -97,6 +111,10 @@ html {
 @media (max-width: 768px) {
     html {
         font-size: 14px;
+    }
+
+    ::-webkit-scrollbar-track {
+        margin-top: 2rem;
     }
 }
 

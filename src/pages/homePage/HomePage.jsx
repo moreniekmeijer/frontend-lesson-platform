@@ -57,7 +57,12 @@ function HomePage() {
     return (
         <>
             <div className="leftContainer">
-                <MoreItemsTile title="Voor volgende les: " items={arrangementMaterials}/>
+                {arrangementMaterials.length > 0 ? (
+                    <MoreItemsTile title="Voor volgende les: " items={arrangementMaterials}/>
+                ) : (
+                    // TODO - Opmaak; staat te hoog
+                    <h3>Geen specifiek materiaal voor volgende les!</h3>
+                )}
                 <div>
                     {lessonStyles.map((style, index) => {
                         const videoMaterials = style.materials.filter(m => m.fileType === "VIDEO");
@@ -78,6 +83,7 @@ function HomePage() {
             <div className="rightContainer">
                 <div className="upperItems">
                     <NotesTile
+                        title={lessonStyles.length > 0 && "Stijlen volgende les:"}
                         items={lessonStyles}
                         notes={lesson?.notes || ""}
                     />

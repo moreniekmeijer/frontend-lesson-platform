@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from './CountryTile.module.css';
 
 function CountryTile({countryName}) {
@@ -18,17 +18,21 @@ function CountryTile({countryName}) {
 
             void fetchCountryData();
         }
-    }, [countryName]); // Dit zorgt ervoor dat de effect opnieuw wordt uitgevoerd wanneer de countryName verandert
+    }, [countryName]);
 
-    if (!countryData) {
-        return <div>Loading...</div>; // Wacht op de data
-    }
+    // if (!countryData) {
+    //     return <div>Loading...</div>;
+    // }
 
     return (
-        <div className={styles.countryTile}>
-            <h3>{countryData.translations?.nld?.common || countryData.name.common}</h3>
-            <span><img src={countryData.flags.png} alt={`Flag of ${countryData.name.common}`} /></span>
-        </div>
+        countryData ? (
+            <div className={styles.countryTile}>
+                <h4>{countryData.translations?.nld?.common || countryData.name.common}</h4>
+                <span><img src={countryData.flags.png} alt={`Flag of ${countryData.name.common}`}/></span>
+            </div>
+        ) : (
+            <h4>{countryName}</h4>
+        )
     );
 }
 
