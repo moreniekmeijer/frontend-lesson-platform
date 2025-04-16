@@ -89,7 +89,7 @@ function LessonForm({setActiveTab}) {
                 ) : fetchedStyles.length === 0 ? (
                     <p>
                         Geen stijlen beschikbaar!
-                        <Button onClick={() => setActiveTab('style')}>
+                        <Button variant="secondary" onClick={() => setActiveTab('style')}>
                             Wil je stijlen toevoegen?
                         </Button>
                     </p>

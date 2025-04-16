@@ -14,14 +14,35 @@ aside {
 .navigation {
     font-size: 1.5rem;
     padding-bottom: 0.4rem;
-    padding-right: 2.2rem;
+    padding-right: 2.8rem;
     overflow-wrap: break-word;
     word-break: break-word;
 }
 
 .submenu {
-    padding-left: 1rem;
+    padding-left: 0.6rem;
     font-size: 1.2rem;
+    max-height: calc(100vh - 26rem);
+    min-height: 4.4rem;
+    overflow-y: auto;
+    direction: rtl;
+    text-align: left;
+}
+
+.submenu > * {
+    direction: ltr;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.submenu::-webkit-scrollbar-track {
+    background: var(--primary-color);
+    border-radius: 1rem;
+    margin: 0.4rem;
+}
+
+.submenu::-webkit-scrollbar {
+    width: 0.4rem;
 }
 
 .defaultMenuLink:hover {

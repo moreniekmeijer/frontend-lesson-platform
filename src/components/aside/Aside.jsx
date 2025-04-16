@@ -30,7 +30,7 @@ function Aside() {
     const handleClose = () => {
         timeoutRef.current = setTimeout(() => {
             setOpenMenu(null);
-        }, 300);
+        }, 200);
     };
 
     const toggleMenu = (menu) => {
@@ -48,7 +48,7 @@ function Aside() {
     return (
         <aside className={styles.aside}>
             <nav className={styles.navigation}>
-                <ul className={styles.menu}>
+                <ul className={styles.navigationContent}>
                     {isAuth && (
                         <li>
                             <NavLink to="/"
