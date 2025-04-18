@@ -11,7 +11,7 @@
     border: none;
     border-radius: 1rem;
     background: var(--red-color);
-    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+    box-shadow: rgba(0, 0, 0, 0.05) 0.2rem 0.6rem 1rem 0;
     cursor: pointer; /* Verplaatst naar hier om het overal te beheren */
 }
 

@@ -28,8 +28,6 @@ function StyleForm() {
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)}>
             <fieldset>
-                {successId && <p>De stijl is succesvol opgeslagen!</p>}
-                {error === "The name must be unique. This name already exists." && <p>Deze stijl bestaat al.</p>}
                 <label htmlFor="name">
                     Naam:
                     <input
@@ -87,6 +85,9 @@ function StyleForm() {
                 <Button type="submit">
                     Opslaan
                 </Button>
+
+                {successId && <p>De stijl is succesvol opgeslagen!</p>}
+                {error === "The name must be unique. This name already exists." && <p>Deze stijl bestaat al.</p>}
             </fieldset>
         </form>
     )

@@ -57,9 +57,6 @@ function LessonForm({setActiveTab}) {
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)}>
             <fieldset>
-                {successId && <p>De Les is klaargezet!</p>}
-                {(stylesError || postError) && <p>Er is iets misgegaan. Probeer het opnieuw.</p>}
-
                 <label>Datum:</label>
                 <Controller
                     name="scheduledDateTime"
@@ -125,6 +122,9 @@ function LessonForm({setActiveTab}) {
                 {errors.notes && <p className="errorMessage">{errors.notes.message}</p>}
 
                 <Button type="submit">Opslaan</Button>
+
+                {successId && <p>De Les is klaargezet!</p>}
+                {(stylesError || postError) && <p>Er is iets misgegaan. Probeer het opnieuw.</p>}
             </fieldset>
         </form>
     );
