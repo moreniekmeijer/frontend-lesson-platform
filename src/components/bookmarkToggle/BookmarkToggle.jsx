@@ -47,7 +47,7 @@ function BookmarkToggle({ user, materialId }) {
     };
 
     return (
-        <Button variant="simple" onClick={toggleBookmark}>
+        <Button variant={saved && "simple"} onClick={toggleBookmark}>
             {saved ? "Verwijder uit opgeslagen" : "Bewaar dit materiaal"}
         </Button>
     );

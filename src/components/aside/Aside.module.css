@@ -55,7 +55,7 @@ aside {
 
 .activeMenuLink, .activeMenuLink:hover {
     color: var(--red-active-color);
-    padding-left: 1rem;
+    padding-left: 0.4rem;
 }
 
 .defaultMenuLink, .defaultSubmenuLink {

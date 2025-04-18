@@ -89,7 +89,16 @@ function Aside() {
                         <li>
                             <NavLink to="/zoeken"
                                      className={({isActive}) => isActive ? styles.activeMenuLink : styles.defaultMenuLink}>
-                                Materiaal
+                                Zoeken
+                            </NavLink>
+                        </li>
+                    )}
+
+                    {isAuth && (
+                        <li>
+                            <NavLink to="/opgeslagen"
+                                     className={({isActive}) => isActive ? styles.activeMenuLink : styles.defaultMenuLink}>
+                                Opgeslagen
                             </NavLink>
                         </li>
                     )}

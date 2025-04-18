@@ -18,6 +18,7 @@ import {useContext} from "react";
 import {AuthContext} from "./context/AuthContext.jsx";
 import SearchPage from "./pages/searchPage/SearchPage.jsx";
 import djembes from "./assets/Djembes.png"
+import SavedPage from "./pages/savedPage/SavedPage.jsx";
 
 function App() {
     const { isAuth } = useContext(AuthContext);
@@ -38,6 +39,7 @@ function App() {
                         <Route path="/stijlen/:id" element={<PrivateRoute element={<StylePage/>}/>}/>
                         <Route path="/materiaal/:id" element={<PrivateRoute element={<MaterialPage/>}/>}/>
                         <Route path="/zoeken" element={<PrivateRoute element={<SearchPage/>}/>}/>
+                        <Route path="/opgeslagen" element={<PrivateRoute element={<SavedPage/>}/>}/>
                         <Route path="/toevoegen" element={<Navigate to="/toevoegen/materiaal" replace />}/>
                         <Route path="/toevoegen/:tab" element={<AdminRoute element={<UploadPage/>}/>}/>
                         <Route

@@ -8,6 +8,7 @@ import Button from "../../components/button/Button.jsx";
 import StyleTile from "../../components/styleTile/StyleTile.jsx";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import useApiRequest from "../../hooks/useApiRequest.js";
+import BookmarkToggle from "../../components/bookmarkToggle/BookmarkToggle.jsx";
 
 function MaterialPage() {
     const {id} = useParams();
@@ -118,7 +119,10 @@ function MaterialPage() {
                     <a href={`${material.fileLink}?action=download`}>
                         <Button variant="secondary">Download {material.title}</Button>
                     </a>
-                </span>
+                    </span>
+                )}
+                {user && material && (
+                    <BookmarkToggle user={user} materialId={material.id} />
                 )}
 
                 {/*TODO - misschien StyleTile nog implementeren hier*/}
@@ -129,6 +133,9 @@ function MaterialPage() {
                     <p><strong>Instrument:</strong> {material.instrument}</p>
                     <p><strong>Herkomst:</strong> {material.origin}</p>
                 </section>
+                {relatedItems.length > 0 && (
+                    <MoreItemsTile title="Gerelateerd" items={relatedItems} variant="secondary"/>
+                )}
                 {user?.role === 'admin' && (
                     <span className={styles.buttonContainer}>
                         <Button variant="danger" onClick={handleDelete}>
@@ -138,9 +145,6 @@ function MaterialPage() {
                             <Button variant="simple" >Materiaal toevoegen?</Button>
                         </Link>
                     </span>
-                )}
-                {relatedItems.length > 0 && (
-                    <MoreItemsTile title="Gerelateerd" items={relatedItems} variant="secondary"/>
                 )}
             </section>
         </>
