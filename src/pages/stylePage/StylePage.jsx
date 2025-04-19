@@ -45,7 +45,7 @@ function StylePage() {
         <>
             <div className="leftContainer">
                 <StyleTile data={styleData}/>
-                <MoreItemsTile variant="secondary" title="Videos" items={videos}/>
+                <MoreItemsTile variant="secondary" title="Video's" items={videos}/>
             </div>
             <div className="rightContainer">
                 <CountryTile countryName={styleData?.origin || "Onbekend"}/>

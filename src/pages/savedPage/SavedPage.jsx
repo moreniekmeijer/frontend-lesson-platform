@@ -4,7 +4,6 @@ import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {NavLink} from "react-router-dom";
 import Button from "../../components/button/Button.jsx";
-import styles from "./SavedPage.module.css";
 
 function SavedPage() {
     const {user} = useContext(AuthContext);
@@ -39,7 +38,6 @@ function SavedPage() {
                 <MoreItemsTile
                     title="Mijn opgeslagen materiaal"
                     items={savedItems}
-                    variant="secondary"
                 />
             ) : (
                 <>

@@ -1,7 +1,6 @@
 import MaterialForm from "../../components/forms/materialForm/materialForm.jsx";
 import StyleForm from "../../components/forms/styleForm/StyleForm.jsx";
 import LessonForm from "../../components/forms/LessonForm/LessonForm.jsx";
-import {useState} from "react";
 import styles from "./UploadPage.module.css";
 import Button from "../../components/button/Button.jsx";
 import {useNavigate, useParams} from "react-router-dom";
@@ -31,10 +30,9 @@ function UploadPage() {
         navigate(`/toevoegen/${reverseTabMap[newTab]}`);
     };
 
-    // TODO - Meldingen van toevoeging brengt flexbox in de war, moet nog netjes geplaatst
     return (
         <section className="leftContainer" >
-            <h3>Wat wil je toevoegen?</h3>
+            <h2>Wat wil je toevoegen?</h2>
             <div className={styles.tabs}>
                 <Button
                     variant="simple"

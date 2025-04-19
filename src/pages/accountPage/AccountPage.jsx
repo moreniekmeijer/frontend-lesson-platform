@@ -143,7 +143,7 @@ function AccountPage() {
                 ) : (
                     <div>
                         <p><i>Weet je zeker dat je je account wilt verwijderen?</i></p>
-                        <div>
+                        <div className={styles.buttonContainer}>
                             <Button type="button" onClick={handleDeleteAccount} variant="danger">
                                 Ja, verwijder
                             </Button>

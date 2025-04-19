@@ -2,8 +2,8 @@ aside {
     position: sticky;
     align-self: flex-start;
     top: 6rem;
-    height: calc(100vh - 6rem); /* exact onder de header blijven */
-    background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="258" height="654" viewBox="0 0 258 654" fill="none"%3E%3Cpath d="M0 0H93.1767C153.282 0 183.335 0 201.09 18.7804C218.845 37.5608 217.14 67.9228 213.729 128.647C197.102 424.669 208.905 569.367 258 734H0V0Z" fill="%23bad1ac"/%3E%3C/svg%3E') no-repeat -1.4rem 0;
+    height: calc(100vh - 6rem);
+    background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="258" height="654" viewBox="0 0 258 654" fill="none"%3E%3Cpath d="M0 0H93.1767C153.282 0 183.335 0 201.09 18.7804C218.845 37.5608 217.14 67.9228 213.729 128.647C197.102 424.669 208.905 569.367 258 734H0V0Z" fill="%23751C03"/%3E%3C/svg%3E') no-repeat -1.4rem 0;
     background-size: cover;
     padding: 2rem;
     flex: 1 1 18rem;
@@ -36,7 +36,7 @@ aside {
 }
 
 .submenu::-webkit-scrollbar-track {
-    background: var(--primary-color);
+    background: transparent;
     border-radius: 1rem;
     margin: 0.4rem;
 }
@@ -45,21 +45,21 @@ aside {
     width: 0.4rem;
 }
 
-.defaultMenuLink:hover {
-    color: var(--hover-color);
+.defaultMenuLink:hover, .defaultSubmenuLink:hover {
+    color: var(--second-hover-color);
 }
 
 .activeSubmenuLink, .activeSubmenuLink:hover {
-    color: var(--red-active-color);
+    color: var(--second-color);
 }
 
 .activeMenuLink, .activeMenuLink:hover {
-    color: var(--red-active-color);
+    color: var(--second-color);
     padding-left: 0.4rem;
 }
 
 .defaultMenuLink, .defaultSubmenuLink {
-    color: var(--secondary-color);
+    color: var(--third-color);
 }
 
 @media (max-width: 600px) or (orientation: portrait) {
@@ -68,6 +68,7 @@ aside {
         flex: 1 1 12rem;
         min-width: 12rem;
         max-width: 18rem;
+        margin-right: 0.2rem;
         padding: 0;
         background-image: none;
     }
@@ -77,7 +78,7 @@ aside {
         margin-left: -0.1rem;
         margin-right: 1.2rem;
         padding: 1.2rem;
-        border: 1px solid var(--primary-color);
+        border: 1px solid var(--first-color);
         border-radius: 0 0 2rem 0;
         white-space: none;
     }

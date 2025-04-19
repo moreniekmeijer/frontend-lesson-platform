@@ -9,15 +9,15 @@
     justify-content: center;
     border: none;
     border-radius: 1rem;
-    background: var(--red-color);
+    background: var(--second-color);
     box-shadow: rgba(0, 0, 0, 0.05) 0.2rem 0.6rem 1rem 0;
-    cursor: pointer; /* Verplaatst naar hier om het overal te beheren */
+    cursor: pointer;
 }
 
 .button:disabled {
     background: inherit;
     cursor: not-allowed;
-    border: 1px solid var(--primary-color);
+    border: 1px solid var(--first-color);
 }
 
 .button:disabled:hover {
@@ -25,23 +25,23 @@
 }
 
 .button:hover {
-    background: var(--red-hover-color);
+    background: var(--second-hover-color);
 }
 
 .button:active {
-    background: var(--red-active-color);
+    background: var(--second-accent-color);
 }
 
 .secondary {
-    background: var(--primary-color);
+    background: var(--first-color);
 }
 
 .secondary:hover {
-    background: var(--hover-color);
+    background: var(--first-hover-color);
 }
 
 .secondary:active {
-    background: var(--accent-color);
+    background: var(--first-accent-color);
 }
 
 .danger {
@@ -49,11 +49,15 @@
     border: 1px solid red;
 }
 
+.danger:hover {
+    background-color: var(--danger-hover-color);
+}
+
 .simple {
     background-color: transparent;
-    border: 1px solid var(--primary-color);
+    border: 1px solid var(--first-color);
 }
 
 .simple:hover {
-    background-color: var(--hover-color);
+    background-color: var(--first-hover-color);
 }

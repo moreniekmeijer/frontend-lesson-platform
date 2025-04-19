@@ -2,7 +2,10 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding-block: 1rem;
+    max-width: 12rem;
+}
+
+.countryTile span {
     width: 5rem;
 }
 

@@ -130,7 +130,7 @@ function SearchTile({
 
     return (
         <section className={styles.searchTile}>
-            <h3>Welk materiaal zoek je?</h3>
+            <h2>Welk materiaal zoek je?</h2>
             <section className={styles.searchArea}>
                 <div>
                     <input

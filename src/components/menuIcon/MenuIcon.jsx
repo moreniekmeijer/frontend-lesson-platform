@@ -11,7 +11,6 @@ const MenuIcon = () => {
         setIsOpen(!isOpen);
     };
 
-    // const openMenu = () => setIsOpen(true);
     const closeMenu = () => setIsOpen(false);
     const isAdmin = user?.role === "admin";
 
@@ -27,7 +26,7 @@ const MenuIcon = () => {
                     viewBox="0 -2 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    stroke="black"
+                    stroke="currentColor"
                 >
                     <path d="M3 12h18M3 6h18M3 18h18" strokeWidth="2" strokeLinecap="round"/>
                 </svg>

@@ -7,7 +7,7 @@
     display: flex;
     flex-basis: 30rem;
     border-radius: 0 0 4rem 4rem;
-    background-color: var(--secondary-color);
+    background-color: var(--first-color-dark);
 }
 
 .authHeader {
@@ -26,26 +26,31 @@
 .leftContainer {
     border-radius: 0 0 4rem 0;
     padding-right: 3rem;
-    background-color: var(--secondary-color);
+    background-color: var(--first-color-dark);
 }
 
 .headerTitle,
 .headerTitle:hover {
     white-space: nowrap;
-    color: var(--primary-color);
+    color: var(--first-hover-color);
 }
 
 .rightContainer {
     gap: 1rem;
     border-radius: 0 0 0 4rem;
     padding-left: 3rem;
-    background-color: var(--primary-color);
+    background-color: var(--fourth-color);
+}
+
+.accountName {
+    color: var(--third-color);
 }
 
 .menuIcon button {
     width: max-content;
     border: none;
     background: none;
+    color: var(--third-color);
     cursor: pointer;
 }
 
@@ -58,7 +63,7 @@
 .profileCircle {
     width: 2.5rem;
     height: 2.5rem;
-    background-color: var(--accent-color);
+    background-color: var(--first-accent-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -66,11 +71,11 @@
 }
 
 .link {
-    color: var(--secondary-color);
+    color: var(--first-color-dark);
 }
 
 .link:hover {
-    color: var(--hover-color);
+    color: var(--first-hover-color);
 }
 
 @media (max-width: 600px) {

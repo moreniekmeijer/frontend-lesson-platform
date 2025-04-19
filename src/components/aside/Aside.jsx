@@ -67,7 +67,7 @@ function Aside() {
                                 className={styles.defaultMenuLink}
                                 onClick={() => toggleMenu("styles")}
                             >
-                                    Stijlen
+                                Stijlen
                             </span>
 
                             {isMenuOpen("styles") && (
@@ -112,7 +112,9 @@ function Aside() {
                             <span
                                 className={styles.defaultMenuLink}
                                 onClick={() => toggleMenu("upload")}
-                            >Toevoegen</span>
+                            >
+                                Toevoegen
+                            </span>
 
                             {isMenuOpen("upload") && (
                                 <ul className={styles.submenu}>
