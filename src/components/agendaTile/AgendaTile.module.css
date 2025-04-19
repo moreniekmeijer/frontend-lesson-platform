@@ -2,5 +2,26 @@
     border: 2px solid var(--first-color);
     border-radius: 1.4rem;
     padding: 0.4rem 1rem 1rem;
-    height: max-content;
+    max-height: min-content;
+}
+
+.agenda ul {
+    max-height: 12rem;
+    overflow: auto;
+}
+
+.agenda ul::-webkit-scrollbar-track {
+    border-radius: 1rem;
+    margin: 0.4rem;
+}
+
+.agenda ul::-webkit-scrollbar {
+    width: 0.4rem;
+}
+
+.deleteContainer {
+    border: none;
+    margin-top: 1rem;
+    padding: 0;
+    max-width: min-content;
 }

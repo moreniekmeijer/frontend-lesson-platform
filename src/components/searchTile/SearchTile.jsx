@@ -25,7 +25,6 @@ function SearchTile({
 
     const {
         data: allMaterials,
-        error: optionsError,
         executeRequest: fetchAllMaterials
     } = useApiRequest();
 
@@ -81,7 +80,6 @@ function SearchTile({
         const response = await fetchFilteredMaterials("get", `${import.meta.env.VITE_API_URL}/materials`, null, params);
 
         if (response) {
-            console.log("Gevonden gefilterde materialen:", response);
             setFilteredMaterials(response.data);
         }
     };
@@ -148,7 +146,6 @@ function SearchTile({
                     </span>
                 </div>
 
-                {/*TODO - als geen materiaal beschikbaar, toon melding "niets besc"*/}
                 <div className={styles.optionsContainer}>
                     {filterOrder.map((key) => (
                         <label key={key} className={styles.options}>

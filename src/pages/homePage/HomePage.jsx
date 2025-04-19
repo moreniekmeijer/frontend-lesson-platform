@@ -26,7 +26,6 @@ function HomePage() {
                 const lessonData = lessonResponse.data;
                 setLesson(lessonData);
 
-                // Style data ophalen
                 const styleIds = lessonData.styleIds || [];
                 const styleRequests = styleIds.map(id =>
                     axios.get(`${import.meta.env.VITE_API_URL}/styles/${id}`, {
@@ -57,38 +56,41 @@ function HomePage() {
     return (
         <>
             <div className="leftContainer">
-                {arrangementMaterials.length > 0 ? (
-                    <MoreItemsTile title="Voor volgende les: " items={arrangementMaterials}/>
-                ) : (
-                    // TODO - Opmaak; staat te hoog
-                    <h3>Geen specifiek materiaal voor volgende les!</h3>
-                )}
-                <div>
-                    {lessonStyles.map((style, index) => {
-                        const videoMaterials = style.materials.filter(m => m.fileType === "VIDEO");
-                        if (videoMaterials.length === 0) return null;
+                {!lesson ? <h2>Geen lessen gepland.</h2> : (
+                    <>
+                        {arrangementMaterials.length > 0 ? (
+                            <MoreItemsTile title="Voor volgende les: " items={arrangementMaterials}/>
+                        ) : (
+                            <h3>Geen specifiek arrangement voor volgende les!</h3>
+                        )}
+                        <div>
+                            {lessonStyles.map((style, index) => {
+                                const videoMaterials = style.materials.filter(m => m.fileType === "VIDEO");
+                                if (videoMaterials.length === 0) return null;
 
-                        return (
-                            <MoreItemsTile
-                                key={style.id}
-                                title={`Video's ${style.name || `Stijl ${index + 1}`}`}
-                                items={videoMaterials}
-                                variant="secondary"
-                            />
-                        );
-                    })}
-                </div>
+                                return (
+                                    <MoreItemsTile
+                                        key={style.id}
+                                        title={`Video's ${style.name || `Stijl ${index + 1}`}`}
+                                        items={videoMaterials}
+                                        variant="secondary"
+                                    />
+                                );
+                            })}
+                        </div>
+                    </>)
+                }
             </div>
 
             <div className="rightContainer">
-                <div className="upperItems">
-                    <NotesTile
-                        title={lessonStyles.length > 0 && "Stijlen volgende les:"}
-                        items={lessonStyles}
-                        notes={lesson?.notes || ""}
-                    />
-                    <AgendaTile/>
-                </div>
+                    <div className="upperItems">
+                        {lesson && <NotesTile
+                            title={lessonStyles.length > 0 && "Stijlen volgende les:"}
+                            items={lessonStyles}
+                            notes={lesson?.notes || ""}
+                        />}
+                        <AgendaTile/>
+                    </div>
                 <SearchTile/>
             </div>
         </>

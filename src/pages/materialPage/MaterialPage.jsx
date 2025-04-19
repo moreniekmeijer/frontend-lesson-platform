@@ -1,11 +1,9 @@
 import {useContext, useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
-import axios from "axios";
 import styles from "./MaterialPage.module.css";
 import getYouTubeVideoId from "../../helpers/getYouTubeVideoId.js";
 import Button from "../../components/button/Button.jsx";
-import StyleTile from "../../components/styleTile/StyleTile.jsx";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import useApiRequest from "../../hooks/useApiRequest.js";
 import BookmarkToggle from "../../components/bookmarkToggle/BookmarkToggle.jsx";
@@ -15,32 +13,31 @@ function MaterialPage() {
     const {user} = useContext(AuthContext);
     const [material, setMaterial] = useState(null);
     const [relatedItems, setRelatedItems] = useState([]);
-    const token = localStorage.getItem("token");
     const {executeRequest} = useApiRequest();
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchMaterialAndRelated = async () => {
             try {
-                const materialResponse = await axios.get(`${import.meta.env.VITE_API_URL}/materials/${id}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-                const materialData = materialResponse.data;
+                const materialResponse = await executeRequest(
+                    'get',
+                    `${import.meta.env.VITE_API_URL}/materials/${id}`
+                );
+                const materialData = materialResponse?.data;
+                if (!materialData) return;
                 setMaterial(materialData);
 
-                const relatedResponse = await axios.get(`${import.meta.env.VITE_API_URL}/materials?styleName=${materialData.styleName}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-                const relatedMaterial = relatedResponse.data.filter(m => m.id !== materialData.id);
+                const relatedResponse = await executeRequest(
+                    'get',
+                    `${import.meta.env.VITE_API_URL}/materials`,
+                    null,
+                    { styleName: materialData.styleName }
+                );
+
+                const relatedMaterial = (relatedResponse?.data || []).filter(m => m.id !== materialData.id);
                 setRelatedItems(relatedMaterial);
-            } catch (err) {
-                console.error("Error fetching material + related:", err);
+            } catch (error) {
+                console.error("Fout bij het ophalen van materiaal en gerelateerde items:", error);
             }
         };
 
@@ -56,7 +53,6 @@ function MaterialPage() {
         }
     }
 
-    // TODO - ook niet netjes
     if (!material) return <p>Loading...</p>;
 
     return (
@@ -64,7 +60,6 @@ function MaterialPage() {
             <section className="leftContainer">
                 <h2>{material.title}</h2>
 
-                {/* Bestandstype weergeven */}
                 {material.fileType === "VIDEO" && (
                     <video key={material.id} width="600" height="400" controls>
                         <source src={material.fileLink} type="video/mp4"/>
@@ -125,8 +120,6 @@ function MaterialPage() {
                     <BookmarkToggle user={user} materialId={material.id} />
                 )}
 
-                {/*TODO - misschien StyleTile nog implementeren hier*/}
-                <StyleTile/>
                 <section>
                     <h3>{material.styleName}</h3>
                     <p><strong>Categorie:</strong> {material.category}</p>

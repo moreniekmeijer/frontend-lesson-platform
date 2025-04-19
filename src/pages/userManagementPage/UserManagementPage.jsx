@@ -92,7 +92,6 @@ function UserManagementPage() {
                             const isAdmin = user.authorities.some(auth => auth.authority === 'ROLE_ADMIN');
                             const isOnlyAdmin = isAdmin && numberOfAdmins === 1;
                             const isCurrentUser = user.username === loggedInUsername.username;
-                            console.log(user.username + " en " + loggedInUsername.username);
 
                             return (
                                 <tr key={user.username}>

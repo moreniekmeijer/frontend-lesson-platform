@@ -82,6 +82,10 @@ aside {
         border-radius: 0 0 2rem 0;
         white-space: none;
     }
+
+    .defaultMenuLink, .defaultSubmenuLink {
+        color: var(--first-color-dark);
+    }
 }
 
 @media (max-width: 768px) {

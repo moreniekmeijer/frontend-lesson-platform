@@ -25,7 +25,7 @@ function StyleTile({data}) {
                 )}
             </span>
             <p>{data.description}</p>
-            {/*TODO - links zijn nu rechtstreeks, misschien ook verwijzen naar viewer in materiaal/{id}?*/}
+
             <ul>
                 {data.links && data.links.length > 0 && (
                     data.links.map((link, index) => (

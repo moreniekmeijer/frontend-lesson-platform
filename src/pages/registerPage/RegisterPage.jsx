@@ -14,13 +14,10 @@ function RegisterPage() {
     const onSubmit = async (data) => {
         try {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/users`, data);
-            console.log("Gebruiker geregistreerd:", response.data);
             login(response.data.jwt);
             navigate('/');
 
         } catch (error) {
-            console.error("Registratie mislukt:", error);
-
             if (error.response.status === 409) {
                 setInvalidInviteCode("Registratiecode is incorrect");
             }

@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Button from "../../button/Button.jsx";
 import "../Forms.css";
 import useApiRequest from "../../../hooks/useApiRequest.js";
-import {data} from "react-router-dom";
 
 function MaterialForm() {
     const { register, handleSubmit, formState: { errors }, watch, reset } = useForm();
@@ -15,7 +14,6 @@ function MaterialForm() {
     const selectedStyleId = watch("styleId");
     const selectedLink = watch("link");
     const dragDropRef = useRef();
-    // TODO - krijg nog verkeerde foutmelding als ik twee keer zelfde wil toevoegen
 
     const { data: fetchedStyles, loading: stylesLoading, error: stylesError, executeRequest: fetchStyles, postData } = useApiRequest([]);
 
@@ -55,10 +53,7 @@ function MaterialForm() {
 
         try {
             const response = await executeRequest('post', `${import.meta.env.VITE_API_URL}/materials`, metaData);
-            console.log("Response ontvangen:", response);
-
             const material = response?.data || {};
-
             const materialId = material.id;
 
             if (file) {

@@ -35,16 +35,13 @@ function App() {
                         <Route path="/registreren" element={<PublicRoute element={<RegisterPage/>}/>}/>
                         <Route path="/account" element={<PrivateRoute element={<AccountPage/>}/>}/>
                         <Route path="/gebruikers" element={<AdminRoute element={<UserManagementPage/>}/>}/>
-                        <Route path="/stijlen" element={<Navigate to="/stijlen/:id" replace />}/>
                         <Route path="/stijlen/:id" element={<PrivateRoute element={<StylePage/>}/>}/>
                         <Route path="/materiaal/:id" element={<PrivateRoute element={<MaterialPage/>}/>}/>
                         <Route path="/zoeken" element={<PrivateRoute element={<SearchPage/>}/>}/>
                         <Route path="/opgeslagen" element={<PrivateRoute element={<SavedPage/>}/>}/>
                         <Route path="/toevoegen" element={<Navigate to="/toevoegen/materiaal" replace />}/>
                         <Route path="/toevoegen/:tab" element={<AdminRoute element={<UploadPage/>}/>}/>
-                        <Route
-                            path="*"
-                            element={
+                        <Route path="*" element={
                                 isAuth ? (
                                     <NotFoundPage/>
                                 ) : (

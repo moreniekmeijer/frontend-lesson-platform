@@ -10,9 +10,6 @@ const useApiRequest = (defaultData = null) => {
         setLoading(true);
         setError(null);
 
-        console.log("ExecuteRequest gestart");
-        console.log("Request URL: ", url);
-
         try {
             const token = localStorage.getItem('token');
             if (!token) {

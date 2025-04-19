@@ -65,7 +65,12 @@ function LessonForm({setActiveTab}) {
                     render={({field}) => (
                         <DatePicker
                             selected={field.value}
-                            onChange={(date) => field.onChange(date)}
+                            onChange={(date) => {
+                                if (date) {
+                                    date.setHours(12, 0, 0, 0);
+                                }
+                                field.onChange(date);
+                            }}
                             dateFormat="dd-MM-yyyy"
                             locale="nl"
                             inline

@@ -14,8 +14,6 @@ function AuthContextProvider({children}) {
     });
     const navigate = useNavigate();
 
-    console.log(auth.user);
-
     useEffect(() => {
         const token = localStorage.getItem('token');
 
@@ -36,7 +34,6 @@ function AuthContextProvider({children}) {
     }, []);
 
     function login(token) {
-        console.log('Inloggen met token:', token);
         localStorage.setItem('token', token);
 
         if (isTokenExpired(token)) {
@@ -55,7 +52,6 @@ function AuthContextProvider({children}) {
             status: 'done',
         });
 
-        console.log('Gebruiker is uitgelogd!');
         navigate('/inloggen');
     }
 
@@ -67,8 +63,6 @@ function AuthContextProvider({children}) {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
-            console.log("user object: ", result);
 
             const userRole = result.data.authorities?.find(auth => auth.authority === 'ROLE_ADMIN') ? 'admin' : 'user';
 

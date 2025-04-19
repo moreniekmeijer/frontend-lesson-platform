@@ -1,25 +1,26 @@
 import { useForm } from "react-hook-form";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext.jsx";
-import axios from "axios";
 import Button from "../../components/button/Button.jsx";
 import styles from "./AccountPage.module.css";
+import useApiRequest from "../../hooks/useApiRequest.js";
 
 function AccountPage() {
-    const { user, logout } = useContext(AuthContext); // Zorg dat je context de username bevat
-    const token = localStorage.getItem("token");
+    const { user, logout } = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
     const [confirmDelete, setConfirmDelete] = useState(false);
     const { register, handleSubmit, reset, watch, formState: { errors, isDirty } } = useForm();
     const newPassword = watch("password");
+    const { executeRequest } = useApiRequest();
 
     useEffect(() => {
         if (user) {
             reset({
                 username: user.username,
                 email: user.email,
-                password: "", // leeg veld voor eventueel nieuw wachtwoord
+                password: "",
             });
             setLoading(false);
         }
@@ -31,29 +32,21 @@ function AccountPage() {
                 delete data.password;
             }
 
-            await axios.put(`${import.meta.env.VITE_API_URL}/users/${user.username}`, data, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            const url = `${import.meta.env.VITE_API_URL}/users/${user.username}`;
+            await executeRequest('put', url, data);
 
-            alert("Gegevens succesvol bijgewerkt!");
-
-        } catch (err) {
-            console.error(err);
-            setError("Bijwerken mislukt.");
+            setSuccess("Je gegevens zijn succesvol bijgewerkt.");
+        } catch (error) {
+            console.error(error);
+            setError("Gegevens bijwerken mislukt.");
         }
     };
 
     const handleDeleteAccount = async () => {
         try {
-            await axios.delete(`${import.meta.env.VITE_API_URL}/users/${user.username}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            const url = `${import.meta.env.VITE_API_URL}/users/${user.username}`;
+            await executeRequest('delete', url);
             logout();
-
         } catch (err) {
             console.error(err);
             setError("Account verwijderen mislukt.");
@@ -66,6 +59,7 @@ function AccountPage() {
         <section className="leftContainer">
             <h2>Mijn Account</h2>
             {error && <p className="errorMessage">{error}</p>}
+
             <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
                 <legend><h4>Gegevens bijwerken</h4></legend>
                 <fieldset>
@@ -124,6 +118,8 @@ function AccountPage() {
                     </label>
 
                     <Button type="submit" disabled={!isDirty}>Opslaan</Button>
+
+                    {success && <p className="successMessage">{success}</p>}
                 </fieldset>
             </form>
 
