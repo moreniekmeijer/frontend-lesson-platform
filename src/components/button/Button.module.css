@@ -8,7 +8,7 @@
     align-items: center;
     justify-content: center;
     border: none;
-    border-radius: 1rem;
+    border-radius: 2rem;
     background: var(--second-color);
     box-shadow: rgba(0, 0, 0, 0.05) 0.2rem 0.6rem 1rem 0;
     cursor: pointer;

@@ -1,42 +1,35 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
 import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
 import SearchTile from "../../components/searchTile/SearchTile.jsx";
 import "../../App.css";
 import AgendaTile from "../../components/agendaTile/AgendaTile.jsx";
 import NotesTile from "../../components/notesTile/NotesTile.jsx";
+import useApiRequest from "../../hooks/useApiRequest.js";
 
 function HomePage() {
     const [lesson, setLesson] = useState(null);
     const [lessonStyles, setLessonStyles] = useState([]);
     const [arrangementMaterials, setArrangementMaterials] = useState([]);
 
-    const token = localStorage.getItem("token");
+    const { executeRequest } = useApiRequest();
 
     useEffect(() => {
         async function fetchLessonData() {
             try {
-                const lessonResponse = await axios.get(`${import.meta.env.VITE_API_URL}/lessons/next`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
+                const lessonResponse = await executeRequest("get", `${import.meta.env.VITE_API_URL}/lessons/next`);
+                const lessonData = lessonResponse?.data;
 
-                const lessonData = lessonResponse.data;
+                if (!lessonData) return;
+
                 setLesson(lessonData);
 
                 const styleIds = lessonData.styleIds || [];
-                const styleRequests = styleIds.map(id =>
-                    axios.get(`${import.meta.env.VITE_API_URL}/styles/${id}`, {
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json',
-                        },
-                    })
+                const stylePromises = styleIds.map(id =>
+                    executeRequest("get", `${import.meta.env.VITE_API_URL}/styles/${id}`)
                 );
-                const styleResponses = await Promise.all(styleRequests);
-                const stylesData = styleResponses.map(res => res.data);
+
+                const styleResponses = await Promise.all(stylePromises);
+                const stylesData = styleResponses.map(res => res?.data).filter(Boolean);
                 setLessonStyles(stylesData);
 
                 const arrangements = stylesData
@@ -44,14 +37,13 @@ function HomePage() {
                     .filter(Boolean);
 
                 setArrangementMaterials(arrangements);
-
             } catch (error) {
                 console.error("Fout bij ophalen lesgegevens:", error);
             }
         }
 
         void fetchLessonData();
-    }, [token]);
+    }, []);
 
     return (
         <>

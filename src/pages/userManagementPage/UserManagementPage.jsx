@@ -1,16 +1,16 @@
 import {useContext, useEffect, useState} from "react";
-import axios from "axios";
 import Button from "../../components/button/Button.jsx";
 import styles from "./UserManagementPage.module.css";
 import {formatRoles} from "../../helpers/formatRole.js";
 import {AuthContext} from "../../context/AuthContext.jsx";
+import useApiRequest from "../../hooks/useApiRequest.js";
 
 function UserManagementPage() {
     const {user: loggedInUsername} = useContext(AuthContext);
     const [users, setUsers] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const token = localStorage.getItem("token");
+    const { executeRequest } = useApiRequest();
 
     useEffect(() => {
         void fetchUsers();
@@ -18,14 +18,16 @@ function UserManagementPage() {
 
     async function fetchUsers() {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/users`, {
-                headers: {Authorization: `Bearer ${token}`},
-            });
-            setUsers(response.data);
-            setLoading(false);
-        } catch (err) {
-            console.error(err);
+            setLoading(true);
+            setError(null);
+            const response = await executeRequest("get", `${import.meta.env.VITE_API_URL}/users`);
+            if (response?.data) {
+                setUsers(response.data);
+            }
+        } catch (error) {
+            console.error(error);
             setError("Kon gebruikers niet ophalen.");
+        } finally {
             setLoading(false);
         }
     }
@@ -33,33 +35,33 @@ function UserManagementPage() {
     async function toggleAdminRole(username, isAdmin) {
         try {
             if (isAdmin) {
-                await axios.delete(`${import.meta.env.VITE_API_URL}/users/${username}/authorities/ROLE_ADMIN`, {
-                    headers: {Authorization: `Bearer ${token}`},
-                });
+                await executeRequest(
+                    "delete",
+                    `${import.meta.env.VITE_API_URL}/users/${username}/authorities/ROLE_ADMIN`
+                );
             } else {
-                await axios.post(`${import.meta.env.VITE_API_URL}/users/${username}/authorities`, {
-                    authority: "ROLE_ADMIN"
-                }, {
-                    headers: {Authorization: `Bearer ${token}`},
-                });
+                await executeRequest(
+                    "post",
+                    `${import.meta.env.VITE_API_URL}/users/${username}/authorities`,
+                    { authority: "ROLE_ADMIN" }
+                );
             }
-
-            fetchUsers();
-        } catch (err) {
-            console.error(err);
+            await fetchUsers();
+        } catch (error) {
+            console.error(error);
             setError("Kon rol niet aanpassen.");
         }
     }
 
     async function deleteUser(username) {
         try {
-            await axios.delete(`${import.meta.env.VITE_API_URL}/users/${username}`, {
-                headers: {Authorization: `Bearer ${token}`},
-            });
-
+            await executeRequest(
+                "delete",
+                `${import.meta.env.VITE_API_URL}/users/${username}`
+            );
             setUsers(prev => prev.filter(user => user.username !== username));
-        } catch (err) {
-            console.error(err);
+        } catch (error) {
+            console.error(error);
             setError("Gebruiker verwijderen mislukt.");
         }
     }

@@ -1,29 +1,28 @@
 import {useContext, useEffect, useState} from "react";
-import axios from "axios";
 import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {NavLink} from "react-router-dom";
 import Button from "../../components/button/Button.jsx";
+import useApiRequest from "../../hooks/useApiRequest.js";
 
 function SavedPage() {
     const {user} = useContext(AuthContext);
     const [savedItems, setSavedItems] = useState([]);
-    const token = localStorage.getItem("token");
+    const { executeRequest } = useApiRequest();
 
     useEffect(() => {
         const fetchSavedMaterials = async () => {
             try {
-                const response = await axios.get(
-                    `${import.meta.env.VITE_API_URL}/users/${user.username}/materials`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
+                const response = await executeRequest(
+                    "get",
+                    `${import.meta.env.VITE_API_URL}/users/${user.username}/materials`
                 );
-                setSavedItems(response.data);
-            } catch (err) {
-                console.error("Fout bij ophalen opgeslagen materiaal:", err);
+
+                if (response?.data) {
+                    setSavedItems(response.data);
+                }
+            } catch (error) {
+                console.error("Fout bij ophalen opgeslagen materiaal:", error);
             }
         };
 

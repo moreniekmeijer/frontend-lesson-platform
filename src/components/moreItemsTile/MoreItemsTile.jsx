@@ -1,7 +1,7 @@
 import styles from "./MoreItemsTile.module.css"
 import {Link} from "react-router-dom";
 import youtube from "../../assets/YT-logo.png";
-import pdf from "../../assets/PDF-placeholder.png";
+import pdf from "../../assets/PDF-Placeholder.png";
 
 function MoreItemsTile({title, items, variant}) {
     return (
