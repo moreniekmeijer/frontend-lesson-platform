@@ -1,4 +1,4 @@
-import React, {useState, useRef, forwardRef, useImperativeHandle} from "react";
+import {useState, useRef, forwardRef, useImperativeHandle} from "react";
 import styles from "./DragDrop.module.css";
 
 const DragDrop = forwardRef(({ onFileSelect }, ref) => {

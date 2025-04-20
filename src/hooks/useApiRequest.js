@@ -16,11 +16,16 @@ const useApiRequest = (defaultData = null) => {
                 throw new Error('Geen token gevonden');
             }
 
+            const headers = {
+                'Authorization': `Bearer ${token}`,
+            };
+
+            if (!(requestData instanceof FormData)) {
+                headers['Content-Type'] = 'application/json';
+            }
+
             const config = {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
+                headers,
                 params: queryParams || {},
             };
 
