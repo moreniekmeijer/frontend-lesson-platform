@@ -20,7 +20,7 @@ function SearchTile({
         origin: "",
         ...initialFilters,
     });
-    const [filteredMaterials, setFilteredMaterials] = useState([]);  // <-- Nieuwe state voor de gefilterde materialen
+    const [filteredMaterials, setFilteredMaterials] = useState([]);
     const filterOrder = ['origin', 'styleName', 'instrument', 'category', 'fileType'];
 
     const {

@@ -19,8 +19,8 @@ const AgendaTile = () => {
         if (!styleId) return;
         try {
             await executeRequest('delete', `${import.meta.env.VITE_API_URL}/lessons/${styleId}`);
-            reset(); // reset form
-            void executeRequest('get', `${import.meta.env.VITE_API_URL}/lessons`); // herladen
+            reset();
+            void executeRequest('get', `${import.meta.env.VITE_API_URL}/lessons`);
         } catch (error) {
             console.error("Fout bij verwijderen:", error);
         }

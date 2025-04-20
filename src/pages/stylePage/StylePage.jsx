@@ -1,6 +1,5 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
-import axios from "axios";
 import StyleTile from "../../components/styleTile/StyleTile.jsx";
 import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
 import CountryTile from "../../components/countryTile/CountryTile.jsx";
@@ -29,7 +28,7 @@ function StylePage() {
     async function handleDelete() {
         try {
             await executeRequest('delete', `${import.meta.env.VITE_API_URL}/styles/${id}`);
-            navigate("/"); // Of waar je ook naartoe wilt
+            navigate("/");
         } catch (error) {
             console.error("Fout bij verwijderen:", error);
         }
