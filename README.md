@@ -25,7 +25,7 @@ This frontend allows:
 - Students to view, filter, and prepare for upcoming lessons
 
 It pairs with the backend API found here:  
-[Backend API Repository](https://github.com/moreniekmeijer/lesson-platform)
+[Backend API Repository](https://github.com/moreniekmeijer/backend-lesson-platform)
 
 ---
 
