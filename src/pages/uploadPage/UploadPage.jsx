@@ -1,4 +1,4 @@
-import MaterialForm from "../../components/forms/materialForm/materialForm.jsx";
+import MaterialForm from "../../components/forms/materialForm/MaterialForm.jsx";
 import StyleForm from "../../components/forms/styleForm/StyleForm.jsx";
 import LessonForm from "../../components/forms/LessonForm/LessonForm.jsx";
 import styles from "./UploadPage.module.css";
