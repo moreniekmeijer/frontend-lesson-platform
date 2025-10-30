@@ -57,6 +57,8 @@ function LoginPage() {
                     </label>
                     {errors.password && <p className="errorMessage">{errors.password.message}</p>}
 
+                    <p>Wachtwoord vergeten? <NavLink to="/forgot-password">Klik hier</NavLink></p>
+
                     {loginError && <p className="errorMessage">{loginError}</p>}
                     <Button type="submit">Inloggen</Button>
 

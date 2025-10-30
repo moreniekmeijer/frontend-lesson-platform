@@ -19,6 +19,8 @@ import {AuthContext} from "./context/AuthContext.jsx";
 import SearchPage from "./pages/searchPage/SearchPage.jsx";
 import djembes from "./assets/Djembes.png"
 import SavedPage from "./pages/savedPage/SavedPage.jsx";
+import ResetPasswordPage from "./pages/resetPasswordPage/resetPasswordPage.jsx";
+import ForgotPasswordPage from "./pages/forgotPasswordPage/forgotPasswordPage.jsx";
 
 function App() {
     const { isAuth } = useContext(AuthContext);
@@ -33,6 +35,8 @@ function App() {
                         <Route path="/" element={<PrivateRoute element={<HomePage/>}/>}/>
                         <Route path="/inloggen" element={<PublicRoute element={<LoginPage/>}/>}/>
                         <Route path="/registreren" element={<PublicRoute element={<RegisterPage/>}/>}/>
+                        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                        <Route path="/reset-password" element={<ResetPasswordPage />} />
                         <Route path="/account" element={<PrivateRoute element={<AccountPage/>}/>}/>
                         <Route path="/gebruikers" element={<AdminRoute element={<UserManagementPage/>}/>}/>
                         <Route path="/stijlen/:id" element={<PrivateRoute element={<StylePage/>}/>}/>
