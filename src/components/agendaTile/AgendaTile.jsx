@@ -42,7 +42,7 @@ const AgendaTile = () => {
                             </li>
                         ))
                     ) : (
-                        <li>Geen lesson op de agenda!</li>
+                        <li>Geen lessen op de agenda!</li>
                     )}
                 </ul>
             )}
