@@ -57,25 +57,25 @@ function AuthContextProvider({children}) {
 
     async function fetchUserData(id, token, redirectUrl) {
         try {
-            const result = await axios.get(`${import.meta.env.VITE_API_URL}/users/${id}`, {
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/${id}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
             });
 
-            const userRole = result.data.authorities?.find(auth => auth.authority === 'ROLE_ADMIN') ? 'admin' : 'user';
+            const userData = response.data;
+            const authorities = userData.authorities?.map(a => a.authority) || [];
 
-            setAuth(prev => ({
-                ...prev,
+            setAuth({
                 isAuth: true,
                 user: {
-                    username: result.data.username,
-                    email: result.data.email,
-                    role: userRole,
+                    username: userData.username,
+                    email: userData.email,
+                    roles: authorities,
                 },
-                status: 'done',
-            }));
+                status: "done",
+            });
 
             if (redirectUrl) {
                 navigate(redirectUrl);

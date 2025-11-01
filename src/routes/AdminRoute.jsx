@@ -9,7 +9,7 @@ function AdminRoute({ element }) {
         return <Navigate to="/login" />;
     }
 
-    if (user.role !== 'admin') {
+    if (!user.roles.includes("ROLE_ADMIN")) {
         return <Navigate to="/" />;
     }
 

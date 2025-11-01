@@ -48,7 +48,7 @@ function StylePage() {
             </div>
             <div className="rightContainer">
                 <CountryTile countryName={styleData?.origin || "Onbekend"}/>
-                {user?.role === 'admin' && (
+                {user?.roles.includes("ROLE_ADMIN") && (
                     <span className={styles.buttonContainer}>
                         <Button variant="danger" onClick={handleDelete}>
                         Verwijder stijl

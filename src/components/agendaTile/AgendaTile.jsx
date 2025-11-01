@@ -47,7 +47,7 @@ const AgendaTile = () => {
                 </ul>
             )}
 
-            {lessons.length > 0 && user?.role === 'admin' && (
+            {lessons.length > 0 && user?.roles.includes("ROLE_ADMIN") && (
                 <form onSubmit={handleSubmit(onDelete)} className={styles.deleteContainer}>
                     <Controller
                         name="styleId"

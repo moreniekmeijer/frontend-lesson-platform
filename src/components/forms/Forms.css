@@ -78,6 +78,11 @@ select {
     padding: 0.5rem !important;
 }
 
+.react-datepicker__day {
+    width: 2rem !important;
+    height: 2rem !important;
+}
+
 .react-datepicker__day:hover {
     background-color: var(--first-hover-color) !important;
     color: var(--first-accent-color) !important;

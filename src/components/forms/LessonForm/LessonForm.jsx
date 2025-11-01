@@ -13,6 +13,12 @@ function LessonForm({setActiveTab}) {
     const [successId, setSuccessId] = useState(null);
     const [selectedStyles, setSelectedStyles] = useState([]);
     const {register, handleSubmit, control, formState: {errors}} = useForm();
+    const [selectedRoles, setSelectedRoles] = useState([]);
+    const availableRoles = [
+        { label: "Gast", value: "ROLE_GUEST" },
+        { label: "Groep 1", value: "ROLE_GROUP_1" },
+        { label: "Groep 2", value: "ROLE_GROUP_2" },
+    ];
 
     const {
         data: fetchedStyles = [],
@@ -38,17 +44,27 @@ function LessonForm({setActiveTab}) {
         );
     }
 
+    function handleRoleChange(roleValue) {
+        setSelectedRoles(prev =>
+            prev.includes(roleValue)
+                ? prev.filter(r => r !== roleValue)
+                : [...prev, roleValue]
+        );
+    }
+
     async function handleFormSubmit(data) {
         const addedData = {
             ...data,
             styleNames: selectedStyles,
             scheduledDateTime: data.scheduledDateTime.toISOString(),
+            allowedRoles: selectedRoles,
         };
 
         try {
             const response = await postLesson("post", `${import.meta.env.VITE_API_URL}/lessons`, addedData);
             setSuccessId(response.data.id);
             setSelectedStyles([]);
+            setSelectedRoles([]);
         } catch (e) {
             console.error("Post error:", e);
         }
@@ -76,6 +92,7 @@ function LessonForm({setActiveTab}) {
                             inline
                             minDate={new Date()}
                             calendarStartDay={1}
+                            showMonthYearDropdown={false}
                         />
                     )}
                 />
@@ -85,7 +102,7 @@ function LessonForm({setActiveTab}) {
             </fieldset>
 
             <fieldset>
-                <legend>Kies stijlen:</legend>
+                <label>Kies stijlen:</label>
                 {stylesLoading ? (
                     <p>Bezig met laden...</p>
                 ) : fetchedStyles.length === 0 ? (
@@ -111,6 +128,21 @@ function LessonForm({setActiveTab}) {
                     </div>
                 )}
 
+                <label>Kies doelgroepen:</label>
+                <div className="checkboxContainer">
+                    {availableRoles.map(role => (
+                        <label key={role.value}>
+                            <input
+                                type="checkbox"
+                                value={role.value}
+                                checked={selectedRoles.includes(role.value)}
+                                onChange={() => handleRoleChange(role.value)}
+                            />
+                            {role.label}
+                        </label>
+                    ))}
+                </div>
+
                 <label htmlFor="notes">Notities:</label>
                 <textarea
                     id="notes"
@@ -129,7 +161,7 @@ function LessonForm({setActiveTab}) {
                 <Button type="submit">Opslaan</Button>
 
                 {successId && <p>De Les is klaargezet!</p>}
-                {(stylesError || postError) && <p>Er is iets misgegaan. Probeer het opnieuw.</p>}
+                {(stylesError || postError) && <p>Er is iets misgegaan. Heb je een stijl en doelgroep aangevinkt?</p>}
             </fieldset>
         </form>
     );

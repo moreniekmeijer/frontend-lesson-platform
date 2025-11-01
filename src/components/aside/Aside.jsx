@@ -103,7 +103,7 @@ function Aside() {
                         </li>
                     )}
 
-                    {isAuth && user?.role === 'admin' && (
+                    {isAuth && user.roles.includes("ROLE_ADMIN") && (
                         <li
                             onMouseEnter={() => handleOpen('upload')}
                             onMouseLeave={handleClose}

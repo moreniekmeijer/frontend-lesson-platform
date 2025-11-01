@@ -129,7 +129,7 @@ function MaterialPage() {
                 {relatedItems.length > 0 && (
                     <MoreItemsTile title="Gerelateerd" items={relatedItems} variant="secondary"/>
                 )}
-                {user?.role === 'admin' && (
+                {user?.roles.includes("ROLE_ADMIN") && (
                     <span className={styles.buttonContainer}>
                         <Button variant="danger" onClick={handleDelete}>
                             Verwijder {material.title}
