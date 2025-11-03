@@ -40,7 +40,13 @@ function MaterialForm() {
         setFile(selectedFile);
     }
 
-    const { executeRequest } = useApiRequest();
+    const { executeRequest, error } = useApiRequest();
+
+    useEffect(() => {
+        if (error) {
+            setValidationError(error);
+        }
+    }, [error]);
 
     async function handleFormSubmit(metaData) {
         const hasLink = metaData.link && metaData.link.trim() !== "";
@@ -51,11 +57,24 @@ function MaterialForm() {
             return;
         }
 
+        let material;
         try {
             const response = await executeRequest('post', `${import.meta.env.VITE_API_URL}/materials`, metaData);
-            const material = response?.data || {};
-            const materialId = material.id;
+            material = response?.data;
+        } catch (err) {
+            const message = err?.response?.data?.error
+                || err?.response?.data?.details
+                || err.message
+                || "Er is een onbekende fout opgetreden";
+            console.error("Material creation error:", message);
+            setValidationError(message);
+            return;
+        }
 
+        const materialId = material?.id;
+        if (!materialId) return;
+
+        try {
             if (file) {
                 const fileFormData = new FormData();
                 fileFormData.append("file", file);
@@ -67,9 +86,14 @@ function MaterialForm() {
             setSuccessId(materialId);
             reset();
             removeFile();
-
-        } catch (error) {
-            console.error("Error:", error.response?.data || error.message);
+            setValidationError(""); // eventuele eerdere fout wissen
+        } catch (err) {
+            const message = err?.response?.data?.error
+                || err?.response?.data?.details
+                || err.message
+                || "Fout bij het toevoegen van bestand/link";
+            console.error("File/link upload error:", message);
+            setValidationError(message);
         }
     }
 

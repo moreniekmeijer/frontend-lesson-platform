@@ -44,8 +44,8 @@ const DragDrop = forwardRef(({ onFileSelect }, ref) => {
     };
 
     const isValidFile = (file) => {
-        const validExtensions = [".pdf", ".mp4", ".mov", ".mp3"];
-        const fileExtension = file.name.split(".").pop();
+        const validExtensions = [".pdf", ".mp4", ".mov", ".mp3", ".jpg", ".jpeg", ".png"];
+        const fileExtension = file.name.split(".").pop().toLowerCase();
         return validExtensions.includes(`.${fileExtension}`);
     };
 

@@ -1,14 +1,15 @@
-import {useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
 import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
 import SearchTile from "../../components/searchTile/SearchTile.jsx";
 import "../../App.css";
 import AgendaTile from "../../components/agendaTile/AgendaTile.jsx";
 import NotesTile from "../../components/notesTile/NotesTile.jsx";
 import useApiRequest from "../../hooks/useApiRequest.js";
-import {AuthContext} from "../../context/AuthContext.jsx";
+import { AuthContext } from "../../context/AuthContext.jsx";
+import { formatRoles } from "../../helpers/formatRole.js";
 
 function HomePage() {
-    const [lesson, setLesson] = useState(null);
+    const [lessons, setLessons] = useState([]);
     const [lessonStyles, setLessonStyles] = useState([]);
     const [arrangementMaterials, setArrangementMaterials] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -18,40 +19,35 @@ function HomePage() {
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
-        if (user.roles.includes("ROLE_GUEST")) {
+        if (user.roles?.includes("ROLE_GUEST")) {
             setErrorMessage("Gasten hebben geen toegang tot lessen.");
             setLoading(false);
             return;
         }
 
-        async function fetchLessonData() {
+        async function fetchLessonsData() {
             setLoading(true);
             setErrorMessage("");
 
             try {
-                const lessonResponse = await executeRequest("get", `${import.meta.env.VITE_API_URL}/lessons/next`);
-                const lessonData = lessonResponse?.data;
+                const response = await executeRequest("get", `${import.meta.env.VITE_API_URL}/lessons/next`);
+                const lessonsData = response?.data;
 
-                if (!lessonData) {
-                    setErrorMessage("Geen lessen gepland voor jouw groep.");
-                    setLesson(null);
+                if (!Array.isArray(lessonsData) || lessonsData.length === 0) {
+                    setErrorMessage("Geen lessen gepland voor jouw groep(en).");
                     return;
                 }
 
-                setLesson(lessonData);
+                setLessons(lessonsData);
 
-                const styleIds = lessonData.styleIds || [];
-                if (styleIds.length === 0) {
-                    setLessonStyles([]);
-                    setArrangementMaterials([]);
-                    return;
-                }
+                const allStyleIds = [
+                    ...new Set(lessonsData.flatMap(lesson => lesson.styleIds || []))
+                ];
 
-                const stylePromises = styleIds.map(id =>
-                    executeRequest("get", `${import.meta.env.VITE_API_URL}/styles/${id}`)
+                const styleResponses = await Promise.all(
+                    allStyleIds.map(id => executeRequest("get", `${import.meta.env.VITE_API_URL}/styles/${id}`))
                 );
 
-                const styleResponses = await Promise.all(stylePromises);
                 const stylesData = styleResponses.map(res => res?.data).filter(Boolean);
                 setLessonStyles(stylesData);
 
@@ -62,63 +58,75 @@ function HomePage() {
                 setArrangementMaterials(arrangements);
             } catch (error) {
                 console.error("Fout bij ophalen lesgegevens:", error);
-                if (error.response?.status === 404) {
-                    setErrorMessage("Geen lessen beschikbaar voor jouw groep.");
-                } else if (error.response?.status === 403) {
-                    setErrorMessage("Je hebt geen toegang tot lessen.");
-                } else {
-                    setErrorMessage("Er is een fout opgetreden bij het ophalen van de les.");
-                }
-                setLesson(null);
+                const msg =
+                    error.response?.data?.error ||
+                    (error.response?.status === 404
+                        ? "Geen lessen beschikbaar voor jouw groep(en)."
+                        : error.response?.status === 403
+                            ? "Je hebt geen toegang tot lessen."
+                            : "Er is een fout opgetreden bij het ophalen van de lessen.");
+                setErrorMessage(msg);
             } finally {
                 setLoading(false);
             }
         }
 
-        void fetchLessonData();
+        void fetchLessonsData();
     }, []);
 
     if (loading) return <p>Laden...</p>;
+
+    const lessonNotes = lessons.map(lesson => {
+        const groupLabel = formatRoles(lesson.allowedRoles);
+        return `${groupLabel}: ${lesson.notes || "(geen notities)"}`;
+    });
 
     return (
         <>
             <div className="leftContainer">
                 {errorMessage ? (
                     <h2>{errorMessage}</h2>
-                ) : !lesson ? (
+                ) : lessons.length === 0 ? (
                     <h2>Geen lessen gepland.</h2>
                 ) : (
                     <>
+                        {/* Arrangementen uit alle lessen, zonder dubbels */}
                         {arrangementMaterials.length > 0 ? (
-                            <MoreItemsTile title="Voor volgende les:" items={arrangementMaterials}/>
+                            <MoreItemsTile title="Voor volgende les(sen):" items={arrangementMaterials}/>
                         ) : (
-                            <h3>Geen specifiek arrangement voor volgende les!</h3>
+                            <h3>Geen specifiek arrangement voor volgende les(sen)!</h3>
                         )}
 
-                        {lessonStyles.map((style, index) => {
-                            const videoMaterials = style.materials.filter(m => m.fileType === "VIDEO");
-                            if (videoMaterials.length === 0) return null;
+                        <div>
+                            {/**
+                             * We willen nu alle unieke stijlen tonen, ongeacht uit welke les ze komen.
+                             * lessonStyles is al een unieke lijst, dus we mappen er gewoon overheen.
+                             */}
+                            {lessonStyles.map((style, index) => {
+                                const videoMaterials = style.materials.filter(m => m.fileType === "VIDEO");
+                                if (videoMaterials.length === 0) return null;
 
-                            return (
-                                <MoreItemsTile
-                                    key={style.id}
-                                    title={`Video's ${style.name || `Stijl ${index + 1}`}`}
-                                    items={videoMaterials}
-                                    variant="secondary"
-                                />
-                            );
-                        })}
+                                return (
+                                    <MoreItemsTile
+                                        key={style.id}
+                                        title={`Video's ${style.name || `Stijl ${index + 1}`}`}
+                                        items={videoMaterials}
+                                        variant="secondary"
+                                    />
+                                );
+                            })}
+                        </div>
                     </>
                 )}
             </div>
 
             <div className="rightContainer">
                 <div className="upperItems">
-                    {lesson && (
+                    {lessonNotes.length > 0 && (
                         <NotesTile
-                            title={lessonStyles.length > 0 && "Stijlen volgende les:"}
+                            title="Stijlen volgende les:"
                             items={lessonStyles}
-                            notes={lesson?.notes || ""}
+                            notes={lessonNotes}
                         />
                     )}
                     <AgendaTile/>

@@ -10,8 +10,10 @@ function LoginPage() {
     const {login} = useContext(AuthContext);
     const navigate = useNavigate();
     const [loginError, setLoginError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const onSubmit = async (data) => {
+        setLoading(true);
         try {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/authenticate`, data)
             login(response.data.jwt);
@@ -28,6 +30,7 @@ function LoginPage() {
             }
             console.error(error);
         }
+        setLoading(false);
     };
 
     return (
@@ -61,6 +64,7 @@ function LoginPage() {
 
                     {loginError && <p className="errorMessage">{loginError}</p>}
                     <Button type="submit">Inloggen</Button>
+                    {loading && <p>Bezig met inloggen...</p>}
 
                     <p>Nieuw? Registreer je <NavLink to="/registreren">hier</NavLink></p>
                 </fieldset>

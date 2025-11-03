@@ -40,6 +40,13 @@ function MoreItemsTile({title, items, variant}) {
                                         alt="PDF Preview"
                                     />
                                 )}
+
+                                {item.fileType === "IMAGE" && item.fileLink && (
+                                    <img
+                                        src={item.fileLink}
+                                        alt="PDF Preview"
+                                    />
+                                )}
                             </Link>
                         </li>
                     ))}
