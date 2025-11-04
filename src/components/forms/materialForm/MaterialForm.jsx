@@ -15,7 +15,7 @@ function MaterialForm() {
     const selectedLink = watch("link");
     const dragDropRef = useRef();
 
-    const { data: fetchedStyles, loading: stylesLoading, error: stylesError, executeRequest: fetchStyles, postData } = useApiRequest([]);
+    const { data: fetchedStyles, loading: stylesLoading, error: stylesError, executeRequest: fetchStyles } = useApiRequest([]);
 
     useEffect(() => {
         void fetchStyles('get', `${import.meta.env.VITE_API_URL}/styles`);
@@ -23,7 +23,7 @@ function MaterialForm() {
 
     useEffect(() => {
         if (selectedStyleId) {
-            const selectedStyle = fetchedStyles.find((style) => style.id.toString() === selectedStyleId);
+            const selectedStyle = fetchedStyles.find(s => s.id.toString() === selectedStyleId);
             setSelectedOrigin(selectedStyle?.origin || null);
         } else {
             setSelectedOrigin(null);
@@ -31,9 +31,7 @@ function MaterialForm() {
     }, [selectedStyleId, fetchedStyles]);
 
     useEffect(() => {
-        if ((file || selectedLink)) {
-            setValidationError("");
-        }
+        if (file || selectedLink) setValidationError("");
     }, [file, selectedLink]);
 
     function handleFileSelect(selectedFile) {
@@ -41,16 +39,11 @@ function MaterialForm() {
     }
 
     const { executeRequest, error } = useApiRequest();
-
-    useEffect(() => {
-        if (error) {
-            setValidationError(error);
-        }
-    }, [error]);
+    useEffect(() => { if (error) setValidationError(error); }, [error]);
 
     async function handleFormSubmit(metaData) {
-        const hasLink = metaData.link && metaData.link.trim() !== "";
-        const hasFile = file !== null;
+        const hasLink = metaData.link?.trim() !== "";
+        const hasFile = !!file;
 
         if (!hasLink && !hasFile) {
             setValidationError("Je moet minimaal een bestand óf een link toevoegen.");
@@ -58,42 +51,77 @@ function MaterialForm() {
         }
 
         let material;
+        let uploadUrl, objectName, fileType;
+
         try {
-            const response = await executeRequest('post', `${import.meta.env.VITE_API_URL}/materials`, metaData);
-            material = response?.data;
+            // Voeg filename/contentType toe als er een file is
+            let url = `${import.meta.env.VITE_API_URL}/materials`;
+            if (file) {
+                const params = new URLSearchParams({
+                    filename: file.name,
+                    contentType: file.type
+                });
+                url += `?${params.toString()}`;
+            }
+
+            const response = await executeRequest('post', url, metaData);
+            material = response?.data.material;
+            uploadUrl = response?.data.uploadUrl;
+            objectName = response?.data.objectName;
+            fileType = response?.data.fileType;
+
+            console.log("Material created:", material);
+            console.log("Signed upload URL:", uploadUrl);
+            console.log("Object name:", objectName);
+            console.log("File type:", fileType);
+            console.log("Local file type:", file?.type);
+
         } catch (err) {
-            const message = err?.response?.data?.error
-                || err?.response?.data?.details
-                || err.message
-                || "Er is een onbekende fout opgetreden";
-            console.error("Material creation error:", message);
-            setValidationError(message);
+            setValidationError(err?.response?.data?.error || err.message || "Er is een onbekende fout opgetreden");
             return;
         }
 
-        const materialId = material?.id;
-        if (!materialId) return;
+        if (!material?.id) return;
 
         try {
-            if (file) {
-                const fileFormData = new FormData();
-                fileFormData.append("file", file);
-                await executeRequest('post', `${import.meta.env.VITE_API_URL}/materials/${materialId}/file`, fileFormData);
-            } else if (metaData.link) {
-                await executeRequest('post', `${import.meta.env.VITE_API_URL}/materials/${materialId}/link`, { link: metaData.link });
+            if (file && uploadUrl && objectName && fileType) {
+                console.log("Uploading file to GCS...", file.name);
+
+                const res = await fetch(uploadUrl, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': file.type },
+                    body: file
+                });
+
+                console.log("Upload response:", res.status, res.statusText);
+                if (!res.ok) {
+                    console.error("Upload failed:", await res.text());
+                    setValidationError(`Upload mislukt: ${res.status}`);
+                    return;
+                }
+
+                // Bevestig bij backend dat de upload voltooid is
+                await executeRequest(
+                    'post',
+                    `${import.meta.env.VITE_API_URL}/materials/${material.id}/confirm-upload`,
+                    { objectName, fileType }
+                );
+
+            } else if (hasLink) {
+                await executeRequest(
+                    'post',
+                    `${import.meta.env.VITE_API_URL}/materials/${material.id}/link`,
+                    { link: metaData.link }
+                );
             }
 
-            setSuccessId(materialId);
+            setSuccessId(material.id);
             reset();
             removeFile();
-            setValidationError(""); // eventuele eerdere fout wissen
+            setValidationError("");
+
         } catch (err) {
-            const message = err?.response?.data?.error
-                || err?.response?.data?.details
-                || err.message
-                || "Fout bij het toevoegen van bestand/link";
-            console.error("File/link upload error:", message);
-            setValidationError(message);
+            setValidationError(err?.response?.data?.error || err.message || "Fout bij het uploaden");
         }
     }
 
