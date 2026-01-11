@@ -18,9 +18,10 @@ function AccountPage() {
     useEffect(() => {
         if (user) {
             reset({
-                username: user.username,
                 email: user.email,
+                fullName: user.fullName,
                 password: "",
+                currentPassword: "",
             });
             setLoading(false);
         }
@@ -32,7 +33,7 @@ function AccountPage() {
                 delete data.password;
             }
 
-            const url = `${import.meta.env.VITE_API_URL}/users/${user.username}`;
+            const url = `${import.meta.env.VITE_API_URL}/users/${user.id}`;
             await executeRequest('put', url, data);
 
             setSuccess("Je gegevens zijn succesvol bijgewerkt.");
@@ -44,7 +45,7 @@ function AccountPage() {
 
     const handleDeleteAccount = async () => {
         try {
-            const url = `${import.meta.env.VITE_API_URL}/users/${user.username}`;
+            const url = `${import.meta.env.VITE_API_URL}/users/${user.id}`;
             await executeRequest('delete', url);
             logout();
         } catch (err) {
@@ -63,15 +64,15 @@ function AccountPage() {
             <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
                 <legend><h4>Gegevens bijwerken</h4></legend>
                 <fieldset>
-                    <label htmlFor="username">
-                        Gebruikersnaam:
+                    <label htmlFor="fullName">
+                        Voor- en achternaam:
                         <input
                             type="text"
-                            id="username"
-                            disabled
-                            {...register("username")}
+                            id="fullName"
+                            {...register("fullName", { required: "Naam is verplicht" })}
                         />
                     </label>
+                    {errors.fullName && <p className="errorMessage">{errors.fullName.message}</p>}
 
                     <label htmlFor="email">
                         E-mailadres:

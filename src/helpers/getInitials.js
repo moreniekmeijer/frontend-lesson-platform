@@ -1,7 +1,7 @@
-function getInitials(username) {
-    if (!username) return '';
+function getInitials(fullName) {
+    if (!fullName) return '';
 
-    const nameParts = username.trim().split(' ');
+    const nameParts = fullName.trim().split(' ');
     if (nameParts.length === 1) {
         return nameParts[0].substring(0, 2).toUpperCase();
     }

@@ -29,25 +29,25 @@ function RegisterPage() {
             <h2>Registreren</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <fieldset>
-                    <label htmlFor="username">
-                        Gebruikersnaam:
+                    <label htmlFor="fullName">
+                        Voor- en achternaam:
                         <input
                             type="text"
-                            id="username"
-                            className={errors.username ? "inputError" : ""}
-                            {...register("username", {required: "Gebruikersnaam is verplicht"})}
+                            id="fullName"
+                            className={errors.fullName ? "inputError" : ""}
+                            {...register("fullName", {required: "Naam is verplicht"})}
                         />
                     </label>
-                    {errors.username && <p className="errorMessage">{errors.username.message}</p>}
+                    {errors.fullName && <p className="errorMessage">{errors.fullName.message}</p>}
 
                     <label htmlFor="email">
-                        E-mailadres (optioneel):
+                        E-mailadres:
                         <input
                             type="email"
                             id="email"
                             className={errors.email ? "inputError" : ""}
                             {...register("email", {
-                                required: false,
+                                required: "E-mailadres is verplicht",
                                 pattern: {
                                     value: /^\S+@\S+$/i,
                                     message: "Ongeldig e-mailadres"

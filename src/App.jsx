@@ -21,6 +21,7 @@ import djembes from "./assets/Djembes.png"
 import SavedPage from "./pages/savedPage/SavedPage.jsx";
 import ResetPasswordPage from "./pages/resetPasswordPage/resetPasswordPage.jsx";
 import ForgotPasswordPage from "./pages/forgotPasswordPage/forgotPasswordPage.jsx";
+import HelpPage from "./pages/helpPage/HelpPage.jsx";
 
 function App() {
     const { isAuth } = useContext(AuthContext);
@@ -39,6 +40,7 @@ function App() {
                         <Route path="/reset-password" element={<ResetPasswordPage />} />
                         <Route path="/account" element={<PrivateRoute element={<AccountPage/>}/>}/>
                         <Route path="/gebruikers" element={<AdminRoute element={<UserManagementPage/>}/>}/>
+                        <Route path="/help" element={<PrivateRoute element={<HelpPage/>}/>}/>
                         <Route path="/stijlen/:id" element={<PrivateRoute element={<StylePage/>}/>}/>
                         <Route path="/materiaal/:id" element={<PrivateRoute element={<MaterialPage/>}/>}/>
                         <Route path="/zoeken" element={<PrivateRoute element={<SearchPage/>}/>}/>

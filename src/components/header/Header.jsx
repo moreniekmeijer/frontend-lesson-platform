@@ -30,10 +30,10 @@ export function AuthHeader() {
                     <MenuIcon />
                 </li>
                 <li>
-                    <div className={styles.profileCircle}>{getInitials(user.username)}</div>
+                    <div className={styles.profileCircle}>{getInitials(user.fullName)}</div>
                 </li>
                 <li>
-                    <span className={styles.accountName}>{user.username}</span>
+                    <span className={styles.accountName}>{user.fullName}</span>
                 </li>
             </ul>
         </header>

@@ -1,6 +1,6 @@
 import {useForm} from "react-hook-form";
 import {useContext, useState} from "react";
-import {NavLink, useNavigate} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import Button from "../../components/button/Button.jsx";
 import axios from "axios";
@@ -8,7 +8,6 @@ import axios from "axios";
 function LoginPage() {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const {login} = useContext(AuthContext);
-    const navigate = useNavigate();
     const [loginError, setLoginError] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -17,11 +16,11 @@ function LoginPage() {
         try {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/authenticate`, data)
             login(response.data.jwt);
-            navigate('/');
+            // navigate('/');
         } catch (error) {
             if (error.response) {
                 if (error.response.status === 401) {
-                    setLoginError("Ongeldige gebruikersnaam of wachtwoord.");
+                    setLoginError("Ongeldig e-mailadres of wachtwoord.");
                 } else {
                     setLoginError("Er is iets misgegaan. Probeer het later opnieuw.");
                 }
@@ -38,16 +37,22 @@ function LoginPage() {
             <h2>Inloggen</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <fieldset>
-                    <label htmlFor="username">
-                        Gebruikersnaam:
+                    <label htmlFor="email">
+                        E-mailadres:
                         <input
-                            type="text"
-                            id="username"
-                            className={errors.username ? "inputError" : ""}
-                            {...register("username", {required: "Gebruikersnaam is verplicht"})}
+                            type="email"
+                            id="email"
+                            className={errors.email ? "inputError" : ""}
+                            {...register("email", {
+                                required: "E-mailadres is verplicht",
+                                pattern: {
+                                    value: /^\S+@\S+$/i,
+                                    message: "Ongeldig e-mailadres"
+                                }
+                            })}
                         />
                     </label>
-                    {errors.username && <p className="errorMessage">{errors.username.message}</p>}
+                    {errors.email && <p className="errorMessage">{errors.email.message}</p>}
 
                     <label htmlFor="password">
                         Wachtwoord:

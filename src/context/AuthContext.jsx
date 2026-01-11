@@ -65,14 +65,15 @@ function AuthContextProvider({children}) {
             });
 
             const userData = response.data;
-            const authorities = userData.authorities?.map(a => a.authority) || [];
+            console.log(userData)
 
             setAuth({
                 isAuth: true,
                 user: {
-                    username: userData.username,
+                    id: userData.id,
                     email: userData.email,
-                    roles: authorities,
+                    fullName: userData.fullName,
+                    roles: userData.authorities ?? [],
                 },
                 status: "done",
             });

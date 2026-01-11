@@ -45,6 +45,9 @@ const MenuIcon = () => {
                             <NavLink to="/gebruikers">Gebruikers</NavLink>
                         </li>
                     )}
+                    <li className={styles.dropdownItem}>
+                        <NavLink to="/help">Help</NavLink>
+                    </li>
                 </ul>
             )}
         </div>
