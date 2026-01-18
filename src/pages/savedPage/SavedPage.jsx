@@ -15,7 +15,7 @@ function SavedPage() {
             try {
                 const response = await executeRequest(
                     "get",
-                    `${import.meta.env.VITE_API_URL}/users/${user.username}/materials`
+                    `${import.meta.env.VITE_API_URL}/users/${user.id}/materials`
                 );
 
                 if (response?.data) {

@@ -6,56 +6,40 @@ const DragDrop = forwardRef(({ onFileSelect }, ref) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef(null);
 
-    const handleDragOver = (event) => {
-        event.preventDefault();
-        setDragging(true);
-    };
-
-    const handleDragLeave = () => {
-        setDragging(false);
-    };
-
-    const handleDrop = (event) => {
-        event.preventDefault();
-        setDragging(false);
-        const files = event.dataTransfer.files;
-        if (files.length > 0) {
-            const file = files[0];
-            if (isValidFile(file)) {
-                setSelectedFile(file);
-                onFileSelect(file);
-            } else {
-                alert("Unsupported file type");
-            }
-        }
-    };
-
-    const handleFileChange = (event) => {
-        const files = event.target.files;
-        if (files.length > 0) {
-            const file = files[0];
-            if (isValidFile(file)) {
-                setSelectedFile(file);
-                onFileSelect(file);
-            } else {
-                alert("Unsupported file type");
-            }
-        }
-    };
-
     const isValidFile = (file) => {
         const validExtensions = [".pdf", ".mp4", ".mov", ".mp3", ".jpg", ".jpeg", ".png"];
-        const fileExtension = file.name.split(".").pop().toLowerCase();
-        return validExtensions.includes(`.${fileExtension}`);
+        const ext = "." + file.name.split(".").pop().toLowerCase();
+        return validExtensions.includes(ext);
     };
 
-    const handleClick = () => {
-        fileInputRef.current.click();
+    const handleFile = (file) => {
+        if (!isValidFile(file)) {
+            alert("Unsupported file type");
+            return;
+        }
+        setSelectedFile(file);
+        onFileSelect?.(file);
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        setDragging(false);
+        if (e.dataTransfer.files.length > 0) {
+            handleFile(e.dataTransfer.files[0]);
+        }
+    };
+
+    const handleFileChange = (e) => {
+        if (e.target.files.length > 0) {
+            handleFile(e.target.files[0]);
+        }
     };
 
     useImperativeHandle(ref, () => ({
-        reset() {
+        getFile: () => selectedFile,
+        reset: () => {
             setSelectedFile(null);
+            onFileSelect?.(null);
             if (fileInputRef.current) {
                 fileInputRef.current.value = null;
             }
@@ -65,15 +49,15 @@ const DragDrop = forwardRef(({ onFileSelect }, ref) => {
     return (
         <div
             className={`${styles.dragDropContainer} ${dragging ? styles.dragging : ""}`}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
+            onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
+            onDragLeave={() => setDragging(false)}
             onDrop={handleDrop}
-            onClick={handleClick}
+            onClick={() => fileInputRef.current.click()}
         >
             <input
                 type="file"
                 ref={fileInputRef}
-                style={{ display: "none" }}
+                hidden
                 onChange={handleFileChange}
             />
             <span>➕</span>

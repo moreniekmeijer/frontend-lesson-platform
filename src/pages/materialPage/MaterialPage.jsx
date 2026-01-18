@@ -76,7 +76,7 @@ function MaterialPage() {
                 {material.fileType === "IMAGE" && (
                     <img
                         src={material.fileLink}
-                        alt="Afbeelding"
+                        alt={material.title}
                         width="600"
                         height="400"
                     />

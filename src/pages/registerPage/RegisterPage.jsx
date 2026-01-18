@@ -1,5 +1,5 @@
 import {useForm} from "react-hook-form";
-import {NavLink, useNavigate} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import axios from "axios";
 import Button from "../../components/button/Button.jsx";
 import {useContext, useState} from "react";
@@ -8,20 +8,21 @@ import {AuthContext} from "../../context/AuthContext.jsx";
 function RegisterPage() {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const {login} = useContext(AuthContext);
-    const navigate = useNavigate();
     const [invalidInviteCode, setInvalidInviteCode] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const onSubmit = async (data) => {
+        setLoading(true);
         try {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/users`, data);
             login(response.data.jwt);
-            navigate('/');
-
+            // navigate('/');
         } catch (error) {
             if (error.response.status === 409) {
                 setInvalidInviteCode("Registratiecode is incorrect");
             }
         }
+        setLoading(false);
     };
 
     return (
@@ -87,6 +88,7 @@ function RegisterPage() {
                     {invalidInviteCode && <p className="errorMessage">{invalidInviteCode}</p>}
 
                     <Button type="submit">Registreren</Button>
+                    {loading && <p>Bezig met registreren...</p>}
 
                     <p>Al een account? Log <NavLink to="/inloggen">hier</NavLink> in</p>
                 </fieldset>

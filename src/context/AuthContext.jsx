@@ -65,7 +65,6 @@ function AuthContextProvider({children}) {
             });
 
             const userData = response.data;
-            console.log(userData)
 
             setAuth({
                 isAuth: true,

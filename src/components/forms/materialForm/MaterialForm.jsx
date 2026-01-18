@@ -7,15 +7,34 @@ import useApiRequest from "../../../hooks/useApiRequest.js";
 
 function MaterialForm() {
     const { register, handleSubmit, formState: { errors }, watch, reset } = useForm();
-    const [file, setFile] = useState(null);
+    // const [file, setFile] = useState(null);
     const [selectedOrigin, setSelectedOrigin] = useState(null);
-    const [successId, setSuccessId] = useState(null);
-    const [validationError, setValidationError] = useState("");
+    const [processing, setProcessing] = useState([]);
+    // const [validationError, setValidationError] = useState("");
     const selectedStyleId = watch("styleId");
-    const selectedLink = watch("link");
+    const watchedLink = watch("link");
     const dragDropRef = useRef();
+    const [hasFile, setHasFile] = useState(false);
+    const [selectedFileName, setSelectedFileName] = useState(null);
 
     const { data: fetchedStyles, loading: stylesLoading, error: stylesError, executeRequest: fetchStyles } = useApiRequest([]);
+    const { executeRequest } = useApiRequest();
+
+    const handleRemoveFile = () => {
+        dragDropRef.current?.reset();
+        setHasFile(false);
+        setSelectedFileName(null);
+    };
+
+    function addProcess(process) {
+        setProcessing(prev => [...prev, process]);
+    }
+
+    function updateProcess(id, updates) {
+        setProcessing(prev =>
+            prev.map(p => p.id === id ? { ...p, ...updates } : p)
+        );
+    }
 
     useEffect(() => {
         void fetchStyles('get', `${import.meta.env.VITE_API_URL}/styles`);
@@ -30,31 +49,32 @@ function MaterialForm() {
         }
     }, [selectedStyleId, fetchedStyles]);
 
-    useEffect(() => {
-        if (file || selectedLink) setValidationError("");
-    }, [file, selectedLink]);
-
-    function handleFileSelect(selectedFile) {
-        setFile(selectedFile);
-    }
-
-    const { executeRequest, error } = useApiRequest();
-    useEffect(() => { if (error) setValidationError(error); }, [error]);
-
     async function handleFormSubmit(metaData) {
-        const hasLink = metaData.link?.trim() !== "";
-        const hasFile = !!file;
+        const file = dragDropRef.current?.getFile?.() ?? null;
+        const link = metaData.link?.trim() || null;
 
-        if (!hasLink && !hasFile) {
-            setValidationError("Je moet minimaal een bestand óf een link toevoegen.");
+        const processId = metaData.title + '_' + Date.now();
+        addProcess({
+            id: processId,
+            name: metaData.title,
+            file,
+            link,
+            status: 'pending',
+            message: 'Metadata opslaan...'
+        });
+
+        if (!file && !link) {
+            updateProcess(processId, {
+                status: 'error',
+                message: 'Upload mislukt',
+                error: 'Je moet minimaal een bestand of een link toevoegen'
+            });
             return;
         }
 
-        let material;
-        let uploadUrl, objectName, fileType;
+        let material, uploadUrl, objectName, fileType;
 
         try {
-            // Voeg filename/contentType toe als er een file is
             let url = `${import.meta.env.VITE_API_URL}/materials`;
             if (file) {
                 const params = new URLSearchParams({
@@ -70,22 +90,23 @@ function MaterialForm() {
             objectName = response?.data.objectName;
             fileType = response?.data.fileType;
 
-            console.log("Material created:", material);
-            console.log("Signed upload URL:", uploadUrl);
-            console.log("Object name:", objectName);
-            console.log("File type:", fileType);
-            console.log("Local file type:", file?.type);
+            if (!material?.id) throw new Error("Material ID ontbreekt");
 
         } catch (err) {
-            setValidationError(err?.response?.data?.error || err.message || "Er is een onbekende fout opgetreden");
+            updateProcess(processId, {
+                status: 'error',
+                message: 'Upload mislukt',
+                error: err?.response?.data?.error || err.message
+            });
             return;
         }
 
-        if (!material?.id) return;
+        reset();
+        handleRemoveFile()
 
         try {
             if (file && uploadUrl && objectName && fileType) {
-                console.log("Uploading file to GCS...", file.name);
+                updateProcess(processId, { status: 'uploading', message: `${file.name} uploaden...` });
 
                 const res = await fetch(uploadUrl, {
                     method: 'PUT',
@@ -93,53 +114,60 @@ function MaterialForm() {
                     body: file
                 });
 
-                console.log("Upload response:", res.status, res.statusText);
                 if (!res.ok) {
-                    console.error("Upload failed:", await res.text());
-                    setValidationError(`Upload mislukt: ${res.status}`);
+                    updateProcess(processId, { status: 'error', message: 'Upload mislukt', error: res.status });
                     return;
                 }
 
-                // Bevestig bij backend dat de upload voltooid is
+                updateProcess(processId, { status: 'processing', message: `${file.name} verwerken...` });
+
                 await executeRequest(
                     'post',
                     `${import.meta.env.VITE_API_URL}/materials/${material.id}/confirm-upload`,
                     { objectName, fileType }
                 );
 
-            } else if (hasLink) {
+            } else if (link) {
+                updateProcess(processId, { status: 'processing', message: 'Link verwerken...' });
+
                 await executeRequest(
                     'post',
                     `${import.meta.env.VITE_API_URL}/materials/${material.id}/link`,
-                    { link: metaData.link }
+                    { link }
                 );
             }
 
-            setSuccessId(material.id);
-            reset();
-            removeFile();
-            setValidationError("");
+            updateProcess(processId, { status: 'done', message: `Materiaal is toegevoegd!` });
 
         } catch (err) {
-            setValidationError(err?.response?.data?.error || err.message || "Fout bij het uploaden");
+            updateProcess(processId, {
+                status: 'error',
+                message: 'Upload mislukt',
+                error: err?.response?.data?.error || err.message
+            });
         }
-    }
-
-    function removeFile() {
-        setFile(null);
-        dragDropRef.current?.reset();
     }
 
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)}>
             <fieldset>
                 <label>Upload een bestand:</label>
-                <DragDrop onFileSelect={handleFileSelect} ref={dragDropRef} />
-                {file && (
+                <DragDrop
+                    ref={dragDropRef}
+                    onFileSelect={(file) => {
+                        setHasFile(!!file);
+                        setSelectedFileName(file?.name ?? null);
+                    }}
+                />
+                {hasFile && (
                     <div>
                         <p><strong>Geselecteerd bestand:</strong></p>
-                        <p>{file.name}</p>
-                        <Button type="button" onClick={removeFile} variant="secondary">
+                        <p>{selectedFileName}</p>
+                        <Button
+                            type="button"
+                            onClick={handleRemoveFile}
+                            variant="secondary"
+                        >
                             Verwijder bestand
                         </Button>
                     </div>
@@ -162,7 +190,7 @@ function MaterialForm() {
                 </label>
                 {errors.title && <p className="errorMessage">{errors.title.message}</p>}
 
-                {!file && (
+                {!hasFile && (
                     <>
                         <label htmlFor="link">
                             Link:
@@ -231,9 +259,15 @@ function MaterialForm() {
                     Opslaan
                 </Button>
 
-                {validationError && <p className="errorMessage">{validationError}</p>}
-                {successId && <p>Het materiaal is succesvol opgeslagen!</p>}
-
+                {/*{validationError && <p className="errorMessage">{validationError}</p>}*/}
+                <div>
+                    {processing.map(p => (
+                        <div key={p.id} className="process">
+                            <strong>{p.name}</strong>: {p.message}
+                            {p.error && <div className="errorMessage">{p.error}</div>}
+                        </div>
+                    ))}
+                </div>
             </fieldset>
         </form>
     );

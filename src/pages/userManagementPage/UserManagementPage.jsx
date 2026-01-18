@@ -6,7 +6,7 @@ import {AuthContext} from "../../context/AuthContext.jsx";
 import useApiRequest from "../../hooks/useApiRequest.js";
 
 function UserManagementPage() {
-    const {user: loggedInUsername} = useContext(AuthContext);
+    const {user: loggedInUser} = useContext(AuthContext);
     const [users, setUsers] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -32,17 +32,17 @@ function UserManagementPage() {
         }
     }
 
-    async function toggleAdminRole(username, isAdmin) {
+    async function toggleAdminRole(userId, isAdmin) {
         try {
             if (isAdmin) {
                 await executeRequest(
                     "delete",
-                    `${import.meta.env.VITE_API_URL}/users/${username}/authorities/ROLE_ADMIN`
+                    `${import.meta.env.VITE_API_URL}/users/${userId}/authorities/ROLE_ADMIN`
                 );
             } else {
                 await executeRequest(
                     "post",
-                    `${import.meta.env.VITE_API_URL}/users/${username}/authorities`,
+                    `${import.meta.env.VITE_API_URL}/users/${userId}/authorities`,
                     { authority: "ROLE_ADMIN" }
                 );
             }
@@ -53,13 +53,13 @@ function UserManagementPage() {
         }
     }
 
-    async function deleteUser(username) {
+    async function deleteUser(userId) {
         try {
             await executeRequest(
                 "delete",
-                `${import.meta.env.VITE_API_URL}/users/${username}`
+                `${import.meta.env.VITE_API_URL}/users/${userId}`
             );
-            setUsers(prev => prev.filter(user => user.username !== username));
+            setUsers(prev => prev.filter(user => user.id !== userId));
         } catch (error) {
             console.error(error);
             setError("Gebruiker verwijderen mislukt.");
@@ -67,7 +67,7 @@ function UserManagementPage() {
     }
 
     const numberOfAdmins = users.filter(user =>
-        user.authorities.some(auth => auth.authority === 'ROLE_ADMIN')
+        user.authorities.includes('ROLE_ADMIN')
     ).length;
 
     return (
@@ -80,7 +80,7 @@ function UserManagementPage() {
                     <table className={styles.userTable}>
                         <thead>
                         <tr>
-                            <th>Gebruikersnaam</th>
+                            <th>Naam</th>
                             <th>Email</th>
                             <th>Rollen</th>
                             <th>Acties</th>
@@ -89,28 +89,28 @@ function UserManagementPage() {
                         <tbody>
                         {users
                             .slice()
-                            .sort((a, b) => a.username.localeCompare(b.username))
+                            .sort((a, b) => a.fullName.localeCompare(b.fullName))
                             .map(user => {
-                            const isAdmin = user.authorities.some(auth => auth.authority === 'ROLE_ADMIN');
+                            const isAdmin = user.authorities.includes('ROLE_ADMIN');
                             const isOnlyAdmin = isAdmin && numberOfAdmins === 1;
-                            const isCurrentUser = user.username === loggedInUsername.username;
+                            const isCurrentUser = user.id === loggedInUser.id;
 
                             return (
-                                <tr key={user.username}>
-                                    <td>{user.username}</td>
+                                <tr key={user.id}>
+                                    <td>{user.fullName}</td>
                                     <td>{user.email}</td>
-                                    <td>{formatRoles(user.authorities.map(a => a.authority))}</td>
+                                    <td>{formatRoles(user.authorities)}</td>
                                     <td className={styles.actions}>
                                         <Button
                                             variant="secondary"
-                                            onClick={() => toggleAdminRole(user.username, isAdmin)}
+                                            onClick={() => toggleAdminRole(user.id, isAdmin)}
                                             disabled={isOnlyAdmin || isCurrentUser}
                                         >
                                             {isAdmin ? "Ontneem Admin" : "Maak Admin"}
                                         </Button>
                                         <Button
                                             variant="danger"
-                                            onClick={() => deleteUser(user.username)}
+                                            onClick={() => deleteUser(user.id)}
                                             disabled={isOnlyAdmin || isCurrentUser}
                                         >
                                             Verwijder
