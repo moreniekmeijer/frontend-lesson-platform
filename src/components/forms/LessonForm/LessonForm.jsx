@@ -11,6 +11,7 @@ registerLocale("nl", nl);
 
 function LessonForm({setActiveTab}) {
     const [successId, setSuccessId] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [selectedStyles, setSelectedStyles] = useState([]);
     const {register, handleSubmit, control, formState: {errors}} = useForm();
     const [selectedRoles, setSelectedRoles] = useState([]);
@@ -53,6 +54,8 @@ function LessonForm({setActiveTab}) {
     }
 
     async function handleFormSubmit(data) {
+        setLoading(true);
+
         const addedData = {
             ...data,
             styleNames: selectedStyles,
@@ -68,6 +71,7 @@ function LessonForm({setActiveTab}) {
         } catch (e) {
             console.error("Post error:", e);
         }
+        setLoading(false);
     }
 
     return (
@@ -158,8 +162,8 @@ function LessonForm({setActiveTab}) {
                 />
                 {errors.notes && <p className="errorMessage">{errors.notes.message}</p>}
 
-                <Button type="submit">Opslaan</Button>
-
+                <Button type="submit" disabled={loading}>Opslaan</Button>
+                {loading && <p>Les aan het opslaan...</p>}
                 {successId && <p>De Les is klaargezet!</p>}
                 {(stylesError || postError) && <p>Er is iets misgegaan. Heb je een stijl en doelgroep aangevinkt?</p>}
             </fieldset>

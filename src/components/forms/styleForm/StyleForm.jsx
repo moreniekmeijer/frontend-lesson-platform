@@ -1,29 +1,31 @@
 import Button from "../../button/Button.jsx";
 import {useForm} from "react-hook-form";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import "../Forms.css";
 import useApiRequest from "../../../hooks/useApiRequest.js";
 
 function StyleForm() {
     const [successId, setSuccessId] = useState(null);
+    const [loading, setLoading] = useState(false);
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
     const {
-        data,
         error,
         executeRequest
     } = useApiRequest();
 
-    function handleFormSubmit(formData) {
-        void executeRequest("post", `${import.meta.env.VITE_API_URL}/styles`, formData);
-    }
+    async function handleFormSubmit(formData) {
+        setLoading(true);
 
-    useEffect(() => {
-        if (data?.id) {
-            setSuccessId(data.id);
-            reset();
+        try {
+            const response = await executeRequest("post", `${import.meta.env.VITE_API_URL}/styles`, formData);
+            setSuccessId(response.data.id);
+        } catch (e) {
+            console.error("Post error:", e);
         }
-    }, [data, reset]);
+        setLoading(false);
+        reset()
+    }
 
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -82,10 +84,10 @@ function StyleForm() {
                     })}/>
                 {errors.description && <p className="errorMessage">{errors.description.message}</p>}
 
-                <Button type="submit">
+                <Button type="submit" disabled={loading}>
                     Opslaan
                 </Button>
-
+                {loading && <p>Stijl aan het opslaan...</p>}
                 {successId && <p>De stijl is succesvol opgeslagen!</p>}
                 {error === "The name must be unique. This name already exists." && <p>Deze stijl bestaat al.</p>}
             </fieldset>

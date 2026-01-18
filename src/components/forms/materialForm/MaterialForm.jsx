@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Button from "../../button/Button.jsx";
 import "../Forms.css";
 import useApiRequest from "../../../hooks/useApiRequest.js";
+import normalizeUrl from "../../../helpers/normalizeUrl.js"
 
 function MaterialForm() {
     const { register, handleSubmit, formState: { errors }, watch, reset } = useForm();
@@ -51,7 +52,7 @@ function MaterialForm() {
 
     async function handleFormSubmit(metaData) {
         const file = dragDropRef.current?.getFile?.() ?? null;
-        const link = metaData.link?.trim() || null;
+        const link = normalizeUrl(metaData.link?.trim()) || null;
 
         const processId = metaData.title + '_' + Date.now();
         addProcess({

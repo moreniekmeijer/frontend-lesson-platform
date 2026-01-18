@@ -19,7 +19,7 @@ function HomePage() {
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
-        if (user.roles?.includes("ROLE_GUEST")) {
+        if (user.roles?.includes("ROLE_GUEST") && !user.roles?.includes("ROLE_ADMIN")) {
             setErrorMessage("Gasten hebben geen toegang tot lessen.");
             setLoading(false);
             return;
