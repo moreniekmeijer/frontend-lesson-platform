@@ -3,6 +3,7 @@ import styles from "./SearchTile.module.css";
 import useApiRequest from "../../hooks/useApiRequest.js";
 import Button from "../button/Button.jsx";
 import {useNavigate} from "react-router-dom";
+import {normalizeInstruments} from "../../helpers/normalizeInstruments.js";
 
 function SearchTile({
                         initialFilters = {},
@@ -58,9 +59,14 @@ function SearchTile({
         const uniqueValues = (key) =>
             [...new Set(allMaterials.map((item) => item[key]).filter(Boolean))];
 
+        const uniqueValuesInstrument = (materials) => {
+            const allInstruments = materials.flatMap(m => m.instruments || []);
+            return [...new Set(allInstruments)].sort();
+        };
+
         setOptions({
             fileType: uniqueValues("fileType"),
-            instrument: uniqueValues("instrument"),
+            instrument: uniqueValuesInstrument(allMaterials),
             category: uniqueValues("category"),
             styleName: uniqueValues("styleName"),
             origin: uniqueValues("origin"),

@@ -5,6 +5,7 @@ import Button from "../../button/Button.jsx";
 import "../Forms.css";
 import useApiRequest from "../../../hooks/useApiRequest.js";
 import normalizeUrl from "../../../helpers/normalizeUrl.js"
+import {normalizeInstruments} from "../../../helpers/normalizeInstruments.js";
 
 function MaterialForm() {
     const { register, handleSubmit, formState: { errors }, watch, reset } = useForm();
@@ -53,6 +54,12 @@ function MaterialForm() {
     async function handleFormSubmit(metaData) {
         const file = dragDropRef.current?.getFile?.() ?? null;
         const link = normalizeUrl(metaData.link?.trim()) || null;
+        const instrumentsArray = normalizeInstruments(metaData.instruments);
+
+        const payload = {
+            ...metaData,
+            instruments: instrumentsArray,
+        };
 
         const processId = metaData.title + '_' + Date.now();
         addProcess({
@@ -85,7 +92,7 @@ function MaterialForm() {
                 url += `?${params.toString()}`;
             }
 
-            const response = await executeRequest('post', url, metaData);
+            const response = await executeRequest('post', url, payload);
             material = response?.data.material;
             uploadUrl = response?.data.uploadUrl;
             objectName = response?.data.objectName;
@@ -222,13 +229,13 @@ function MaterialForm() {
                     />
                 </label>
 
-                <label htmlFor="instrument">
-                    Instrument:
+                <label htmlFor="instruments">
+                    Instrument(en):
                     <input
-                        type="instrument"
-                        id="instrument"
-                        placeholder="Bijv: djembé"
-                        {...register("instrument")}
+                        type="text"
+                        id="instruments"
+                        placeholder="Bijv: Doundoun, Sangban, Kenkeni"
+                        {...register("instruments")}
                     />
                 </label>
 

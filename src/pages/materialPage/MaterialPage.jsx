@@ -7,6 +7,7 @@ import Button from "../../components/button/Button.jsx";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import useApiRequest from "../../hooks/useApiRequest.js";
 import BookmarkToggle from "../../components/bookmarkToggle/BookmarkToggle.jsx";
+import {formatArray} from "../../helpers/formatArray.js";
 
 function MaterialPage() {
     const {id} = useParams();
@@ -123,7 +124,7 @@ function MaterialPage() {
                 <section>
                     <h3>{material.styleName}</h3>
                     <p><strong>Categorie:</strong> {material.category}</p>
-                    <p><strong>Instrument:</strong> {material.instrument}</p>
+                    <p><strong>Instrument(en):</strong> {formatArray(material.instruments)}</p>
                     <p><strong>Herkomst:</strong> {material.origin}</p>
                 </section>
                 {relatedItems.length > 0 && (
