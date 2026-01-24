@@ -1,111 +1,87 @@
+import "../../App.css";
+import styles from "./HelpPage.module.css";
+
 
 function Help() {
     return (
-        <div>
-            <h1>Help en tips</h1>
-
-            {/* Hoe gebruik je de site */}
-            <section>
-                <h2>Hoe gebruik ik deze les‑site?</h2>
+        <div className="leftContainer">
+            <h2>Hulp en tips</h2>
+            <section className={styles.section}>
                 <p>
-                    Welkom! Deze site is gemaakt om je te helpen met het volgen van je
-                    lessen en het bekijken van lesmateriaal.
+                    Welkom! Na inloggen kom je op het <strong>dashboard</strong>.
+                    Het dashboard is eigenlijk alles wat je nodig hebt. Hier staat de informatie om je voor te
+                    bereiden op de volgende les. Het arrangement en de video's per stijl staan links en de agenda en
+                    notities rechts, samen met een zoekfunctie. Het dashboard kun je onder andere bereiken via het
+                    hoofdmenu links; hieronder staat wat je nog meer kunt vinden in dit menu.
                 </p>
-                <ol>
+                <ol className={styles.subSection}>
                     <li>
-                        <strong>Inloggen</strong>: Log in met je gebruikersnaam en wachtwoord.
+                        <strong>Stijlen</strong>: Dit is een dropdown met alle beschikbare stijlen, klik op een stijl om
+                        gedetailleerde informatie te vinden, inclusief het bijbehorende materiaal.
                     </li>
                     <li>
-                        <strong>Dashboard</strong>: Na inloggen zie je je <em>overzicht</em> met
-                        aankomende lessen.
+                        <strong>Zoeken</strong>: Hier kun je specifiek materiaal opzoeken op een zoekterm of
+                        via verschillende categorieën
                     </li>
                     <li>
-                        <strong>Lesmateriaal</strong>: Klik op een les om het bijbehorende
-                        materiaal te bekijken (bijv. PDF, audio, video of links).
-                    </li>
-                    <li>
-                        <strong>Volgorde</strong>: Gebruik de navigatie om door de lessen te
-                        gaan.
-                    </li>
-                    <li>
-                        <strong>Uitloggen</strong>: Je kunt altijd uitloggen via de knop
-                        rechtsboven.
+                        <strong>Opgeslagen</strong>: De laatste tab laat al jouw opgeslagen materiaal zien. Materiaal
+                        kun je opslaan door op de 'Bewaar dit materiaal' knop te klikken op de detail weergave van het
+                        desbetreffende materiaal.
                     </li>
                 </ol>
+                <p>
+                    Op deze pagina kwam je via het instellingenmenu rechtsbovenin. Naast deze help pagina kun je daarin
+                    ook je accountgegevens vinden en wijzigen; en uitloggen (je kunt jezelf overigens ingelogd houden,
+                    dat is wel zo handig).
+                </p>
             </section>
 
-            {/* Wat als er problemen zijn */}
-            <section>
-                <h2>Problemen oplossen</h2>
-                <ul>
-                    <li>
-                        <strong>Kan ik niet inloggen?</strong> Controleer of je
-                        gebruikersnaam en wachtwoord correct zijn. Vraag je docent als je
-                        geen account hebt.
-                    </li>
-                    <li>
-                        <strong>Zie ik geen materiaal?</strong> Zorg dat je bent ingelogd en
-                        kijk of de lesdatum nadert.
-                    </li>
-                    <li>
-                        <strong>PDF/Media opent niet?</strong> Soms moet je pop‑ups toestaan
-                        of een PDF‑viewer op je apparaat hebben.
-                    </li>
-                </ul>
-            </section>
+            <section className={styles.section}>
+                <h3>Veelgestelde Vragen (FAQ)</h3>
 
-            {/* FAQ */}
-            <section>
-                <h2>Veelgestelde Vragen (FAQ)</h2>
-
-                <div>
-                    <h3>Waarom moet ik inloggen?</h3>
+                <div className={styles.subSection}>
+                    <strong>Waarom moet ik inloggen met een e-mailadres?</strong>
                     <p>
-                        Inloggen zorgt ervoor dat alleen <strong>jij</strong> toegang hebt tot
-                        jouw lessen en materiaal.
+                        Inloggen met een e-mailadres is nodig om ervoor te zorgen dat je wachtwoord kunt resetten,
+                        zonder e-mailadres kan er geen reset-link worden gestuurd.
                     </p>
                 </div>
 
-                <div>
-                    <h3>Hoe weet ik welke lessen ik moet doen?</h3>
+                <div className={styles.subSection}>
+                    <strong>Hoe weet ik wat ik kan voorbereiden?</strong>
                     <p>
-                        Op je dashboard zie je de <em>aankomende lessen</em> en al het relevante
+                        Op je dashboard zie je de aankomende lessen en al het relevante
                         materiaal voor jouw eerstvolgende les.
                     </p>
                 </div>
 
-                <div>
-                    <h3>Kan ik het materiaal downloaden?</h3>
+                <div className={styles.subSection}>
+                    <strong>Kan ik het materiaal downloaden?</strong>
                     <p>
                         Ja, materiaal kun je downloaden als je het handig vindt
                         om offline te gebruiken, de knop hiervoor staat rechts naast het materiaal.
                     </p>
                 </div>
 
-                <div>
-                    <h3>Kan ik dit ook op mijn telefoon gebruiken?</h3>
+                <div className={styles.subSection}>
+                    <strong>Kan ik dit ook op mijn telefoon gebruiken?</strong>
                     <p>
-                        Ja. De site werkt op mobiele apparaten en tablets. Voor een optimale
-                        ervaring raadt ik een tablet of laptop aan (groter scherm).
+                        Ja, de site werkt op mobiele apparaten en tablets. Voor een optimale
+                        ervaring raadt ik echter wel een tablet of laptop aan (groter scherm).
+                        <a href="https://www.youtube.com/shorts/vBQ-ZFih1VI" target="_blank"> Deze</a> video laat zien
+                        hoe je sites op je startscherm kunt vastzetten op Android; voor de Iphone zie
+                        <a href="https://www.youtube.com/shorts/3lRsB7U_Gxg" target="_blank"> deze</a> video. Zo hoef je
+                        niet de hele tijd opnieuw de link in je browser te typen...
                     </p>
                 </div>
 
-                <div>
-                    <h3>Wat doe ik als ik iets niet kan openen?</h3>
+                <div className={styles.subSection}>
+                    <strong>Wat doe ik als ik iets niet kan openen?</strong>
                     <p>
                         Probeer je browser te verversen of een andere browser te gebruiken.
                         Als het blijft gebeuren, neem contact op met je docent.
                     </p>
                 </div>
-            </section>
-
-            {/* Contact informatie */}
-            <section>
-                <h2>Contact / Vragen</h2>
-                <p>
-                    Heb je nog vragen die hier niet tussen staan? Stuur dan een bericht
-                    naar je docent of gebruik het contactformulier op de site.
-                </p>
             </section>
         </div>
     );

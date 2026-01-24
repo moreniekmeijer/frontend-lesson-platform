@@ -1,0 +1,11 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.subSection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
