@@ -112,7 +112,7 @@ function MaterialPage() {
                     <a href={material.fileLink} target="_blank" rel="noopener noreferrer">
                         <Button variant="secondary">Open in een nieuw tabblad</Button>
                     </a>
-                    <a href={`${material.fileLink}?action=download`}>
+                    <a href={material.downloadLink}>
                         <Button variant="secondary">Download {material.title}</Button>
                     </a>
                     </span>

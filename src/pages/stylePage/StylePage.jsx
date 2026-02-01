@@ -34,6 +34,7 @@ function StylePage() {
     }
 
     if (loading) return <p>Loading...</p>;
+    if (!styleData) return <p>Geen data gevonden.</p>;
 
     const videos = styleData.materials || [];
 
