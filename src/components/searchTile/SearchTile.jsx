@@ -3,7 +3,6 @@ import styles from "./SearchTile.module.css";
 import useApiRequest from "../../hooks/useApiRequest.js";
 import Button from "../button/Button.jsx";
 import {useNavigate} from "react-router-dom";
-import {normalizeInstruments} from "../../helpers/normalizeInstruments.js";
 
 function SearchTile({
                         initialFilters = {},
@@ -26,11 +25,13 @@ function SearchTile({
 
     const {
         data: allMaterials,
-        executeRequest: fetchAllMaterials
+        executeRequest: fetchAllMaterials,
+        loading: materialLoading
     } = useApiRequest();
 
     const {
-        executeRequest: fetchFilteredMaterials
+        executeRequest: fetchFilteredMaterials,
+        loading: filteredMaterialLoading
     } = useApiRequest();
 
     const categoryLabels = {
@@ -150,6 +151,8 @@ function SearchTile({
                     }
                         <Button variant="secondary" onClick={handleReset}>Reset</Button>
                     </span>
+
+                    {filteredMaterialLoading && <p className="centerContainer">Materiaal zoeken...</p>}
                 </div>
 
                 <div className={styles.optionsContainer}>

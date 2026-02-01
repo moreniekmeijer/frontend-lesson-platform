@@ -74,7 +74,7 @@ function HomePage() {
         void fetchLessonsData();
     }, []);
 
-    if (loading) return <p>Laden...</p>;
+    if (loading) return <p className="centerContainer">Laden...</p>;
 
     const lessonNotes = lessons.map(lesson => {
         const groupLabel = formatRoles(lesson.allowedRoles);

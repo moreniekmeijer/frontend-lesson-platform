@@ -54,7 +54,7 @@ function MaterialPage() {
         }
     }
 
-    if (!material) return <p>Loading...</p>;
+    if (!material) return <p className="centerContainer">Loading...</p>;
 
     return (
         <>

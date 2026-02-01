@@ -33,8 +33,8 @@ function StylePage() {
         }
     }
 
-    if (loading) return <p>Loading...</p>;
-    if (!styleData) return <p>Geen data gevonden.</p>;
+    if (loading) return <p className="centerContainer">Laden...</p>;
+    if (!styleData) return <p className="centerContainer">Geen data gevonden.</p>;
 
     const videos = styleData.materials || [];
 

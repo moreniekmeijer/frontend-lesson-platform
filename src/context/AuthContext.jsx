@@ -86,8 +86,6 @@ function AuthContextProvider({children}) {
     }
 
     async function fetchUserData(id, token, redirectUrl) {
-        console.log('fetchUserData called with:', { id, token: token?.substring(0, 20) });
-
         try {
             const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/${id}`, {
                     headers: {
@@ -135,7 +133,7 @@ function AuthContextProvider({children}) {
 
     return (
         <AuthContext.Provider value={contextData}>
-            {auth.status === 'done' ? children : <p className="centerContainer">Loading...</p>}
+            {auth.status === 'done' ? children : <p className="centerContainer">Laden...</p>}
         </AuthContext.Provider>
     );
 }

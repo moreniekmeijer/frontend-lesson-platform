@@ -95,7 +95,7 @@ function RegisterPage() {
                     {invalidInput && <p className="errorMessage">{invalidInput}</p>}
 
                     <Button type="submit">Registreren</Button>
-                    {loading && <p>Bezig met registreren...</p>}
+                    {loading && <p className="centerContainer">Bezig met registreren...</p>}
 
                     <p>Al een account? Log <NavLink to="/inloggen">hier</NavLink> in</p>
                 </fieldset>

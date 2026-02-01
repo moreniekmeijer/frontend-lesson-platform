@@ -2,12 +2,10 @@ import axios from "axios";
 
 let isSetup = false;
 
-// Maak een aparte axios instance voor de refresh call
 const refreshAxios = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
     withCredentials: true
 });
-// Deze instance heeft GEEN interceptors!
 
 export function setupAxiosInterceptors(getAccessToken, setAccessToken, logout) {
     if (isSetup) return;
@@ -37,12 +35,8 @@ export function setupAxiosInterceptors(getAccessToken, setAccessToken, logout) {
                 originalRequest._retry = true;
 
                 try {
-                    console.log('🔄 Probeer token te refreshen...');
-
-                    // Gebruik de aparte instance zonder interceptors
                     const response = await refreshAxios.post('/auth/refresh', {});
 
-                    console.log('✅ Nieuwe token ontvangen');
                     setAccessToken(response.data.jwt);
 
                     originalRequest.headers.Authorization = `Bearer ${response.data.jwt}`;
@@ -50,7 +44,6 @@ export function setupAxiosInterceptors(getAccessToken, setAccessToken, logout) {
                     return axios(originalRequest);
 
                 } catch (refreshError) {
-                    console.log('❌ Refresh gefaald, uitloggen');
                     logout();
                     return Promise.reject(refreshError);
                 }
