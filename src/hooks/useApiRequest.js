@@ -11,21 +11,13 @@ const useApiRequest = (defaultData = null) => {
         setError(null);
 
         try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                throw new Error('Geen token gevonden');
-            }
 
-            const headers = {
-                'Authorization': `Bearer ${token}`,
-            };
-
-            if (!(requestData instanceof FormData)) {
-                headers['Content-Type'] = 'application/json';
-            }
+            // if (!(requestData instanceof FormData)) {
+            //     headers['Content-Type'] = 'application/json';
+            // }
 
             const config = {
-                headers,
+                // headers,
                 params: queryParams || {},
             };
 
@@ -48,6 +40,7 @@ const useApiRequest = (defaultData = null) => {
             }
 
             setData(response.data ?? defaultData);
+            setError(null);
             return response;
 
         } catch (error) {

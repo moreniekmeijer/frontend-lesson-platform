@@ -1,8 +1,8 @@
-import {createContext, useEffect, useState} from 'react';
+import {createContext, useCallback, useEffect, useRef, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {jwtDecode} from "jwt-decode";
 import axios from "axios";
-import isTokenExpired from "../helpers/isTokenExpired.js";
+import {setupAxiosInterceptors} from "../helpers/axiosConfig.js";
 
 export const AuthContext = createContext({});
 
@@ -10,63 +10,95 @@ function AuthContextProvider({children}) {
     const [auth, setAuth] = useState({
         isAuth: false,
         user: null,
+        accessToken: null,
         status: 'pending',
     });
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
+    const logoutRef = useRef();
 
-        if (token) {
-            if (isTokenExpired(token)) {
-                logout();
-            } else {
-                const decoded = jwtDecode(token);
-                void fetchUserData(decoded.sub, token);
-            }
-        } else {
+    const logout = useCallback(async () => {
+        try {
+            await axios.post(
+                `${import.meta.env.VITE_API_URL}/auth/logout`,
+                {},
+                { withCredentials: true }
+            );
+        } catch (e) {
+            // mag falen (bijv. cookie al weg), we loggen sowieso uit
+            console.warn("Logout API failed:", e);
+        } finally {
             setAuth({
                 isAuth: false,
                 user: null,
+                accessToken: null,
                 status: 'done',
             });
+            navigate('/inloggen');
         }
+    }, [navigate]);
+
+
+    logoutRef.current = logout;
+
+    const authRef = useRef(auth);
+    authRef.current = auth;
+
+    useEffect(() => {
+        setupAxiosInterceptors(
+            () => authRef.current.accessToken,
+            token => setAuth(prev => ({ ...prev, accessToken: token })),
+            () => logoutRef.current()
+        );
     }, []);
 
-    function login(token) {
-        localStorage.setItem('token', token);
-
-        if (isTokenExpired(token)) {
-            logout();
-        } else {
-            const decoded = jwtDecode(token);
-            void fetchUserData(decoded.sub, token, '/');
+    useEffect(() => {
+        async function silentLogin() {
+            try {
+                const response = await axios.post(
+                    `${import.meta.env.VITE_API_URL}/auth/refresh`,
+                    {},
+                    { withCredentials: true }
+                );
+                login(response.data.jwt);
+            } catch {
+                setAuth({
+                    isAuth: false,
+                    user: null,
+                    accessToken: null,
+                    status: 'done',
+                });
+            }
         }
-    }
 
-    function logout() {
-        localStorage.removeItem('token');
-        setAuth({
-            isAuth: false,
-            user: null,
-            status: 'done',
-        });
+        silentLogin();
+    }, []);
 
-        navigate('/inloggen');
+    function login(accessToken) {
+        const decoded = jwtDecode(accessToken);
+
+        setAuth(prev => ({
+            ...prev,
+            accessToken
+        }));
+
+        void fetchUserData(decoded.sub, accessToken, '/');
     }
 
     async function fetchUserData(id, token, redirectUrl) {
+        console.log('fetchUserData called with:', { id, token: token?.substring(0, 20) });
+
         try {
             const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/${id}`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
 
             const userData = response.data;
 
-            setAuth({
+            setAuth(prev => ({
+                ...prev,
                 isAuth: true,
                 user: {
                     id: userData.id,
@@ -75,7 +107,7 @@ function AuthContextProvider({children}) {
                     roles: userData.authorities ?? [],
                 },
                 status: "done",
-            });
+            }));
 
             if (redirectUrl) {
                 navigate(redirectUrl);
@@ -83,14 +115,16 @@ function AuthContextProvider({children}) {
 
         } catch (e) {
             console.error(e);
-            localStorage.removeItem('token');
-            setAuth({
-                isAuth: false,
-                user: null,
-                status: 'done',
-            });
+            if (e.response?.status === 404 || e.response?.status === 403) {
+                // Gebruiker bestaat niet of heeft geen toegang
+                setAuth({
+                    isAuth: false,
+                    user: null,
+                    accessToken: null,
+                    status: 'done',
+                });
+            }
         }
-
     }
 
     const contextData = {
@@ -101,7 +135,7 @@ function AuthContextProvider({children}) {
 
     return (
         <AuthContext.Provider value={contextData}>
-            {auth.status === 'done' ? children : <p>Loading...</p>}
+            {auth.status === 'done' ? children : <p className="centerContainer">Loading...</p>}
         </AuthContext.Provider>
     );
 }

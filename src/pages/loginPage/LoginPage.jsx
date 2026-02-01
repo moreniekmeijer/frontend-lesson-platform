@@ -14,7 +14,7 @@ function LoginPage() {
     const onSubmit = async (data) => {
         setLoading(true);
         try {
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/authenticate`, data)
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/authenticate`, data,{ withCredentials: true })
             login(response.data.jwt);
             // navigate('/');
         } catch (error) {

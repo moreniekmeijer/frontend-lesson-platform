@@ -8,18 +8,25 @@ import {AuthContext} from "../../context/AuthContext.jsx";
 function RegisterPage() {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const {login} = useContext(AuthContext);
-    const [invalidInviteCode, setInvalidInviteCode] = useState(null);
+    const [invalidInput, setInvalidInput] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const onSubmit = async (data) => {
         setLoading(true);
         try {
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/users`, data);
+            const response = await axios.post(
+                `${import.meta.env.VITE_API_URL}/auth/register`,
+                data,
+                { withCredentials: true }
+            );
             login(response.data.jwt);
             // navigate('/');
         } catch (error) {
             if (error.response.status === 409) {
-                setInvalidInviteCode("Registratiecode is incorrect");
+                setInvalidInput("Registratiecode is incorrect");
+            }
+            if (error.response.status === 400) {
+                setInvalidInput("Email is al in gebruik")
             }
         }
         setLoading(false);
@@ -85,7 +92,7 @@ function RegisterPage() {
                         />
                     </label>
                     {errors.inviteCode && <p className="errorMessage">{errors.inviteCode.message}</p>}
-                    {invalidInviteCode && <p className="errorMessage">{invalidInviteCode}</p>}
+                    {invalidInput && <p className="errorMessage">{invalidInput}</p>}
 
                     <Button type="submit">Registreren</Button>
                     {loading && <p>Bezig met registreren...</p>}
