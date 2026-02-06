@@ -4,6 +4,7 @@ import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
 
 function SearchPage() {
     const { state } = useLocation();
+    console.log(state);
 
     return (
         <section className="leftContainer">
@@ -22,7 +23,7 @@ function SearchPage() {
                 ) : (
                     <p>Helaas zijn er geen zoekresultaten beschikbaar...</p>
                 )
-            ) : null}
+            ) : <div>{state?.hasSearched}</div>}
         </section>
     )
 }

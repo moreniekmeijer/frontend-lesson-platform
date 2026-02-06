@@ -44,6 +44,7 @@ function SearchTile({
 
     useEffect(() => {
         void fetchAllMaterials("get", `${import.meta.env.VITE_API_URL}/materials`);
+        console.log("fetched")
     }, []);
 
     const [options, setOptions] = useState({
@@ -86,6 +87,7 @@ function SearchTile({
 
         const response = await fetchFilteredMaterials("get", `${import.meta.env.VITE_API_URL}/materials`, null, params);
 
+        console.log("fetched too")
         if (response) {
             setFilteredMaterials(response.data);
         }
