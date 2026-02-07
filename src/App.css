@@ -42,7 +42,6 @@ main {
     pointer-events: none;
 }
 
-
 .leftContainer, .rightContainer {
     display: flex;
     flex-direction: column;
@@ -53,16 +52,14 @@ main {
 }
 
 .leftContainer {
-    flex: 1 1 20rem;
+    flex: 1 1 32rem;
     min-width: 20rem;
-    max-width: 60rem;
 }
 
 .rightContainer {
-    flex: 1 1 14rem;
+    flex: 1 1 12rem;
     margin-top: 0.6rem;
-    min-width: 14rem;
-    max-width: 50rem;
+    max-width: 40rem;
 }
 
 .upperItems {

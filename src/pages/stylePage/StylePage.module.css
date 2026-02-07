@@ -1,3 +1,12 @@
+.arrangementContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.arrangementEditor {
+    min-width: 100rem;
+}
+
 .buttonContainer {
     display: flex;
     flex-wrap: wrap;

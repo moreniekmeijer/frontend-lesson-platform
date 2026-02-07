@@ -94,14 +94,29 @@ a:hover, Link:hover, NavLink:hover {
     border-radius: 1rem;
 }
 
+/* ---------- Editor ---------- */
+.ProseMirror {
+    border: solid var(--first-color);
+    border-radius: 2rem;
+    padding: 1rem;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: #999;
+    pointer-events: none;
+    height: 0;
+}
+
 /* ---------- Queries ---------- */
 html {
-    font-size: 16px;
+    font-size: 15px;
 }
 
 @media (min-width: 1440px) {
     html {
-        font-size: 18px;
+        font-size: 16px;
     }
 }
 

@@ -61,3 +61,13 @@
 .simple:hover {
     background-color: var(--first-hover-color);
 }
+
+.small {
+    background-color: transparent;
+    padding: 0.2rem;
+    box-shadow: none;
+}
+
+.small:hover {
+    background-color: var(--first-hover-color);
+}
