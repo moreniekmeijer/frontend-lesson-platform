@@ -63,7 +63,6 @@ function StylePage() {
     if (!styleData) return <p className="centerContainer">Geen data gevonden.</p>;
 
     const videos = styleData.materials || [];
-    console.log(styleData.arrangement);
 
     return (
         <>

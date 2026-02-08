@@ -4,7 +4,6 @@ import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
 
 function SearchPage() {
     const { state } = useLocation();
-    console.log(state);
 
     return (
         <section className="leftContainer">
