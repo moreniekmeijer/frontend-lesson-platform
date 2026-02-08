@@ -40,7 +40,7 @@ function SavedPage() {
                 />
             ) : (
                 <>
-                    <h3>Mijn opgeslagen materiaal</h3>
+                    <h2>Mijn opgeslagen materiaal</h2>
                     <p>Je hebt nog niks opgeslagen! Wil je materiaal opslaan?</p>
                     <NavLink to="/zoeken">
                         <Button>Zoek materiaal</Button>

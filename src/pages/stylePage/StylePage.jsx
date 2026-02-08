@@ -86,7 +86,7 @@ function StylePage() {
                         <p>Nog geen arrangement beschikbaar.</p>
                     ) : (
                         <div
-                            className="arrangementViewer"
+                            className={styles.arrangementViewer}
                             dangerouslySetInnerHTML={{__html: styleData.arrangement}}
                         />
                     )

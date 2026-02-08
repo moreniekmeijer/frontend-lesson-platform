@@ -20,9 +20,6 @@ function ArrangementEditor({ content, onChange }) {
         content,
 
         editorProps: {
-            attributes: {
-                class: "arrangementEditor"
-            },
             handleKeyDown(view, event) {
                 if (event.key === "Tab") {
                     event.preventDefault();

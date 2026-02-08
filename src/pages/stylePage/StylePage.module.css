@@ -14,3 +14,9 @@
     flex-wrap: wrap;
     gap: 1rem;
 }
+
+.arrangementViewer {
+    border: solid var(--first-color);
+    border-radius: 2rem;
+    padding: 1rem;
+}

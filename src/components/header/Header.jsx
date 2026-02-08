@@ -21,6 +21,7 @@ export function AuthHeader() {
     return (
         <header className={styles.authHeader}>
             <div className={styles.leftContainer}>
+                {/*HERE IS NEW ASIDE DROPDOWN, ONLY ON MOBILE SIZES*/}
                 <h2>
                     <Link to="/" className={styles.headerTitle}>Percussie Platform</Link>
                 </h2>
