@@ -19,8 +19,7 @@ function RegisterPage() {
                 data,
                 { withCredentials: true }
             );
-            login(response.data.jwt);
-            // navigate('/');
+            login(response.data.jwt, '/');
         } catch (error) {
             if (error.response.status === 409) {
                 setInvalidInput("Registratiecode is incorrect");

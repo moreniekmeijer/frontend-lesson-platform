@@ -25,7 +25,6 @@ function AuthContextProvider({children}) {
                 { withCredentials: true }
             );
         } catch (e) {
-            // mag falen (bijv. cookie al weg), we loggen sowieso uit
             console.warn("Logout API failed:", e);
         } finally {
             setAuth({
@@ -37,7 +36,6 @@ function AuthContextProvider({children}) {
             navigate('/inloggen');
         }
     }, [navigate]);
-
 
     logoutRef.current = logout;
 
@@ -60,7 +58,7 @@ function AuthContextProvider({children}) {
                     {},
                     { withCredentials: true }
                 );
-                login(response.data.jwt);
+                login(response.data.jwt, null);
             } catch {
                 setAuth({
                     isAuth: false,
@@ -74,7 +72,7 @@ function AuthContextProvider({children}) {
         silentLogin();
     }, []);
 
-    function login(accessToken) {
+    function login(accessToken, redirectUrl) {
         const decoded = jwtDecode(accessToken);
 
         setAuth(prev => ({
@@ -82,7 +80,7 @@ function AuthContextProvider({children}) {
             accessToken
         }));
 
-        void fetchUserData(decoded.sub, accessToken, '/');
+        void fetchUserData(decoded.sub, accessToken, redirectUrl);
     }
 
     async function fetchUserData(id, token, redirectUrl) {
@@ -114,7 +112,6 @@ function AuthContextProvider({children}) {
         } catch (e) {
             console.error(e);
             if (e.response?.status === 404 || e.response?.status === 403) {
-                // Gebruiker bestaat niet of heeft geen toegang
                 setAuth({
                     isAuth: false,
                     user: null,

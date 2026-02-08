@@ -15,8 +15,7 @@ function LoginPage() {
         setLoading(true);
         try {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/authenticate`, data,{ withCredentials: true })
-            login(response.data.jwt);
-            // navigate('/');
+            login(response.data.jwt, '/');
         } catch (error) {
             if (error.response) {
                 if (error.response.status === 401) {
