@@ -9,12 +9,9 @@ import {normalizeInstruments} from "../../../helpers/normalizeInstruments.js";
 
 function MaterialForm() {
     const { register, handleSubmit, formState: { errors }, watch, reset } = useForm();
-    // const [file, setFile] = useState(null);
     const [selectedOrigin, setSelectedOrigin] = useState(null);
     const [processing, setProcessing] = useState([]);
-    // const [validationError, setValidationError] = useState("");
     const selectedStyleId = watch("styleId");
-    const watchedLink = watch("link");
     const dragDropRef = useRef();
     const [hasFile, setHasFile] = useState(false);
     const [selectedFileName, setSelectedFileName] = useState(null);

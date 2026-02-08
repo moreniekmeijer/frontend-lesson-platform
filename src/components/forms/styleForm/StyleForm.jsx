@@ -47,11 +47,11 @@ function StyleForm() {
                 {errors.name && <p className="errorMessage">{errors.name.message}</p>}
 
                 <label htmlFor="origin">
-                    Land van oorsprong:
+                    Land van oorsprong (in het Engels):
                     <input
                         type="text"
                         id="origin"
-                        placeholder="In het Engels"
+                        placeholder="Bijv: Brasil"
                         className={errors.origin ? "inputError" : ""}
                         {...register("origin", {
                             required: {
@@ -69,7 +69,7 @@ function StyleForm() {
                 </label>
                 <textarea
                     id="description"
-                    rows="5"
+                    rows="6"
                     cols="30"
                     className={errors.description ? "inputError" : ""}
                     {...register("description", {
