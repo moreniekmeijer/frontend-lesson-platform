@@ -72,19 +72,18 @@ function StylePage() {
                 {isAdmin ? (
                     <>
                         <div className={styles.arrangementContainer}>
-                        <ArrangementEditor
-                            className={styles.arrangementEditor}
-                            content={styleData.arrangement || ""}
-                            onChange={setArrangement}
-                            editable={true}
-                        />
-                        <Button variant="secondary" onClick={handleSaveArrangement}>
-                            Opslaan arrangement
-                        </Button>
+                            <ArrangementEditor
+                                content={styleData.arrangement || ""}
+                                onChange={setArrangement}
+                                editable={true}
+                            />
+                            <Button variant="secondary" onClick={handleSaveArrangement}>
+                                Opslaan arrangement
+                            </Button>
                         </div>
                     </>
                 ) : (
-                    styleData.arrangement === "<p></p>" || "" || null ? (
+                    !styleData.arrangement || styleData.arrangement === "<p></p>" ? (
                         <p>Nog geen arrangement beschikbaar.</p>
                     ) : (
                         <div
