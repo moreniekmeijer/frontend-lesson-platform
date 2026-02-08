@@ -1,9 +1,10 @@
 .toolbar {
     display: flex;
-    align-self: center;
+    max-width: max-content;
+    margin-inline: auto;
     border: 1px solid var(--first-color);
+    border-bottom: none;
     border-radius: 2rem;
-    width: inherit;
 }
 
 .activeTab {

@@ -84,7 +84,7 @@ function StylePage() {
                         </div>
                     </>
                 ) : (
-                    styleData.arrangement === "<p></p>" ? (
+                    styleData.arrangement === "<p></p>" || "" || null ? (
                         <p>Nog geen arrangement beschikbaar.</p>
                     ) : (
                         <div
