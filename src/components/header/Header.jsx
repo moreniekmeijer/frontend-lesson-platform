@@ -9,7 +9,7 @@ export function PublicHeader() {
     return (
         <header className={styles.publicHeader}>
             <div className={styles.centerContainer}>
-                <h2 className={styles.headerTitle}>Percussie Les Platform</h2>
+                <h2 className={styles.headerTitle}>Percussie Platform</h2>
             </div>
         </header>
     );
@@ -22,7 +22,7 @@ export function AuthHeader() {
         <header className={styles.authHeader}>
             <div className={styles.leftContainer}>
                 <h2>
-                    <Link to="/" className={styles.headerTitle}>Percussie Les Platform</Link>
+                    <Link to="/" className={styles.headerTitle}>Percussie Platform</Link>
                 </h2>
             </div>
             <ul className={styles.rightContainer}>

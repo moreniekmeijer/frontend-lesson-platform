@@ -72,7 +72,7 @@ function Aside() {
 
                             {isMenuOpen("styles") && (
                                 <ul className={styles.submenu}>
-                                    {stylesList.map(style => (
+                                    {stylesList.sort((a, b) => a.name.localeCompare(b.name)).map(style => (
                                         <li key={style.id}>
                                             <NavLink to={`/stijlen/${style.id}`}
                                                      className={({isActive}) => isActive ? styles.activeSubmenuLink : styles.defaultSubmenuLink}>
@@ -84,6 +84,8 @@ function Aside() {
                             )}
                         </li>
                     )}
+                    {loading && <p className={styles.defaultMenuLink}>Laden...</p>}
+                    {error && <p className={styles.defaultMenuLink}>Fout bij ophalen stijlen: {error}</p>}
 
                     {isAuth && (
                         <li>
@@ -146,9 +148,6 @@ function Aside() {
                             )}
                         </li>
                     )}
-
-                    {loading && <p className={styles.loading}>Laden...</p>}
-                    {error && <p className={styles.error}>Fout bij ophalen stijlen: {error}</p>}
                 </ul>
             </nav>
         </aside>

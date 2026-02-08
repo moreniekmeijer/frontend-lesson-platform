@@ -52,8 +52,7 @@ main {
 }
 
 .leftContainer {
-    flex: 1 1 32rem;
-    min-width: 20rem;
+    flex: 1 1 34rem;
 }
 
 .rightContainer {
