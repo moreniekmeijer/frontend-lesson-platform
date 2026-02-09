@@ -7,11 +7,12 @@ import NotesTile from "../../components/notesTile/NotesTile.jsx";
 import useApiRequest from "../../hooks/useApiRequest.js";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import { formatRoles } from "../../helpers/formatRole.js";
+import ArrangementsTile from "../../components/arrangementsTile/ArrangementsTile.jsx";
 
 function HomePage() {
     const [lessons, setLessons] = useState([]);
     const [lessonStyles, setLessonStyles] = useState([]);
-    const [arrangementMaterials, setArrangementMaterials] = useState([]);
+    const [arrangementStyles, setArrangementStyles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -51,11 +52,12 @@ function HomePage() {
                 const stylesData = styleResponses.map(res => res?.data).filter(Boolean);
                 setLessonStyles(stylesData);
 
-                const arrangements = stylesData
-                    .map(style => style.materials.find(m => m.id === style.arrangementId))
-                    .filter(Boolean);
+                const arrangementStyles = stylesData.filter(
+                    style => style.arrangement && style.arrangement !== "<p></p>"
+                );
 
-                setArrangementMaterials(arrangements);
+                setArrangementStyles(arrangementStyles);
+
             } catch (error) {
                 console.error("Fout bij ophalen lesgegevens:", error);
                 const msg =
@@ -76,10 +78,19 @@ function HomePage() {
 
     if (loading) return <p className="centerContainer">Laden...</p>;
 
-    const lessonNotes = lessons.map(lesson => {
-        const groupLabel = formatRoles(lesson.allowedRoles);
-        return `${groupLabel}: ${lesson.notes || "(geen notities)"}`;
-    });
+    const lessonNotes = [
+        ...new Set(
+            lessons
+                .filter(lesson =>
+                    lesson.allowedRoles.length > 0 &&
+                    lesson.notes?.trim()
+                )
+                .map(lesson => {
+                    const groupLabel = formatRoles(lesson.allowedRoles);
+                    return `${groupLabel}: ${lesson.notes}`;
+                })
+        )
+    ];
 
     return (
         <>
@@ -90,18 +101,8 @@ function HomePage() {
                     <h2>Geen lessen gepland.</h2>
                 ) : (
                     <>
-                        {/* Arrangementen uit alle lessen, zonder dubbels */}
-                        {arrangementMaterials.length > 0 ? (
-                            <MoreItemsTile title="Voor volgende les(sen):" items={arrangementMaterials}/>
-                        ) : (
-                            <h3>Geen specifiek arrangement voor volgende les(sen)!</h3>
-                        )}
-
+                        {/*<ArrangementsTile items={arrangementStyles}/>*/}
                         <div>
-                            {/**
-                             * We willen nu alle unieke stijlen tonen, ongeacht uit welke les ze komen.
-                             * lessonStyles is al een unieke lijst, dus we mappen er gewoon overheen.
-                             */}
                             {lessonStyles.map((style, index) => {
                                 const videoMaterials = style.materials.filter(m => m.fileType === "VIDEO");
                                 if (videoMaterials.length === 0) return null;

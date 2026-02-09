@@ -48,7 +48,7 @@ function Aside() {
     return (
         <aside className={styles.aside}>
             <nav className={styles.navigation}>
-                <ul className={styles.navigationContent}>
+                <ul className={styles.navigationContent} onMouseLeave={handleClose}>
                     {isAuth && (
                         <li>
                             <NavLink to="/"
@@ -60,7 +60,7 @@ function Aside() {
 
                     {isAuth && stylesList?.length > 0 && (
                         <li onMouseEnter={() => handleOpen("styles")}
-                            onMouseLeave={handleClose}
+                            // onMouseLeave={handleClose}
                             className="hasSubmenu"
                         >
                             <span

@@ -98,12 +98,15 @@ function StylePage() {
                 <StyleTile data={styleData}/>
                 {user?.roles.includes("ROLE_ADMIN") && (
                     <span className={styles.buttonContainer}>
-                        <Button variant="danger" onClick={handleDelete}>
-                        Verwijder stijl
-                        </Button>
+                        <Link to="/toevoegen/materiaal">
+                            <Button variant="simple">Materiaal toevoegen?</Button>
+                        </Link>
                         <Link to="/toevoegen/stijl">
                             <Button variant="simple">Stijl toevoegen?</Button>
                         </Link>
+                        <Button variant="danger" onClick={handleDelete}>
+                            Verwijder stijl
+                        </Button>
                     </span>
                 )}
             </div>
