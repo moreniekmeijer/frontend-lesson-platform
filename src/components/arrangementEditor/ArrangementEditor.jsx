@@ -2,10 +2,10 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import Toolbar from "../toolbar/Toolbar.jsx";
+import styles from "./ArrangementEditor.module.css";
 
 
 function ArrangementEditor({ content, onChange }) {
-
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -49,7 +49,7 @@ function ArrangementEditor({ content, onChange }) {
     return (
         <div>
             <Toolbar editor={editor}/>
-            <EditorContent editor={editor} />
+            <EditorContent className={styles.contentContainer} editor={editor}/>
         </div>
     );
 }
