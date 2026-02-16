@@ -1,12 +1,13 @@
 import SearchTile from "../../components/searchTile/SearchTile.jsx";
 import {useLocation} from "react-router-dom";
 import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
+import styles from "./SearchPage.module.css";
 
 function SearchPage() {
     const { state } = useLocation();
 
     return (
-        <section className="leftContainer">
+        <section className={`leftContainer ${styles.container}`}>
             <SearchTile
                 initialFilters={state?.filters}
                 initialSearchTerm={state?.searchTerm}

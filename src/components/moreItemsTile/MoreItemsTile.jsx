@@ -12,7 +12,9 @@ function MoreItemsTile({title, items, variant}) {
                 <h2>{title}</h2>}
             {items.length > 0 ? (
                 <ul className={styles.itemList}>
-                    {items.map((item) => (
+                    {[...items]
+                        .sort((a, b) => a.title.localeCompare(b.title))
+                        .map((item) => (
                         <li key={item.id}>
                             <Link to={`/materiaal/${item.id}`}>
                                 {variant === "secondary" ?

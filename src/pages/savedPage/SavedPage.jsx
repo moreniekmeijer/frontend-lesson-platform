@@ -4,6 +4,7 @@ import {AuthContext} from "../../context/AuthContext.jsx";
 import {NavLink} from "react-router-dom";
 import Button from "../../components/button/Button.jsx";
 import useApiRequest from "../../hooks/useApiRequest.js";
+import styles from "./SavedPage.module.css";
 
 function SavedPage() {
     const {user} = useContext(AuthContext);
@@ -32,7 +33,7 @@ function SavedPage() {
     }, [user]);
 
     return (
-        <section className="leftContainer">
+        <section className={`leftContainer ${styles.container}`}>
             {savedItems.length > 0 ? (
                 <MoreItemsTile
                     title="Mijn opgeslagen materiaal"
