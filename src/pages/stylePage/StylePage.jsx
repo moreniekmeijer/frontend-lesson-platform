@@ -94,7 +94,7 @@ function StylePage() {
                 <MoreItemsTile variant="secondary" title="Video's" items={videos}/>
             </div>
             <div className="rightContainer">
-                <CountryTile countryName={styleData?.origin || "Onbekend"}/>
+                <CountryTile countryName={styleData?.origin}/>
                 <StyleTile data={styleData}/>
                 {user?.roles.includes("ROLE_ADMIN") && (
                     <span className={styles.buttonContainer}>

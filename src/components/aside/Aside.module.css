@@ -35,6 +35,24 @@ aside {
     overflow-wrap: break-word;
 }
 
+.submenu {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.submenu li {
+    position: relative;
+    padding-left: 0.8rem;
+}
+
+.submenu li::before {
+    content: "•";
+    color: var(--third-color);
+    position: absolute;
+    left: 0;
+    font-size: 1.2rem;
+}
+
 .submenu::-webkit-scrollbar-track {
     background: transparent;
     border-radius: 1rem;
@@ -83,7 +101,7 @@ aside {
         white-space: none;
     }
 
-    .defaultMenuLink, .defaultSubmenuLink {
+    .defaultMenuLink, .defaultSubmenuLink, .submenu li::before {
         color: var(--first-color-dark);
     }
 }

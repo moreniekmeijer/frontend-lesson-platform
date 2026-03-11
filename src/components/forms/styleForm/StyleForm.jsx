@@ -52,13 +52,7 @@ function StyleForm() {
                         type="text"
                         id="origin"
                         placeholder="Bijv: Brasil"
-                        className={errors.origin ? "inputError" : ""}
-                        {...register("origin", {
-                            required: {
-                                value: true,
-                                message: "Land van oorsprong is verplicht"
-                            }
-                        })}
+                        {...register("origin")}
                     />
                 </label>
                 {errors.origin && <p className="errorMessage">{errors.origin.message}</p>}
