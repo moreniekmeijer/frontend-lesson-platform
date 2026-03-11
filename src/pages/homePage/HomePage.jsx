@@ -70,6 +70,7 @@ function HomePage() {
                 setErrorMessage(msg);
             } finally {
                 setLoading(false);
+                console.log(lessonStyles)
             }
         }
 
@@ -103,7 +104,9 @@ function HomePage() {
                     <>
                         {/*<ArrangementsTile items={arrangementStyles}/>*/}
                         <div>
-                            {lessonStyles.map((style, index) => {
+                            {lessonStyles
+                                .sort((a, b) => a.name.localeCompare(b.name))
+                                .map((style, index) => {
                                 const videoMaterials = style.materials.filter(m => m.fileType === "VIDEO");
                                 if (videoMaterials.length === 0) return null;
 
