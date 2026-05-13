@@ -1,4 +1,6 @@
 import {useContext, useEffect, useState} from "react";
+import Loader from "../../components/loader/Loader";
+
 import {Link, useNavigate, useParams} from "react-router-dom";
 import StyleTile from "../../components/styleTile/StyleTile.jsx";
 import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
@@ -59,7 +61,7 @@ function StylePage() {
         }
     }
 
-    if (loading) return <p className="centerContainer">Laden...</p>;
+    if (loading) return <Loader />;
     if (!styleData) return <p className="centerContainer">Geen data gevonden.</p>;
 
     const videos = styleData.materials || [];

@@ -3,6 +3,8 @@ import {useNavigate} from 'react-router-dom';
 import {jwtDecode} from "jwt-decode";
 import axios from "axios";
 import {setupAxiosInterceptors} from "../helpers/axiosConfig.js";
+import Loader from '../components/loader/Loader';
+
 
 export const AuthContext = createContext({});
 
@@ -130,7 +132,7 @@ function AuthContextProvider({children}) {
 
     return (
         <AuthContext.Provider value={contextData}>
-            {auth.status === 'done' ? children : <p className="centerContainer">Laden...</p>}
+            {auth.status === 'done' ? children : <Loader />}
         </AuthContext.Provider>
     );
 }

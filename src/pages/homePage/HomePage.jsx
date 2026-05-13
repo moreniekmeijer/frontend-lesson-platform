@@ -1,4 +1,6 @@
 import { useContext, useEffect, useState } from "react";
+import Loader from "../../components/loader/Loader";
+
 import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
 import SearchTile from "../../components/searchTile/SearchTile.jsx";
 import "../../App.css";
@@ -77,7 +79,7 @@ function HomePage() {
         void fetchLessonsData();
     }, []);
 
-    if (loading) return <p className="centerContainer">Laden...</p>;
+    if (loading) return <Loader />;
 
     const lessonNotes = [
         ...new Set(

@@ -1,4 +1,6 @@
 import { useForm } from "react-hook-form";
+import Loader from "../../loader/Loader";
+
 import DragDrop from "../../dragDrop/DragDrop.jsx";
 import { useEffect, useRef, useState } from "react";
 import Button from "../../button/Button.jsx";
@@ -268,7 +270,12 @@ function MaterialForm() {
                 <div>
                     {processing.map(p => (
                         <div key={p.id} className="process">
-                            <strong>{p.name}</strong>: {p.message}
+                            <strong>{p.name}</strong>
+                            {(p.status === 'pending' || p.status === 'uploading' || p.status === 'processing') ? (
+                                <Loader message={p.message} />
+                            ) : (
+                                <span>: {p.message}</span>
+                            )}
                             {p.error && <div className="errorMessage">{p.error}</div>}
                         </div>
                     ))}

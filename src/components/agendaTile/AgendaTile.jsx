@@ -5,6 +5,8 @@ import styles from "./AgendaTile.module.css";
 import Button from "../button/Button.jsx";
 import {Controller, useForm} from "react-hook-form";
 import {AuthContext} from "../../context/AuthContext.jsx";
+import Loader from "../loader/Loader";
+
 
 const AgendaTile = () => {
     const {user} = useContext(AuthContext);
@@ -31,7 +33,7 @@ const AgendaTile = () => {
     return (
         <section className={styles.agenda}>
             <h3>Lesdata</h3>
-            {loading && <p>Bezig met laden...</p>}
+            {loading && <Loader />}
             {error && <p>Fout bij ophalen van lessen: {error}</p>}
             {!loading && !error && (
                 <ul>

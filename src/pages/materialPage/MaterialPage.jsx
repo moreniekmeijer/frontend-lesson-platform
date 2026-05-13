@@ -1,4 +1,6 @@
 import {useContext, useEffect, useState} from "react";
+import Loader from "../../components/loader/Loader";
+
 import {Link, useNavigate, useParams} from "react-router-dom";
 import MoreItemsTile from "../../components/moreItemsTile/MoreItemsTile.jsx";
 import styles from "./MaterialPage.module.css";
@@ -54,7 +56,7 @@ function MaterialPage() {
         }
     }
 
-    if (!material) return <p className="centerContainer">Loading...</p>;
+    if (!material) return <Loader />;
 
     return (
         <>

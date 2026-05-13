@@ -1,4 +1,6 @@
 import Button from "../../button/Button.jsx";
+import Loader from "../../loader/Loader";
+
 import {Controller, useForm} from "react-hook-form";
 import {useEffect, useState} from "react";
 import "react-datepicker/dist/react-datepicker.css";
@@ -108,7 +110,7 @@ function LessonForm({setActiveTab}) {
             <fieldset>
                 <label>Kies stijlen:</label>
                 {stylesLoading ? (
-                    <p>Bezig met laden...</p>
+                    <Loader />
                 ) : fetchedStyles.length === 0 ? (
                     <p>
                         Geen stijlen beschikbaar!
@@ -163,7 +165,7 @@ function LessonForm({setActiveTab}) {
                 {errors.notes && <p className="errorMessage">{errors.notes.message}</p>}
 
                 <Button type="submit" disabled={loading}>Opslaan</Button>
-                {loading && <p>Les aan het opslaan...</p>}
+                {loading && <Loader message="Les aan het opslaan..." />}
                 {successId && <p>De Les is klaargezet!</p>}
                 {(stylesError || postError) && <p>Er is iets misgegaan. Heb je een stijl en doelgroep aangevinkt?</p>}
             </fieldset>

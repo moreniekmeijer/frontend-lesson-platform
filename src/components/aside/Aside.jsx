@@ -3,8 +3,8 @@ import {NavLink, useLocation} from "react-router-dom";
 import {useContext, useEffect, useRef, useState} from "react";
 import useApiRequest from "../../hooks/useApiRequest.js";
 import {AuthContext} from "../../context/AuthContext.jsx";
-
 function Aside() {
+
     const {isAuth, user} = useContext(AuthContext);
     const [openMenu, setOpenMenu] = useState(null);
     const [clickedMenu, setClickedMenu] = useState(null);
@@ -58,7 +58,7 @@ function Aside() {
                         </li>
                     )}
 
-                    {isAuth && stylesList?.length > 0 && (
+                    {isAuth && (
                         <li onMouseEnter={() => handleOpen("styles")}
                             // onMouseLeave={handleClose}
                             className="hasSubmenu"
@@ -72,19 +72,26 @@ function Aside() {
 
                             {isMenuOpen("styles") && (
                                 <ul className={styles.submenu}>
-                                    {stylesList.sort((a, b) => a.name.localeCompare(b.name)).map(style => (
-                                        <li key={style.id}>
-                                            <NavLink to={`/stijlen/${style.id}`}
-                                                     className={({isActive}) => isActive ? styles.activeSubmenuLink : styles.defaultSubmenuLink}>
-                                                {style.name}
-                                            </NavLink>
+                                    {loading ? (
+                                        <li>
+                                            <span className={styles.defaultSubmenuLink}>Laden...</span>
                                         </li>
-                                    ))}
+                                    ) : (
+                                        stylesList?.sort((a, b) => a.name.localeCompare(b.name)).map(style => (
+                                            <li key={style.id}>
+                                                <NavLink to={`/stijlen/${style.id}`}
+                                                         className={({isActive}) => isActive ? styles.activeSubmenuLink : styles.defaultSubmenuLink}>
+                                                    {style.name}
+                                                </NavLink>
+                                            </li>
+                                        ))
+                                    )}
                                 </ul>
                             )}
+
                         </li>
                     )}
-                    {loading && <p className={styles.defaultMenuLink}>Laden...</p>}
+
                     {error && <p className={styles.defaultMenuLink}>Fout bij ophalen stijlen: {error}</p>}
 
                     {isAuth && (

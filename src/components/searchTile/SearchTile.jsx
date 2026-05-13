@@ -1,4 +1,6 @@
 import {useState, useEffect} from "react";
+import Loader from "../loader/Loader";
+
 import styles from "./SearchTile.module.css";
 import useApiRequest from "../../hooks/useApiRequest.js";
 import Button from "../button/Button.jsx";
@@ -152,7 +154,7 @@ function SearchTile({
                         <Button variant="secondary" onClick={handleReset}>Reset</Button>
                     </span>
 
-                    {filteredMaterialLoading && <p className="centerContainer">Materiaal zoeken...</p>}
+                    {filteredMaterialLoading && <Loader message="Materiaal zoeken..." />}
                 </div>
 
                 <div className={styles.optionsContainer}>

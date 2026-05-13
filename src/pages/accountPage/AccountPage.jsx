@@ -1,4 +1,6 @@
 import { useForm } from "react-hook-form";
+import Loader from "../../components/loader/Loader";
+
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import Button from "../../components/button/Button.jsx";
@@ -54,7 +56,7 @@ function AccountPage() {
         }
     };
 
-    if (loading) return <p>Gegevens laden...</p>;
+    if (loading) return <Loader message="Gegevens laden..." />;
 
     return (
         <section className="leftContainer">

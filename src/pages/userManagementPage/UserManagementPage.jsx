@@ -1,4 +1,6 @@
 import {useContext, useEffect, useState} from "react";
+import Loader from "../../components/loader/Loader";
+
 import Button from "../../components/button/Button.jsx";
 import styles from "./UserManagementPage.module.css";
 import {formatRoles} from "../../helpers/formatRole.js";
@@ -74,7 +76,7 @@ function UserManagementPage() {
         <section className="leftContainer">
             <h2>Gebruikersbeheer</h2>
             <div className={styles.tableContainer}>
-                {loading && <p>Gebruikers worden geladen...</p>}
+                {loading && <Loader message="Gebruikers worden geladen..." />}
                 {error && <p>{error}</p>}
                 {!loading && users.length > 0 && (
                     <table className={styles.userTable}>
