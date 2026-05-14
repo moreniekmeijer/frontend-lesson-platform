@@ -110,7 +110,7 @@ function LessonForm({setActiveTab}) {
             <fieldset>
                 <label>Kies stijlen:</label>
                 {stylesLoading ? (
-                    <Loader />
+                    <Loader showFact={false}/>
                 ) : fetchedStyles.length === 0 ? (
                     <p>
                         Geen stijlen beschikbaar!
@@ -165,7 +165,7 @@ function LessonForm({setActiveTab}) {
                 {errors.notes && <p className="errorMessage">{errors.notes.message}</p>}
 
                 <Button type="submit" disabled={loading}>Opslaan</Button>
-                {loading && <Loader message="Les aan het opslaan..." />}
+                {loading && <Loader message="Les aan het opslaan..." showFact={false} />}
                 {successId && <p>De Les is klaargezet!</p>}
                 {(stylesError || postError) && <p>Er is iets misgegaan. Heb je een stijl en doelgroep aangevinkt?</p>}
             </fieldset>

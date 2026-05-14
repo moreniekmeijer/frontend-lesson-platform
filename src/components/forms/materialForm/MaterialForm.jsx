@@ -270,12 +270,7 @@ function MaterialForm() {
                 <div>
                     {processing.map(p => (
                         <div key={p.id} className="process">
-                            <strong>{p.name}</strong>
-                            {(p.status === 'pending' || p.status === 'uploading' || p.status === 'processing') ? (
-                                <Loader message={p.message} />
-                            ) : (
-                                <span>: {p.message}</span>
-                            )}
+                            <strong>{p.name}</strong>: {p.message}
                             {p.error && <div className="errorMessage">{p.error}</div>}
                         </div>
                     ))}

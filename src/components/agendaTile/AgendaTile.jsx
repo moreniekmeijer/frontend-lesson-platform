@@ -33,7 +33,7 @@ const AgendaTile = () => {
     return (
         <section className={styles.agenda}>
             <h3>Lesdata</h3>
-            {loading && <Loader />}
+            {loading && <Loader showFact={false}/>}
             {error && <p>Fout bij ophalen van lessen: {error}</p>}
             {!loading && !error && (
                 <ul>

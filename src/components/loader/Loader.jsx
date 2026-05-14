@@ -14,10 +14,12 @@ const PERCUSSION_FACTS = [
     "Mensen reageren vaak instinctief op lage trommels, omdat lage frequenties fysiek voelbaar zijn — je hoort ze niet alleen, je lichaam voelt ze ook."
 ];
 
-function Loader({ message }) {
+function Loader({ message, showFact = true }) {
     const [fact, setFact] = useState("");
 
     useEffect(() => {
+        if (!showFact) return;
+
         const getRandomFact = () => {
             const randomIndex = Math.floor(Math.random() * PERCUSSION_FACTS.length);
             setFact(PERCUSSION_FACTS[randomIndex]);
@@ -27,13 +29,13 @@ function Loader({ message }) {
         const interval = setInterval(getRandomFact, 7000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [showFact]);
 
     return (
         <div className={styles.loaderContainer}>
             <div className={styles.spinner}></div>
             {message && <p className={styles.message}>{message}</p>}
-            <p className={styles.factText}>{fact}</p>
+            {showFact && <p className={styles.factText}>{fact}</p>}
         </div>
     );
 }

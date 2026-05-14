@@ -42,6 +42,6 @@
     object-fit: cover;
 }
 
-.secondary li, .secondary video, .secondary img {
+.secondary li, .secondary video, .secondary img, .primary li, .primary video, .primary img {
     width: 9rem;
 }
