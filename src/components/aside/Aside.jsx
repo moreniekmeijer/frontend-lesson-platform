@@ -8,6 +8,7 @@ function Aside() {
     const {isAuth, user} = useContext(AuthContext);
     const [openMenu, setOpenMenu] = useState(null);
     const [clickedMenu, setClickedMenu] = useState(null);
+    const [mobileOpen, setMobileOpen] = useState(false);
     const timeoutRef = useRef(null);
     const location = useLocation();
 
@@ -45,13 +46,36 @@ function Aside() {
         return openMenu === menu || clickedMenu === menu || isCurrentPathActive;
     };
 
+    const closeMobile = () => setMobileOpen(false);
+
     return (
         <aside className={styles.aside}>
-            <nav className={styles.navigation}>
+            {/* Inner wrapper gives position:relative anchor for the mobile dropdown */}
+            <div className={styles.asideInner}>
+            {/* Mobile hamburger toggle */}
+            <button
+                className={styles.mobileToggle}
+                onClick={() => setMobileOpen((prev) => !prev)}
+                aria-label="Toggle navigatie"
+                aria-expanded={mobileOpen}
+            >
+                <svg
+                    width="30"
+                    height="30"
+                    viewBox="0 -2 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="currentColor"
+                >
+                    <path d="M3 12h18M3 6h18M3 18h18" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+            </button>
+
+            <nav className={`${styles.navigation} ${mobileOpen ? styles.mobileNavOpen : ''}`}>
                 <ul className={styles.navigationContent} onMouseLeave={handleClose}>
                     {isAuth && (
                         <li>
-                            <NavLink to="/"
+                            <NavLink to="/" onClick={closeMobile}
                                      className={({isActive}) => isActive ? styles.activeMenuLink : styles.defaultMenuLink}>
                                 Dashboard
                             </NavLink>
@@ -79,7 +103,7 @@ function Aside() {
                                     ) : (
                                         stylesList?.sort((a, b) => a.name.localeCompare(b.name)).map(style => (
                                             <li key={style.id}>
-                                                <NavLink to={`/stijlen/${style.id}`}
+                                                <NavLink to={`/stijlen/${style.id}`} onClick={closeMobile}
                                                          className={({isActive}) => isActive ? styles.activeSubmenuLink : styles.defaultSubmenuLink}>
                                                     {style.name}
                                                 </NavLink>
@@ -96,7 +120,7 @@ function Aside() {
 
                     {isAuth && (
                         <li>
-                            <NavLink to="/zoeken"
+                            <NavLink to="/zoeken" onClick={closeMobile}
                                      className={({isActive}) => isActive ? styles.activeMenuLink : styles.defaultMenuLink}>
                                 Zoeken
                             </NavLink>
@@ -105,7 +129,7 @@ function Aside() {
 
                     {isAuth && (
                         <li>
-                            <NavLink to="/opgeslagen"
+                            <NavLink to="/opgeslagen" onClick={closeMobile}
                                      className={({isActive}) => isActive ? styles.activeMenuLink : styles.defaultMenuLink}>
                                 Opgeslagen
                             </NavLink>
@@ -129,7 +153,7 @@ function Aside() {
                                 <ul className={styles.submenu}>
                                     <li>
                                         <NavLink
-                                            to="/toevoegen/materiaal"
+                                            to="/toevoegen/materiaal" onClick={closeMobile}
                                             className={({isActive}) => isActive ? styles.activeSubmenuLink : styles.defaultSubmenuLink}
                                         >
                                             Materiaal
@@ -137,7 +161,7 @@ function Aside() {
                                     </li>
                                     <li>
                                         <NavLink
-                                            to="/toevoegen/stijl"
+                                            to="/toevoegen/stijl" onClick={closeMobile}
                                             className={({isActive}) => isActive ? styles.activeSubmenuLink : styles.defaultSubmenuLink}
                                         >
                                             Stijl
@@ -145,7 +169,7 @@ function Aside() {
                                     </li>
                                     <li>
                                         <NavLink
-                                            to="/toevoegen/les"
+                                            to="/toevoegen/les" onClick={closeMobile}
                                             className={({isActive}) => isActive ? styles.activeSubmenuLink : styles.defaultSubmenuLink}
                                         >
                                             Les
@@ -157,6 +181,7 @@ function Aside() {
                     )}
                 </ul>
             </nav>
+            </div>
         </aside>
     );
 }

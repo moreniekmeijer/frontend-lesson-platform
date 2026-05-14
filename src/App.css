@@ -6,7 +6,7 @@ Header {
 
 .layout {
     display: flex;
-    padding-top: 3.6rem;
+    padding-top: 4rem;
     height: 100vh;
 }
 
@@ -70,8 +70,10 @@ main {
     gap: 1rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 480px) {
     main {
         mask-image: linear-gradient(to bottom, transparent, black 5%);
+        justify-content: center;
+        padding-left: 5rem;
     }
 }
