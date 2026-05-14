@@ -20,3 +20,8 @@
     border-radius: 2rem;
     padding: 1rem;
 }
+
+.arrangementViewer p:empty,
+.arrangementViewer p:has(br) {
+    min-height: 1em;
+}

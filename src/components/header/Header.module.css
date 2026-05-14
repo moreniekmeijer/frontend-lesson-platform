@@ -25,7 +25,7 @@
 
 .leftContainer {
     border-radius: 0 0 4rem 0;
-    padding-right: 3.2rem;
+    padding-right: 3.4rem;
     padding-left: 2rem;
     min-width: 21rem;
     background-color: var(--first-color-dark);
@@ -40,7 +40,7 @@
 .rightContainer {
     gap: 0.8rem;
     border-radius: 0 0 0 4rem;
-    padding-left: 3.2rem;
+    padding-left: 3.4rem;
     background-color: var(--fourth-color);
 }
 

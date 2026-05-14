@@ -17,14 +17,14 @@
     border: 1px solid var(--first-color);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 0 0 0 1.6rem;
-    padding: 0.6rem;
+    padding: 0.8rem;
     list-style: none;
     border-top: none;
     border-right: none;
 }
 
 .dropdownItem {
-    padding: 0.2rem 0.4rem;
+    padding: 0.4rem 1rem;
     cursor: pointer;
     transition: background 0.2s;
 }
@@ -33,9 +33,8 @@
     color: var(--first-hover-color);
 }
 
-@media (max-width: 600px) {
-    .menuContainer {
-        position: static;
-        display: inline-block;
+@media (max-width: 480px) {
+    .dropdownItem {
+    padding: 0.2rem 0.4rem;
     }
 }
