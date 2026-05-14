@@ -74,6 +74,9 @@ main {
     main {
         mask-image: linear-gradient(to bottom, transparent, black 5%);
         justify-content: center;
+    }
+
+    .leftContainer, .rightContainer {
         padding-left: 5rem;
     }
 }
