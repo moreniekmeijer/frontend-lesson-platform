@@ -11,6 +11,10 @@
     max-width: 100%;
 }
 
+.primary .itemList {
+    padding-top: 1rem;
+}
+
 .itemList li a {
     display: flex;
     flex-direction: column;
@@ -42,6 +46,6 @@
     object-fit: cover;
 }
 
-.secondary li, .secondary video, .secondary img, .primary li, .primary video, .primary img {
+.secondary li, .secondary video, .secondary img, .primary li, .primary video, .primary img{
     width: 9rem;
 }

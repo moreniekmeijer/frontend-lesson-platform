@@ -5,7 +5,7 @@ import pdf from "../../assets/PDF-Placeholder.png";
 
 function MoreItemsTile({title, items, variant}) {
     return (
-        <section className={`${styles.moreItemsTile} ${variant === "secondary" ? styles.secondary : ""}`}>
+        <section className={`${styles.moreItemsTile} ${variant === "secondary" ? styles.secondary : styles.primary}`}>
             {variant === "secondary" ?
                 <h3>{title}</h3>
                 :
@@ -17,10 +17,7 @@ function MoreItemsTile({title, items, variant}) {
                         .map((item) => (
                         <li key={item.id}>
                             <Link to={`/materiaal/${item.id}`}>
-                                {variant === "secondary" ?
-                                    <h5 title={item.title}>{item.title}</h5>
-                                    :
-                                    <h4 title={item.title}>{item.title}</h4>}
+                                <h5 title={item.title}>{item.title}</h5>
 
                                 {item.fileType === "VIDEO" && item.fileLink && (
                                     <video controls>
