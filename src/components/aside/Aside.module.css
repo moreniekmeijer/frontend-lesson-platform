@@ -88,10 +88,8 @@ aside {
 @media (max-width: 1024px) {
     aside {
         top: 4rem;
-        flex: 1 1 12rem;
-        min-width: 12rem;
-        max-width: 18rem;
-        margin-right: 0.2rem;
+        min-width: 10rem;
+        max-width: 12rem;
         padding: 0;
         background-image: none;
         background-color: transparent;
@@ -117,64 +115,30 @@ aside {
     }
 }
 
-/* ---------- Mobile toggle button (hidden on tablet/desktop) ---------- */
-.mobileToggle {
-    display: none;
-}
-
 /* ---------- Mobile View (<= 480px) ---------- */
 @media (max-width: 480px) {
     aside {
         position: fixed;
         top: 4rem;
         left: 0;
-        width: auto;
         height: auto;
         padding: 0;
         z-index: 100;
         flex: none;
     }
 
-    .asideInner {
-        position: relative;
-        height: auto;
-    }
-
-    .mobileToggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: var(--first-color);
-        border: 1.5px solid var(--first-color);
-        border-radius: 0 0 1rem 0;
-        padding: 0.5rem 0.8rem;
-        cursor: pointer;
-        color: var(--first-color-dark);
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-        transition: background 0.2s, border-radius 0.2s;
-        min-width: unset;
-    }
-
-    .mobileToggle:hover,
-    .mobileToggle[aria-expanded="true"] {
-        background: var(--first-hover-color);
-    }
-
     .navigation {
         display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: auto;
-        min-width: 14rem;
-        padding: 0.8rem 1.2rem 1.2rem;
+        padding: 1rem;
         background: var(--background-color);
         border: 1.5px solid var(--first-color);
-        border-radius: 0 1.4rem 1.4rem 0;
+        border-top: none;
+        border-left: none;
+        border-radius: 0 0 2.4rem 0;
         box-shadow: 4px 6px 18px rgba(0, 0, 0, 0.13);
         z-index: 200;
         font-size: 1.3rem;
-        margin: 0; /* Reset tablet margin */
+        margin: 0;
     }
 
     .mobileNavOpen {

@@ -77,6 +77,6 @@ main {
     }
 
     .leftContainer, .rightContainer {
-        padding-left: 5rem;
+        padding-left: 1.4rem;
     }
 }

@@ -14,7 +14,7 @@ import PublicRoute from "./routes/PublicRoute.jsx";
 import AdminRoute from "./routes/AdminRoute.jsx";
 import AccountPage from "./pages/accountPage/AccountPage.jsx";
 import UserManagementPage from "./pages/userManagementPage/UserManagementPage.jsx";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {AuthContext} from "./context/AuthContext.jsx";
 import SearchPage from "./pages/searchPage/SearchPage.jsx";
 import djembes from "./assets/Djembes.png"
@@ -25,12 +25,13 @@ import HelpPage from "./pages/helpPage/HelpPage.jsx";
 
 function App() {
     const { isAuth } = useContext(AuthContext);
+    const [mobileOpen, setMobileOpen] = useState(false);
 
     return (
         <>
-            <Header />
+            <Header mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
             <div className="layout">
-                {isAuth && <Aside/>}
+                {isAuth && <Aside mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />}
                 <main>
                     <Routes>
                         <Route path="/" element={<PrivateRoute element={<HomePage/>}/>}/>

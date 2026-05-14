@@ -20,15 +20,10 @@ const MenuIcon = () => {
             className={styles.menuContainer}
         >
             <button onClick={toggleMenu} className={styles.menuButton}>
-                <svg
-                    width="30"
-                    height="30"
-                    viewBox="0 -2 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    stroke="currentColor"
-                >
-                    <path d="M3 12h18M3 6h18M3 18h18" strokeWidth="2" strokeLinecap="round"/>
+                <svg width="26" height="26" viewBox="0 -2 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="5"  r="2"/>
+                <circle cx="12" cy="12" r="2"/>
+                <circle cx="12" cy="19" r="2"/>
                 </svg>
             </button>
 

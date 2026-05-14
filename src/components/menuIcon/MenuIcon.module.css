@@ -10,22 +10,21 @@
 }
 
 .dropdownMenu {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 3rem;
-    right: -3rem;
+    position: fixed;
+    top: 4rem;
+    right: 0;
     background: var(--background-color);
     border: 1px solid var(--first-color);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 2rem;
-    padding: 1rem;
+    border-radius: 0 0 0 1.6rem;
+    padding: 0.6rem;
     list-style: none;
-    z-index: 10;
+    border-top: none;
+    border-right: none;
 }
 
 .dropdownItem {
-    padding: 0.4rem 1rem;
+    padding: 0.2rem 0.4rem;
     cursor: pointer;
     transition: background 0.2s;
 }
@@ -38,13 +37,5 @@
     .menuContainer {
         position: static;
         display: inline-block;
-    }
-
-    .dropdownMenu {
-        width: 10rem;
-        top: 4rem;
-        right: 0;
-        border-top: none;
-        border-radius: 0 0 0 2rem;
     }
 }
